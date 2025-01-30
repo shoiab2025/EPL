@@ -2,7 +2,7 @@ import Institution from '../models/Institution.js';
 
 export const getAllInstitutions = async (req, res) => {
   const institutions = await Institution.find();
-  res.json(institutions);
+  return res.json(institutions);
 };
 
 export const createInstitution = async (req, res) => {
@@ -10,5 +10,5 @@ export const createInstitution = async (req, res) => {
 
   const institution = new Institution({ institutionId, institutionName, ...otherDetails });
   await institution.save();
-  res.json({ message: 'Institution created', institution });
+  return res.json({ message: 'Institution created', institution });
 };
