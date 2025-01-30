@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+
+@layer components {
+  .heading {
+    @apply text-[var(--primary-color)] text-2xl font-semibold mb-2;
+  }
+  .button {
+    @apply bg-[var(--primary-color)] text-[var(--button-text-color)] py-2 px-6 rounded-lg cursor-pointer font-thin;
+  }
+  .table {
+    @apply table-auto w-full border-collapse mt-2;
+  }
+  .table-row-data {
+    @apply text-start text-[var(--table-text-color)] pl-2 border border-[var(--table-border-color)] py-2;
+  }
+  .table-header {
+    @apply text-start text-[var(--primary-color)] pl-2 border border-[var(--table-border-color)] py-2;
+  }
+  .edit-button {
+    @apply text-green-800 cursor-pointer;
+  }
+  .delete-button {
+    @apply text-red-500 cursor-pointer;
+  }
+  .input-box {
+    @apply border p-2 outline-0 rounded-md border-[var(--input-border-color)] bg-white;
+  }
+  .submit-button {
+    @apply bg-[var(--primary-color)] text-[var(--button-text-color)] py-2  rounded-lg cursor-pointer w-full mt-[40px];
+  }
+  .flex-heading-button {
+    @apply flex gap-5 items-center;
+  }
+  .flex-edit-delete {
+    @apply flex gap-4;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Montserrat", serif;
+}
+
+:root {
+  /* common colors */
+  --primary-color: #800000;
+  --title-color: black;
+
+  /* backgrounds; */
+  --secondary-color: rgb(241, 241, 241);
+  --backgound-color: rgb(255, 255, 255);
+  --card-background-color: rgb(255, 255, 255);
+
+  --button-text-color: white;
+
+  /* table */
+  --table-text-color: black;
+  --table-border-color: gray;
+  
+
+  /* Input */
+  --input-border-color: gray;
+
+  /* Navigation Bar */
+  /* Background Color */
+  /* --navigation-background-color: rgb(255, 255, 255); */
+  /* Title */
+  /* Font Size */
+  /* Only possible to change font-size in Navigation.jsx file. className is "text-xl" */
+  /* Font Color */
+  /* --navigation-title-color: rgb(0, 0, 0); */
+
+  /* Navgiation Links */
+  /* background-color */
+  /* --navigation-link-background-color: rgb(230, 230, 230); */
+  /* Link Text Color */
+  /* --navigation-link-text-color: rgb(0, 0, 0); */
+
+  /* active Link */
+  /* background Color */
+  /* --navigation-active-link-background-color: #800000; */
+  /* text Color */
+  /* --navigation-active-link-text-color: white; */
+
+  /* Header  */
+  /* background */
+  /* --header-background-color: rgb(255, 255, 255); */
+  /* Icon Color */
+  /* --header-icon-color: #800000; */
+  /* logout and Change password */
+  /* --header-profile-feature-color: rgb(216, 216, 216); */
+
+  /* Dashboard  */
+  /* --dashboard-background-color: rgb(241, 241, 241);
+  --dashboard-card-background-color: white; */
+
+  /* Leadboard */
+  /* --leadboard-text-color: white;
+  --leadboard-table-border-color: rgb(145, 145, 145); */
+}
+
+.profile:hover .header-feature {
+  display: block;
+}
+
