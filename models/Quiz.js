@@ -5,8 +5,13 @@ const quizSchema = new mongoose.Schema({
     questionType: { type: String, enum: ['text', 'video', 'photo'], default: 'text' },
     url: { type: String, default: null },
     optionType: { type: String, enum: ['single', 'multiple'], default: 'single' },
-    options: [String],
-    correctOptions: [String],
+    options: [
+      {
+        option: { type: Number, required: true },
+        value: { type: String, required: true },
+      },
+    ],
+    correctOptions: [{ type: Number, required: true }],
     mark: { type: Number, required: true },
   }, { timestamps: true });
   

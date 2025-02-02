@@ -22,6 +22,7 @@ const achievementSchema = new mongoose.Schema({
     min: 0,
     max: 100,
   },
+  year: {type: Number}
 });
 
 const Achievement = mongoose.model('Achievement', achievementSchema);

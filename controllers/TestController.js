@@ -7,6 +7,7 @@ import Submission from '../models/Submission.js';
 
 import validateQuizData from "../validations/validate_quiz.js";
 import validateMaterial from "../validations/validate_material.js";
+import evaluateSubmission from "../utils/evaluation.js";
 
 export const createTest = async (req, res) => {
   try {
@@ -157,28 +158,40 @@ export const submitTest = async (req, res) => {
     if (!test) return res.status(404).json({ success: false, message: 'Test not found' });
 
     let totalMarks = 0;
-    const evaluatedAnswers = test.quizzes.map((question) => {
-      const submittedAnswer = answers.find((a) => a.questionId === question._id.toString());
-      let isCorrect = false;
+    // const evaluatedAnswers = test.quizzes.map((question) => {
+    //   const submittedAnswer = answers.find((a) => a.questionId === question._id.toString());
+    //   let isCorrect = false;
 
-      if (submittedAnswer) {
-        if (question.optionType === 'multiple') {
-          // Check if multiple selected options are correct
-          isCorrect = JSON.stringify(submittedAnswer.selectedOptions.sort()) === JSON.stringify(question.correctOptions.sort());
-        } else {
-          // Check if the selected option is correct
-          isCorrect = question.correctOptions.includes(submittedAnswer.selectedOptions[0]);
-        }
-      }
+    //   if (submittedAnswer) {
+    //     if (question.optionType === 'multiple') {
+    //       // Check if multiple selected options are correct
+    //       isCorrect = JSON.stringify(submittedAnswer.selectedOptions.sort()) === JSON.stringify(question.correctOptions.sort());
+    //     } else {
+    //       // Check if the selected option is correct
+    //       isCorrect = question.correctOptions.includes(submittedAnswer.selectedOptions[0]);
+    //     }
+    //   }
 
-      if (isCorrect) {
-        totalMarks += question.mark;
-      }
+    //   if (isCorrect) {
+    //     totalMarks += question.mark;
+    //   }
 
-      return {
-        question: question._id,
-        selectedOptions: submittedAnswer ? submittedAnswer.selectedOptions : [],
-      };
+    //   return {
+    //     question: question._id,
+    //     selectedOptions: submittedAnswer ? submittedAnswer.selectedOptions : [],
+    //   };
+    // });
+
+    const { score, totalPossibleScore, result, evaluatedAnswers, correctCount } = evaluateSubmission(test.quizzes, answers)
+
+    const scorePercentage = (score / totalPossibleScore) * 100;
+    const currentYear = new Date().getFullYear();
+
+    // Find an achievement matching the score percentage
+    const achievement = await Achievement.findOne({
+      minPercentage: { $lte: scorePercentage },
+      maxPercentage: { $gte: scorePercentage },
+      year: currentYear
     });
 
     // Find an existing submission for the user and test, or create a new one
@@ -187,21 +200,29 @@ export const submitTest = async (req, res) => {
     if (submission) {
       // If submission exists, increment the attempts and update the submission
       submission.attempts += 1;
-      submission.totalMarks = totalMarks;
+      submission.totalPossibleScore = totalPossibleScore;
+      submission.score = score;
       submission.answers = evaluatedAnswers;
+      submission.result = result;
+      submission.correctCount = correctCount;
+      submission.achievement = achievement ? achievement._id : null;
       await submission.save();
     } else {
       submission = new Submission({
         user,
         test: testId,
         answers: evaluatedAnswers,
-        totalMarks,
+        score,
+        totalPossibleScore,
         attempts: 1,
+        correctCount,
+        result,
+        achievement: achievement ? achievement._id : null,
       });
       await submission.save();
     }
 
-    res.status(201).json({ success: true, message: 'Test submitted', data: { totalMarks, submission } });
+    res.status(201).json({ success: true, message: 'Test submitted', data: submission });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -215,7 +236,7 @@ export const getResult = async (req, res) => {
     if (!submission) return res.status(404).json({ success: false, message: 'Submission not found' });
 
     res.status(200).json({ success: true, message: 'Test Result', data: submission });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };

@@ -5,13 +5,16 @@ const SubmissionSchema = new mongoose.Schema({
   test: { type: mongoose.Schema.Types.ObjectId, ref: "Test", required: true },
   answers: [
     {
-      question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-      selectedOptions: [String],
+      question: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz", required: true },
+      selectedOptions: [{ type: Number, required: true }],
+      isCorrect: {type: Boolean, default: false}
     },
   ],
-  score: { type: Number },
-  result: { type: String },
-  awardCategory: { type: String },
+  correctCount: {type: Number, default: 0},
+  score: { type: Number, default: 0 },
+  totalPossibleScore: { type: Number, default: 0 },
+  result: { type: String, enum: ['passed', 'failed'], default: 'failed' },
+  awardCategory: { type: String, default: null },
   achievement: { type: mongoose.Schema.Types.ObjectId, ref: "Achievement" },
   attempts: {type: Number}
 }, { timestamps: true });
