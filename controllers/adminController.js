@@ -8,10 +8,10 @@ export const createOrUpdateAchievement = async (req, res) => {
     if (minPercentage < 0 || maxPercentage > 100 || minPercentage >= maxPercentage) {
       return res.status(400).json({ message: 'Invalid percentage range' });
     }
-    const currentYear = new Date().getFullYear();
+
     const achievement = await Achievement.findOneAndUpdate(
       { name, level },
-      { minPercentage, maxPercentage, level, year: currentYear },
+      { minPercentage, maxPercentage, level },
       { upsert: true, new: true }
     );
 
