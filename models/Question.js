@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const QuestionSchema = new mongoose.Schema({
   testId: { type: mongoose.Schema.Types.ObjectId, ref: "Test", required: true },
+  questionId: { type: String, required: true },
   questionType: { type: String },
   question: { type: String },
   optionType: { type: String },
@@ -9,7 +10,7 @@ const QuestionSchema = new mongoose.Schema({
     { option: String },
     { option: String },
     { option: String },
-    { option: String }
+    { option: String },
   ],
   correctOption: { type: Number, required: true },
   mark: { type: Number, required: true },

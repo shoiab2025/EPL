@@ -12,9 +12,9 @@ import User from '../models/User.js';
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    return res.status(200).json({succes: true, data: users})
+    return res.status(200).json({data: users})
   } catch (error) {
-    return res.status(400).json({succes: false,  message: 'users not found', error });
+    return res.status(400).json({ message: 'user not found', error });
   }
 };
 
@@ -24,12 +24,12 @@ export const signUpUser = async (req, res) => {
 
     const errors = validateFields(req.body);
     if (errors.length > 0) {
-      return res.status(400).json({succes: false,  message: errors.join(', ') });
+      return res.status(400).json({ message: errors.join(', ') });
     }
 
     const userExists = await User.findOne({ email, dob });
     if (userExists) {
-      return res.status(400).json({succes: false,  message: 'User already exists' });
+      return res.status(400).json({ message: 'User already exists' });
     }
 
   
@@ -38,7 +38,7 @@ export const signUpUser = async (req, res) => {
     // Group
     const group = await Group.findOne({groupName})
     if (!group){
-      return res.status(400).json({succes: false,  message: 'Group not found' });
+      return res.status(400).json({ message: 'Group not found' });
     }
 
     // Institution
@@ -68,10 +68,10 @@ export const signUpUser = async (req, res) => {
     await newUser.save();
     
     generatedTokenAndCookie(newUser, res)
-    res.status(201).json({succes: true,  message: 'Registration successfull!',  data: newUser});
+    res.status(201).json({ message: 'Registration successfull!',  data: newUser});
   } catch (error) {
-    console.error(error);
-    res.status(500).json({succes: false,  message: 'Server error', error });
+    console.error(err);
+    res.status(500).json({ message: 'Server error', error });
   }
 }
 
@@ -84,21 +84,21 @@ export const signInUser = async (req, res) => {
       });
 
       if(!user){
-          return res.status(401).json({succes: false, message: 'User not found'})
+          return res.status(401).json({message: 'User not found'})
       }
       const isMatch = await bcrypt.compare(password, user.password)
 
       if(!isMatch){
-          return res.status(401).json({succes: false, message: 'Incorrect password'})
+          return res.status(401).json({message: 'Incorrect password'})
       }
 
       await user.save();
 
       generatedTokenAndCookie(user, res)
-      return res.status(200).json({succes: true, message: 'User logged in successfully', data: user})
+      return res.status(200).json({message: 'User logged in successfully', user})
   } catch (error) {
       console.log(error)
-      return res.status(500).json({succes: false, error, message: 'Failed to login user'})
+      return res.status(500).json({error, message: 'Failed to login user'})
   }
 }
 
@@ -108,7 +108,7 @@ export const forgotPassword = async (req, res) => {
 
     const user = await User.findOne({ regId, dob });
     if (!user) {
-      return res.status(404).json({succes: false,  message: 'User not found or invalid details' });
+      return res.status(404).json({ message: 'User not found or invalid details' });
     }
 
     const resetToken = uuidv4();
@@ -118,10 +118,10 @@ export const forgotPassword = async (req, res) => {
 
     sendResetLink(user.email, resetToken);
     
-    res.status(200).json({succes: true,  message: 'Password reset link has been sent' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({succes: false,  message: 'Server error' });
+    res.status(200).json({ message: 'Password reset link has been sent' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 }
 
@@ -131,7 +131,7 @@ export const resetPassword = async (req, res) => {
 
     const user = await User.findOne({ resetToken });
     if (!user) {
-      return res.status(404).json({succes: false,  message: 'Invalid reset token' });
+      return res.status(404).json({ message: 'Invalid reset token' });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -140,18 +140,18 @@ export const resetPassword = async (req, res) => {
     user.resetToken = null;
     await user.save();
 
-    res.status(200).json({succes: true,  message: 'Password has been successfully reset' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({succes: false,  message: 'Server error' });
+    res.status(200).json({ message: 'Password has been successfully reset' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 }
 
 export const signOutUser = async (req, res) => {
   try {
       res.clearCookie('jwt')
-      return res.status(200).json({succes: true, message: 'User logged out successfully'})
+      return res.status(200).json({message: 'User logged out successfully'})
   } catch (error) {
-      return res.status(500).json({succes: false, error})
+      res.status(500).json(error)
   }
 }
