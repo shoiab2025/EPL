@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-const validateMaterial = (data) => {
+export const validateMaterial = (data) => {
   const errors = [];
 
   // Validate ID (required, unique assumption handled by database)
@@ -28,7 +28,8 @@ const validateMaterial = (data) => {
     errors.push('File URL must be a valid URL (e.g., https://example.com)');
   }
 
-  return  errors
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
 };
-
-export default validateMaterial;

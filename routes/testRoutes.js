@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllTests, createTest, updateTest, getTestById, deleteTest, submitTest, getResult } from '../controllers/testController.js';
+import { getAllTests, createTest, updateTest, getTestById, deleteTest } from '../controllers/testController.js'; // Import the deleteTest controller
 
 const router = express.Router();
 
@@ -12,11 +12,5 @@ router.put('/:id', updateTest);
 router.get('/:id', getTestById);
 
 router.delete('/:id', deleteTest);
-
-// Submission routes
-
-router.post('/submit', submitTest);
-
-router.get('/result/:submissionId', getResult);
 
 export default router;

@@ -11,10 +11,8 @@ import fs from 'fs';
 import authRoutes from './routes/userRoutes.js'
 import GroupRoutes from './routes/groupRoutes.js'
 import materialRoutes from './routes/materialRoutes.js';
-import quizTypeRoutes from './routes/quizTypeRoutes.js';
-import testCategoryRoutes from './routes/testCategoryRoutes.js';
-import testRoutes from './routes/testRoutes.js';
-import achievementRoutes from "./routes/achievementRoutes.js";
+import quizTypeRoutes from './routes/quizTypeRoutes.js'
+import testRoutes from './routes/testRoutes.js'
 
 dotenv.config();
 
@@ -36,9 +34,7 @@ app.use('/api/v1/users', authRoutes)
 app.use('/api/v1/group', GroupRoutes)
 app.use('/api/v1/meterials', materialRoutes)
 app.use('/api/v1/quiztypes', quizTypeRoutes);
-app.use('/api/testcategories', testCategoryRoutes);
 app.use("/api/v1/tests", testRoutes);
-app.use('/api/v1/achievement', achievementRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ error: 'The URL is incorrect' });

@@ -1,29 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const achievementSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  level: {
-    type: String,
-    required: true,
-  },
-  minPercentage: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 100,
-  },
-  maxPercentage: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 100,
-  },
+const AchievementSchema = new mongoose.Schema({
+  achievementName: { type: String, required: true },
+  achievementRange: { type: String },
 });
 
-const Achievement = mongoose.model('Achievement', achievementSchema);
-
+const Achievement = mongoose.model("Achievement", AchievementSchema);
 export default Achievement;

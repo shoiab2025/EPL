@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true },
   groupId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Group',
@@ -22,6 +23,6 @@ const userSchema = new mongoose.Schema({
   isAdmin: { type: Boolean, default: false },
   dob: { type: Date, required: true },
   resetToken: { type: String, default: null }
-}, { timestamps: true });
+});
 
 export default mongoose.model('User', userSchema);

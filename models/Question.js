@@ -13,7 +13,7 @@ const QuestionSchema = new mongoose.Schema({
   ],
   correctOption: { type: Number, required: true },
   mark: { type: Number, required: true },
-}, { timestamps: true });
+});
 
 const Question = mongoose.model("Question", QuestionSchema);
 export default Question;

@@ -8,6 +8,6 @@ const institutionSchema = new mongoose.Schema({
   city: { type: String, required: false },
   contactPersonName: { type: String, required: false },
   contactPersonNumber: { type: String, required: false },
-}, { timestamps: true });
+});
 
 export default mongoose.model('Institution', institutionSchema);

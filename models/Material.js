@@ -16,7 +16,6 @@ const materialSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    test: { type: mongoose.Schema.Types.ObjectId, ref: "Test", required: true },
 }, { timestamps: true });
 
 export default mongoose.model('Material', materialSchema);
