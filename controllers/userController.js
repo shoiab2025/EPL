@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { validateFields } from '../utils/validators.js';
 import generateRegId from '../utils/generateRegId.js'
 import generatedTokenAndCookie from '../utils/tokenGenerator.js'
-import sendPasswordResetEmail from '../mailer/mailer.js'
 
 import Institution from '../models/Institution.js';
 import Group from '../models/Group.js';
@@ -117,7 +116,7 @@ export const forgotPassword = async (req, res) => {
     user.resetToken = resetToken;
     await user.save();
 
-    sendPasswordResetEmail(user.email, resetToken);
+    sendResetLink(user.email, resetToken);
     
     res.status(200).json({succes: true,  message: 'Password reset link has been sent', data: resetToken });
   } catch (error) {
