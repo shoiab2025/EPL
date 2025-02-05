@@ -4,7 +4,7 @@ import { mailerConfig } from '../config/mailerConfig';
 
 const transporter = nodemailer.createTransport(mailerConfig);
 
-export const sendPasswordResetEmail = (email, resetToken) => {
+const sendPasswordResetEmail = (email, resetToken) => {
   const resetLink = `http://yourdomain.com/reset-password/${resetToken}`;
 
 
@@ -23,3 +23,5 @@ export const sendPasswordResetEmail = (email, resetToken) => {
     }
   });
 };
+
+export default sendPasswordResetEmail
