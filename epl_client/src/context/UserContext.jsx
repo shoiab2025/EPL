@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { announcementData, dashboard_stats, usersData } from "../../public";
 import {
   leaderboard_views,
@@ -17,11 +18,6 @@ const UserContext = ({ children }) => {
   const [activeLink, setActiveLink] = useState("");
   //Active Sub Link
   const [activeSubLink, setActiveSubLink] = useState("userreports");
-
-  useEffect(() => {
-    const path = location.pathname.split("/")[1];
-    setActiveLink(path.replace(/\s+/g, "").toLowerCase());
-  }, [activeLink, location.pathname]);
 
   const [userData, setData] = useState({
     name: "Karthi",
@@ -44,6 +40,7 @@ const UserContext = ({ children }) => {
   const [quizes, setQuiz] = useState(quizData);
 
   //Institution
+
   const [institutions, setInstitutions] = useState(institution_data);
 
   //study Material
@@ -51,6 +48,13 @@ const UserContext = ({ children }) => {
 
   //users Data
   const [users, setUsers] = useState(usersData);
+
+  useEffect(() => {
+    const path = location.pathname.split("/")[1];
+    setActiveLink(path.replace(/\s+/g, "").toLowerCase());
+  }, [activeLink, location.pathname]);
+
+  
 
   const contextValues = {
     userData,

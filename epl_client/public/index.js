@@ -1,4 +1,4 @@
-import App_logo from "./logo.jpg";
+import App_logo from "./RealLogo.png";
 
 //Icons
 import { IoIosArrowDown } from "react-icons/io";
