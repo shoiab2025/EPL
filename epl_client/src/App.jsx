@@ -18,6 +18,10 @@ import AddAndEditGroup from "./Pages/Groups/AddGoups";
 import AddAndEditInstitution from "./Pages/Institution/AddInstitution";
 import AddAddEditTestMaster from "./Pages/Test Master/AddAddEditTestMaster.jsx";
 import AddStudyMaterials from "./Pages/Study Material/AddStudyMaterials.jsx";
+import CreateTest from "./Pages/Test Master/CreateTest.jsx";
+import EditTest from "./Pages/Test Master/EditTest.jsx";
+import CreateAnnouncement from "./Components/Announcement/CreateAnnouncement.jsx";
+import UpdateAnnouncement from "./Components/Announcement/UpdateAnnoucement.jsx";
 
 function App() {
   const {activeSubLink} = useUser()
@@ -83,6 +87,8 @@ function App() {
               <Route path="/studyMaterials/add" element={<AddStudyMaterials />} />
 
               <Route path="/testMaster" element={<TestMaster />} />
+              <Route path="/create-test" element={<CreateTest />} />
+              <Route path="/update-test" element={<EditTest />} />
               <Route path="/testMaster/add" element={<AddAddEditTestMaster />} />
               <Route path="/reports">
                 <Route
@@ -92,6 +98,8 @@ function App() {
                 <Route path="userreports" element={<UserReport />} />
                 <Route path="leaderboardreport" element={<Leaderboard />} />
                 <Route path="achievementreport" element={<Announcement />} />
+                <Route path="create-announcement" element={<CreateAnnouncement />} />
+                <Route path="update-announcement" element={<UpdateAnnouncement />} />
               </Route>
             </Route>
           </Routes>

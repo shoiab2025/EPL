@@ -13,9 +13,17 @@ const StudyMaterialTable = ({ studyMaterials }) => {
         </tr>
       </thead>
       <tbody>
-        {studyMaterials?.map((material, index) => (
-          <StudyMaterialTableRow material={material} key={index} />
-        ))}
+        {studyMaterials && studyMaterials.length > 0 ? (
+          studyMaterials.map((material, index) => (
+            <StudyMaterialTableRow material={material} key={index} />
+          ))
+        ) : (
+          <tr>
+            <td colSpan="3" className="text-center">
+              No data found
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
