@@ -18,6 +18,7 @@ import AddAndEditGroup from "./Pages/Groups/AddGoups";
 import AddAndEditInstitution from "./Pages/Institution/AddInstitution";
 import AddAddEditTestMaster from "./Pages/Test Master/AddAddEditTestMaster.jsx";
 import AddStudyMaterials from "./Pages/Study Material/AddStudyMaterials.jsx";
+import CreateTest from "./Pages/Test Master/CreateTest.jsx";
 
 function App() {
   const {activeSubLink} = useUser()
@@ -83,6 +84,7 @@ function App() {
               <Route path="/studyMaterials/add" element={<AddStudyMaterials />} />
 
               <Route path="/testMaster" element={<TestMaster />} />
+              <Route path="/create-test" element={<CreateTest />} />
               <Route path="/testMaster/add" element={<AddAddEditTestMaster />} />
               <Route path="/reports">
                 <Route
