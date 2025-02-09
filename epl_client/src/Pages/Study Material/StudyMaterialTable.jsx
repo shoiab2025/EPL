@@ -2,8 +2,7 @@ import React from "react";
 import { useUser } from "../../context/userContext";
 import StudyMaterialTableRow from "./studyMaterialTableRow";
 
-const StudyMaterialTable = () => {
-  const { studyMaterials } = useUser();
+const StudyMaterialTable = ({ studyMaterials }) => {
   return (
     <table className="table mt-5">
       <thead>

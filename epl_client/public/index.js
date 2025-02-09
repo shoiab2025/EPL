@@ -7,6 +7,7 @@ import { FaUsers } from "react-icons/fa";
 import { FaCalendarCheck } from "react-icons/fa";
 import { BsStack } from "react-icons/bs";
 import { FaSchool } from "react-icons/fa";
+import uploadArea from "./upload_area.png"
 
 
 //App Logo Under Text
@@ -41,7 +42,7 @@ const Navigation_Links = [
 ];
 
 
-const app_icons = {
+export const app_icons = {
   profile: FaUserCircle,
   downArrow: IoIosArrowDown,
   user: FaUsers,
@@ -134,33 +135,33 @@ const Institutions = [
   },
 ];
 
-export const dashboard_stats = [
-  {
-    label: "Users",
-    value: Users.length,
-    icon: app_icons.user,
-  },
-  {
-    label: "Test Released",
-    value: test_master.length,
-    icon: app_icons.check,
-  },
-  {
-    label: "Groups",
-    value: Groups.length,
-    icon: app_icons.stack,
-  },
-  {
-    label: "Institutions",
-    value: Institutions.length,
-    icon: app_icons.institution,
-  },
-  {
-    label: "Current Season Participants",
-    value: "9k",
-    icon: app_icons.user,
-  },
-];
+// export const dashboard_stats = [
+//   {
+//     label: "Users",
+//     value: Users.length,
+//     icon: app_icons.user,
+//   },
+//   {
+//     label: "Test Released",
+//     value: test_master.length,
+//     icon: app_icons.check,
+//   },
+//   {
+//     label: "Groups",
+//     value: Groups.length,
+//     icon: app_icons.stack,
+//   },
+//   {
+//     label: "Institutions",
+//     value: Institutions.length,
+//     icon: app_icons.institution,
+//   },
+//   {
+//     label: "Current Season Participants",
+//     value: "9k",
+//     icon: app_icons.user,
+//   },
+// ];
 
 const leaderboard_views = ["Group wise","Institutions wise", "Rank wise", "score wise", "Test wise"];
 
@@ -188,69 +189,69 @@ const leaderboard_table_data = [
   }
 ];
 
-const groups_data = [
-  {
-    group_id: 1,
-    group_name: "Science Club",
-    group_theme: "color code",
-  },
-  {
-    group_id: 2,
-    group_name: "Coding Club",
-    group_theme: "color code",
-  },
-];
+// const groups_data = [
+//   {
+//     group_id: 1,
+//     group_name: "Science Club",
+//     group_theme: "color code",
+//   },
+//   {
+//     group_id: 2,
+//     group_name: "Coding Club",
+//     group_theme: "color code",
+//   },
+// ];
 
-const quizData = [
-  {
-    id: "1",
-    quiz_name: "essence",
-    created_at: "some Date",
-  },
-  {
-    id: "2",
-    quiz_name: "Quiz Name",
-    created_at: "some Date",
-  },
-];
+// const quizData = [
+//   {
+//     id: "1",
+//     quiz_name: "essence",
+//     created_at: "some Date",
+//   },
+//   {
+//     id: "2",
+//     quiz_name: "Quiz Name",
+//     created_at: "some Date",
+//   },
+// ];
 
-const institution_data = [
-  {
-    institution_id: 1,
-    institution_name: "ABC University",
-    Address: "123 Main St",
-    state: "California",
-    pin_code: 90210,
-    city: "Los Angeles",
-    theme: "#034902",
-    contact_person_name: "John Doe",
-    contact_person_number: "555-1234",
-  },
-  {
-    institution_id: 2,
-    institution_name: "XYZ College",
-    Address: "456 Oak Ave",
-    state: "Texas",
-    pin_code: 75001,
-    city: "Dallas",
-    theme: "#034902",
-    contact_person_name: "Jane Smith",
-    contact_person_number: "555-5678",
-  },
-];
+// const institution_data = [
+//   {
+//     institution_id: 1,
+//     institution_name: "ABC University",
+//     Address: "123 Main St",
+//     state: "California",
+//     pin_code: 90210,
+//     city: "Los Angeles",
+//     theme: "#034902",
+//     contact_person_name: "John Doe",
+//     contact_person_number: "555-1234",
+//   },
+//   {
+//     institution_id: 2,
+//     institution_name: "XYZ College",
+//     Address: "456 Oak Ave",
+//     state: "Texas",
+//     pin_code: 75001,
+//     city: "Dallas",
+//     theme: "#034902",
+//     contact_person_name: "Jane Smith",
+//     contact_person_number: "555-5678",
+//   },
+// ];
 
-const studyMaterialData = [
-  {
-    id: 1,
-    materialName: "Material 1",
-    materialContent: "Taraweeh day 1 Pdf",
-  },
-  {
-    id: 2,
-    materialName: "Material 2",
-    materialContent: "Taraweeh day 2 Pdf",
-  },
-];
+// const studyMaterialData = [
+//   {
+//     id: 1,
+//     materialName: "Material 1",
+//     materialContent: "Taraweeh day 1 Pdf",
+//   },
+//   {
+//     id: 2,
+//     materialName: "Material 2",
+//     materialContent: "Taraweeh day 2 Pdf",
+//   },
+// ];
 
 const announcementData = [
   {
@@ -267,55 +268,55 @@ const announcementData = [
   },
 ];
 
-const usersData = [
-  {
-    id: 1,
-    name: "John Smith",
-    email: "john.smith@gmail.com",
-    phone_no: "123-456-340",
-    institute: "The New College",
-  },
-  {
-    id: 2,
-    name: "Leo Dhas",
-    email: "leoDhas@gmail.com",
-    phone_no: "123-456-340",
-    institute: "The New College",
-  },
-  {
-    id: 1,
-    name: "John Smith",
-    email: "john.smith@gmail.com",
-    phone_no: "123-456-340",
-    institute: "The New College",
-  },
-  {
-    id: 1,
-    name: "John Smith",
-    email: "john.smith@gmail.com",
-    phone_no: "123-456-340",
-    institute: "The New College",
-  },
-  {
-    id: 1,
-    name: "John Smith",
-    email: "john.smith@gmail.com",
-    phone_no: "123-456-340",
-    institute: "The New College",
-  },
-];
+// const usersData = [
+//   {
+//     id: 1,
+//     name: "John Smith",
+//     email: "john.smith@gmail.com",
+//     phone_no: "123-456-340",
+//     institute: "The New College",
+//   },
+//   {
+//     id: 2,
+//     name: "Leo Dhas",
+//     email: "leoDhas@gmail.com",
+//     phone_no: "123-456-340",
+//     institute: "The New College",
+//   },
+//   {
+//     id: 1,
+//     name: "John Smith",
+//     email: "john.smith@gmail.com",
+//     phone_no: "123-456-340",
+//     institute: "The New College",
+//   },
+//   {
+//     id: 1,
+//     name: "John Smith",
+//     email: "john.smith@gmail.com",
+//     phone_no: "123-456-340",
+//     institute: "The New College",
+//   },
+//   {
+//     id: 1,
+//     name: "John Smith",
+//     email: "john.smith@gmail.com",
+//     phone_no: "123-456-340",
+//     institute: "The New College",
+//   },
+// ];
 
 export {
   App_logo,
+  uploadArea,
   App_Title,
   Navigation_Links,
-  app_icons,
   leaderboard_views,
   leaderboard_table_data,
-  groups_data,
-  quizData,
-  institution_data,
-  studyMaterialData,
+  // groups_data,
+  // quizData,
+  // institution_data,
+  // studyMaterialData,
   announcementData,
-  usersData
+  // usersData
 };

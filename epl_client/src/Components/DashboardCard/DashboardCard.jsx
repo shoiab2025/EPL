@@ -1,6 +1,7 @@
 import React from 'react'
 
 const DashboardCard = ({stat}) => {
+  
   return (
     <div className="px-5 py-3 bg-[var(--card-background-color)] rounded-lg">
         <h1 className="font-semibold text-lg mb-2">{stat.label}</h1>

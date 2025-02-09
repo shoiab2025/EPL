@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUser } from '../../context/userContext';
+import { useUser } from '../../context/UserContext.jsx';
 import UserReportTableRow from './UserReportTableRow';
 
 const UserReportTable = () => {

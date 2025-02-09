@@ -7,10 +7,9 @@ import {
 } from "../Card/Card";
 
 
-const AddTheme = () => {
-  const [color, setColor] = useState("#00000");
+const AddTheme = ({color, setColor}) => {
   const [colorShow, setColorShow] = useState(false)
-  const colorRef = useRef(null)
+  // const colorRef = useRef(null)
 
   const handleColorFouces = () =>{
      setColorShow(true);
@@ -32,6 +31,7 @@ const AddTheme = () => {
             className="input-box w-full"
             value={color}
             onChange={(e) => setColor(e.target.value)}
+            placeholder="#00000"
           />
         </div>
         <div className="mt-5 flex items-center gap-4 ">

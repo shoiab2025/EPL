@@ -1,9 +1,12 @@
 import React from 'react'
 import QuizTable from './QuizTable';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/UserContext';
 
 const Quiz = () => {
   const navigate = useNavigate()
+  const {quizType} = useUser()
+
   const handleAddQuiz = () => {
       navigate("/quiz/add")
   }
@@ -13,7 +16,7 @@ const Quiz = () => {
         <h1 className="heading">Quiz</h1>
         <button className="button" onClick={handleAddQuiz}>Add Quiz</button>
       </div>
-      <QuizTable />
+      <QuizTable quizType ={quizType} />
     </div>
   );
 }

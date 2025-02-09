@@ -1,9 +1,9 @@
 import React from 'react'
-import { useUser } from '../../context/userContext'
+import { useUser } from '../../context/UserContext.jsx'
 import AnnouncementTableRow from './AnnouncementTableRow'
 
 const AnnouncementTable = () => {
-    const {announcements} = useUser()
+    const { achievements } = useUser();
   return (
     <table className="table mt-3">
       <thead>
@@ -15,8 +15,8 @@ const AnnouncementTable = () => {
         </tr>
       </thead>
       <tbody>
-        {announcements?.map((mess, index) => (
-          <AnnouncementTableRow announcement={mess} key={index} />
+        {achievements?.map((mess, index) => (
+          <AnnouncementTableRow achievement={mess} key={index} />
         ))}
       </tbody>
     </table>

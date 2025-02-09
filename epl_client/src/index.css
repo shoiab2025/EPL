@@ -35,6 +35,12 @@
   .flex-edit-delete {
     @apply flex gap-4;
   }
+  .flex-header-with-filter{
+    @apply flex items-center justify-between
+  }
+  .flex-label-filter{
+    @apply flex items-center gap-3
+  }
 }
 
 * {

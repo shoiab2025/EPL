@@ -1,9 +1,9 @@
 import React from 'react'
-import { useUser } from '../../context/userContext'
+import { useUser } from '../../context/UserContext.jsx'
 import QuizTableRow from './QuizTableRow';
 
-const QuizTable = () => {
-    const { quizes } = useUser();
+const QuizTable = ({quizType}) => {
+
   return (
     <table className="table mt-4">
       <thead>
@@ -14,7 +14,7 @@ const QuizTable = () => {
         </tr>
       </thead>
       <tbody>
-        {quizes?.map((quiz, index) => (
+        {quizType?.map((quiz, index) => (
           <QuizTableRow key={index} quiz={quiz} />
         ))}
       </tbody>

@@ -1,9 +1,8 @@
-import React from 'react'
-import { useUser } from '../../context/userContext';
+import React, { useEffect } from 'react'
+import { useUser } from '../../context/UserContext.jsx';
 import GroupsTableRow from './GroupsTableRow';
 
-const GroupTable = () => {
-    const {groups} = useUser()
+const GroupTable = ({groups}) => {
   return (
     <table className="table mt-4">
       <thead>
@@ -14,9 +13,15 @@ const GroupTable = () => {
         </tr>
       </thead>
       <tbody>
-        {groups?.map((group, index) => (
-          <GroupsTableRow key={index} group={group} />
-        ))}
+        {groups.length !== 0 ? (
+          groups.map((group, index) => (
+            <GroupsTableRow key={index} group={group} />
+          ))
+        ) : (
+          <tr>
+            <td className="table-row-data border-none"> No Groups Found</td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
