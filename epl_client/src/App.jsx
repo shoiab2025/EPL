@@ -70,6 +70,7 @@ function App() {
               />
               <Route path="/quiz" element={<Quiz />} />
               <Route path="/quiz/add" element={<AddQuiz />} />
+              <Route path="/quiz/edit/:id" element={<AddQuiz editQuiz={true} />} />
               <Route path="/institutions" element={<Institution />} />
               <Route
                 path="/institutions/add"
@@ -80,10 +81,16 @@ function App() {
                 element={<AddAndEditInstitution editInstitution={true} />}
               />
               <Route path="/studyMaterials" element={<StudyMaterials />} />
-              <Route path="/studyMaterials/add" element={<AddStudyMaterials />} />
+              <Route
+                path="/studyMaterials/add"
+                element={<AddStudyMaterials />}
+              />
 
               <Route path="/testMaster" element={<TestMaster />} />
-              <Route path="/testMaster/add" element={<AddAddEditTestMaster />} />
+              <Route
+                path="/testMaster/add"
+                element={<AddAddEditTestMaster />}
+              />
               <Route path="/reports">
                 <Route
                   index

@@ -1,9 +1,17 @@
 import React from 'react'
 
-const AddAddEditTestMaster = () => {
+const AddEditTestMaster = () => {
   return (
-    <div>AddAddEditTestMaster</div>
+    <div>
+        <h1>Add Test Questions</h1>
+        <div> 
+          <input type="text" placeholder="Day 1 Test" />
+          <div>
+              
+          </div>
+        </div>
+    </div>
   )
 }
 
-export default AddAddEditTestMaster
+export default AddEditTestMaster
