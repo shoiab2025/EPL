@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { announcementData } from "../../public";
+// import { announcementData } from "../../public";
 import {
   leaderboard_views,
   leaderboard_table_data,
@@ -23,6 +23,17 @@ const UserContext = ({ children }) => {
   //Dashboard stats
   const [dashboard_stats, setDashboard_stats] = useState([]);
 
+  const languageMap = {
+    en: "English",
+    ta: "Tamil",
+    hi: "Hindi",
+    ms: "Malay",
+    es: "Spanish",
+    fr: "French",
+    de: "German",
+    it: "Italian",
+  };
+
   useEffect(() => {
      const loadAllData = async() => {
        try{
@@ -30,7 +41,7 @@ const UserContext = ({ children }) => {
           await fetchInstitutionsData();
           await fetchAllGroup();
           await fetchAllTestsData();
-          await fetchAllAchievementsData();
+          await fetchAllAnnouncementsData();
           await fetchAllQuiz();
           await fetchAllMaterials()
        }catch(err){
@@ -44,23 +55,20 @@ const UserContext = ({ children }) => {
 
   //Leaderboard
   const [showLeaderBoardWiseList, setShowLeaderBoardWiseList] = useState(false);
-  const [leaderboardView, setLeadboardView] = useState("Group wise");
+  const [leaderboardView, setLeadboardView] = useState(leaderboard_views);
   const [leaderboardUsers, setLeaderboardUsers] = useState(
     leaderboard_table_data
   );
 
-  //Announcements
-  const [achievements, setAchievement] = useState([]);
-  const fetchAllAchievementsData = async() => {
+  //Announcement
+  const [announcements, setAnnouncements] = useState([]);
+  const fetchAllAnnouncementsData = async() => {
     try{
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/achievement`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`http://localhost:5000/announcements`, {
+        withCredentials: true,
+      });
       if(response.data.success){
-        setAchievement(response.data.data)
+        setAnnouncements(response.data.data)
       }
     }catch(err){
       console.log(err)
@@ -94,7 +102,6 @@ const UserContext = ({ children }) => {
       );
       if(response.data.success){
         setQuizType(response.data.data)
-        console.log(response.data.data)
       }
     }catch(err){
       console.log(err)
@@ -126,6 +133,7 @@ const UserContext = ({ children }) => {
         withCredentials: true
       })
       if(response.data.success){
+        console.log(response.data.data)
         setTests(response.data.data);
       }
     }catch(err){
@@ -143,7 +151,6 @@ const UserContext = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log(response.data)
       if (response.data.success) {
         setStudyMaterials(response.data.data);
       }
@@ -192,7 +199,6 @@ const UserContext = ({ children }) => {
     leaderboardView,
     setLeadboardView,
     leaderboardUsers,
-    achievements,
     groups,
     setGroups,
     quizType,
@@ -209,6 +215,10 @@ const UserContext = ({ children }) => {
     setUsers,
     setDashboard_stats,
     tests,
+    setTests,
+    announcements,
+    setAnnouncements,
+    languageMap
   };
   return (
     <UserDataContext.Provider value={contextValues}>

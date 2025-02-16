@@ -16,12 +16,12 @@ import LoginPage from "./Pages/LoginPage/LoginPage";
 import ProductedRoute from "./ProductedRoute/ProductedRoute";
 import AddAndEditGroup from "./Pages/Groups/AddGoups";
 import AddAndEditInstitution from "./Pages/Institution/AddInstitution";
-import AddAddEditTestMaster from "./Pages/Test Master/AddAddEditTestMaster.jsx";
 import AddStudyMaterials from "./Pages/Study Material/AddStudyMaterials.jsx";
 import CreateTest from "./Pages/Test Master/CreateTest.jsx";
 import EditTest from "./Pages/Test Master/EditTest.jsx";
 import CreateAnnouncement from "./Components/Announcement/CreateAnnouncement.jsx";
 import UpdateAnnouncement from "./Components/Announcement/UpdateAnnoucement.jsx";
+import AddAndEditTestMaster from "./Pages/Test Master/AddAndEditTestMaster.jsx";
 
 function App() {
   const {activeSubLink} = useUser()
@@ -66,6 +66,14 @@ function App() {
             <Route element={<ProductedRoute />}>
               <Route index element={<Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/dashboard/announcements/add"
+                element={<CreateAnnouncement />}
+              />
+              <Route
+                path="/dashboard/announcements/edit/:id"
+                element={<CreateAnnouncement editAnnouncement={true} />}
+              />
               <Route path="/groups" element={<Groups />} />
               <Route path="/groups/add" element={<AddAndEditGroup />} />
               <Route
@@ -84,12 +92,26 @@ function App() {
                 element={<AddAndEditInstitution editInstitution={true} />}
               />
               <Route path="/studyMaterials" element={<StudyMaterials />} />
-              <Route path="/studyMaterials/add" element={<AddStudyMaterials />} />
+              <Route
+                path="/studyMaterials/add"
+                element={<AddStudyMaterials />}
+              />
+              <Route
+                path="/studyMaterials/edit/:id"
+                element={<AddStudyMaterials editMaterial={true} />}
+              />
 
               <Route path="/testMaster" element={<TestMaster />} />
               <Route path="/create-test" element={<CreateTest />} />
               <Route path="/update-test" element={<EditTest />} />
-              <Route path="/testMaster/add" element={<AddAddEditTestMaster />} />
+              <Route
+                path="/testMaster/add"
+                element={<AddAndEditTestMaster />}
+              />
+              <Route
+                path="/testMaster/edit/:id"
+                element={<AddAndEditTestMaster editTest={true} />}
+              />
               <Route path="/reports">
                 <Route
                   index
@@ -98,8 +120,14 @@ function App() {
                 <Route path="userreports" element={<UserReport />} />
                 <Route path="leaderboardreport" element={<Leaderboard />} />
                 <Route path="achievementreport" element={<Announcement />} />
-                <Route path="create-announcement" element={<CreateAnnouncement />} />
-                <Route path="update-announcement" element={<UpdateAnnouncement />} />
+                <Route
+                  path="create-announcement"
+                  element={<CreateAnnouncement />}
+                />
+                <Route
+                  path="update-announcement"
+                  element={<UpdateAnnouncement />}
+                />
               </Route>
             </Route>
           </Routes>

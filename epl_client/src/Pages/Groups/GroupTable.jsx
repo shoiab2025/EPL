@@ -9,6 +9,8 @@ const GroupTable = ({groups}) => {
         <tr>
           <th className="table-header">Group Name</th>
           <th className="table-header">Group Themes</th>
+          <th className="table-header">Group Description</th>
+          <th className="table-header">Group Country</th>
           <th className="table-header">Group Actions</th>
         </tr>
       </thead>

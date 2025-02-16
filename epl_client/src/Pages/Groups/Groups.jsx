@@ -5,7 +5,7 @@ import { useUser } from '../../context/UserContext'
 
 const Groups = () => {
     const navigate = useNavigate()
-    const { groups, handleFilterData } = useUser();
+    const { groups} = useUser();
     const [filterText, setFilterText] = useState("")
     const handleAddGroup = () => {
         navigate("/groups/add")
@@ -45,3 +45,64 @@ const Groups = () => {
 }
 
 export default Groups
+
+
+{/* <th>Test</th>
+            <th>Question</th>
+            <th>Question Type</th>
+            <th>Option 1</th>
+            <th>Option 2</th>
+            <th>Option 3</th>
+            <th>Option 4</th>
+            <th>Correct Answer</th> */}
+
+
+
+//  {
+//       question: "",
+//       questionCategory: "",
+//       questionType: "text",
+//       url: "",
+//       optionType: "single",
+//       options: [
+//         {
+//           option: 1,
+//           value: "",
+//         },
+//         {
+//           option: 2,
+//           value: "",
+//         },
+//         {
+//           option: 3,
+//           value: "",
+//         },
+//         {
+//           option: 4,
+//           value: "",
+//         },
+//       ],
+//       correctOptions: [],
+//       mark: 0,
+//     },
+//   ]);
+
+//   const addQuestion = () => {
+//     setQuestions((prev) => [
+//       ...prev,
+//       {
+//         question: "",
+//         questionType: "text",
+//         questionCategory: "",
+//         url: "",
+//         optionType: "single",
+//         options: [
+//           { option: 1, value: "" },
+//           { option: 2, value: "" },
+//           { option: 3, value: "" },
+//           { option: 4, value: "" },
+//         ],
+//         correctOptions: [],
+//         mark: 0,
+//       },
+//     ])

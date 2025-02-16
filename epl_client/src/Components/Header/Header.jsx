@@ -3,10 +3,12 @@ import { app_icons} from "../../../public";
 import { useUser } from "../../context/UserContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const Header = () => {
   const { adminData, setAdminData } = useUser();
   const navigate = useNavigate()
+  const {enqueueSnackbar} = useSnackbar()
 
   // useEffect(() => {
   //   const fetchAdminData = async () => {
@@ -32,13 +34,14 @@ const Header = () => {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/signout`, {
         withCredentials: true,
       })
-      if(response.data.succes){
+      if(response.data.success){
          localStorage.removeItem("token")
          navigate("/login")
-        //  console.log(response.data.message)
+         localStorage.removeItem("adminData")
+         enqueueSnackbar(response.data.message, {variant: "success"})
       }
      }catch(err){
-      console.log(err)
+       enqueueSnackbar(response.data.message, {variant: "error"})
      }
   }
 

@@ -12,7 +12,7 @@ const Institution = () => {
   const [filterText, setFilterText] = useState("");
 
   const filteredData = institutions.filter((item) => 
-    Object.values(item).some(value => value.toString().toLowerCase().includes(filterText))
+    Object.values(item).some(value => value.toString().toLowerCase().includes(filterText.toLowerCase()))
   )
 
   return (

@@ -8,6 +8,8 @@ import { FaCalendarCheck } from "react-icons/fa";
 import { BsStack } from "react-icons/bs";
 import { FaSchool } from "react-icons/fa";
 import uploadArea from "./upload_area.png"
+import { IoEyeOff } from "react-icons/io5";
+import { IoEye } from "react-icons/io5";
 
 
 //App Logo Under Text
@@ -17,7 +19,7 @@ const App_Title = "The Afaf Way";
 const Navigation_Links = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Groups", href: "/groups" },
-  { label: "Quiz", href: "/quiz" },
+  // { label: "Quiz", href: "/quiz" },
   { label: "Institutions", href: "/institutions" },
   { label: "Study Materials", href: "/studyMaterials" },
   { label: "Test Master", href: "/testMaster" },
@@ -49,6 +51,8 @@ export const app_icons = {
   check: FaCalendarCheck,
   stack: BsStack,
   institution: FaSchool,
+  showEye: IoEye,
+  closeEye: IoEyeOff,
 };
 
 export const Users = [
@@ -163,7 +167,13 @@ const Institutions = [
 //   },
 // ];
 
-const leaderboard_views = ["Group wise","Institutions wise", "Rank wise", "score wise", "Test wise"];
+const leaderboard_views = [
+  { leaderboard_view: "Group Wise", views_type: ["Rank Wise", "Score Wise", "Test Wise"]},
+  { leaderboard_view: "Institution Wise", views_type: ["Rank Wise", "Score Wise", "Test Wise"]}
+];
+// [
+  // "Group wise","Institutions wise", "Rank wise", "score wise", "Test wise"
+  // ];
 
 const leaderboard_table_data = [
   {

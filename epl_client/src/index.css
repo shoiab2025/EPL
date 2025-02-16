@@ -12,7 +12,7 @@
     @apply table-auto w-full border-collapse mt-2;
   }
   .table-row-data {
-    @apply text-start text-[var(--table-text-color)] pl-2 border border-[var(--table-border-color)] py-2;
+    @apply text-start text-[var(--table-text-color)] pl-2 border border-[var(--table-border-color)] py-2 h-full;
   }
   .table-header {
     @apply text-start text-[var(--primary-color)] pl-2 border border-[var(--table-border-color)] py-2;
@@ -33,13 +33,13 @@
     @apply flex gap-5 items-center;
   }
   .flex-edit-delete {
-    @apply flex gap-4;
+    @apply mx-auto space-x-2;
   }
   .flex-header-with-filter{
-    @apply flex items-center justify-between
+    @apply flex items-center justify-between;
   }
   .flex-label-filter{
-    @apply flex items-center gap-3
+    @apply flex items-center gap-3;
   }
 }
 

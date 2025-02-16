@@ -19,8 +19,8 @@ const StudyMaterialTable = ({ studyMaterials }) => {
           ))
         ) : (
           <tr>
-            <td colSpan="3" className="text-center">
-              No data found
+            <td className="table-row-data border-none">
+              No Study Material Found
             </td>
           </tr>
         )}

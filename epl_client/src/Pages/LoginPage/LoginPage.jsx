@@ -1,41 +1,55 @@
 import React, { useContext, useEffect, useState } from "react";
-import { App_logo } from "../../../public";
+import { app_icons, App_logo } from "../../../public";
 import axios from "axios";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const LoginPage = () => {
   const [data, setData] = useState({
-    name: "",
+    userIdOrEmail: JSON.parse(localStorage.getItem("rememberEmail")) || "",
     password: "",
-  }); 
+  });
+  const [rememberme, setRememberMe] = useState(false);
   const { setAdminData } = useUser();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  // useEffect(() => {
+  //   console.log(data)
+  // },[data])
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/signin`,
+        `${import.meta.env.VITE_BACKEND_URL}/admin/signin`,
         data,
         { withCredentials: true }
       );
-      if (response.data.succes) {
+      if (response.data.success) {
         if (response.data.data.isAdmin) {
-          console.log(response.data.data)
+          if (rememberme) {
+            localStorage.setItem(
+              "rememberEmail",
+              JSON.stringify(data.userIdOrEmail)
+            );
+          }
           localStorage.setItem("adminData", JSON.stringify(response.data.data));
           setAdminData(response.data.data);
           setData({
-            name: "",
+            userIdOrEmail: "",
             password: "",
           });
           navigate("/dashboard");
+          enqueueSnackbar(response.data.message, { variant: "success" });
         } else {
-          console.log("You Dont have access");
+          enqueueSnackbar("You Dont have access", { variant: "error" });
         }
       }
     } catch (err) {
-      console.log(err.response.data);
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
     }
   };
 
@@ -60,26 +74,37 @@ const LoginPage = () => {
         <div className="flex flex-col gap-2 w-full">
           <input
             type="text"
-            name="name"
+            name="userIdOrEmail"
             className="input-box"
             placeholder="User Name"
             onChange={handleChange}
-            value={data.name}
+            value={data.userIdOrEmail}
             required
           />
-          <input
-            type="password"
-            name="password"
-            className="input-box"
-            placeholder="Enter Your Password"
-            onChange={handleChange}
-            value={data.password}
-            required
-          />
+          <div className="w-full relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              className="input-box w-full"
+              placeholder="Enter Your Password"
+              onChange={handleChange}
+              value={data.password}
+              required
+            />
+            <div
+              className="absolute top-[10px] right-[10px] text-2xl text-[var(--primary-color)]"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <app_icons.showEye /> : <app_icons.closeEye />}
+            </div>
+          </div>
         </div>
         <div className="flex justify-between w-full items-center mt-[-10px]">
           <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={() => setRememberMe((prev) => !prev)}
+            />
             Remember Me
           </label>
           <p className="cursor-pointer hover:underline">Forgot Password</p>

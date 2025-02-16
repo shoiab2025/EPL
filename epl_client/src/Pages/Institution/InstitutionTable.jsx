@@ -8,6 +8,8 @@ const InstitutionTable = ({ institutions }) => {
       <thead>
         <tr>
           <th className="table-header">Institution Name</th>
+          <th className="table-header">Institution Type</th>
+          <th className="table-header">Institution Group</th>
           <th className="table-header">Institution State</th>
           <th className="table-header">Institution Actions</th>
         </tr>

@@ -7,13 +7,19 @@ import UserContext from './context/userContext.jsx'
 import { Suspense } from 'react'
 import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx'
 const AppComponent = React.lazy(() => import('./App.jsx'))
+import {SnackbarProvider} from "notistack"
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <Suspense fallback={<LoadingPage />}>
-      <UserContext>
-        <AppComponent />
-      </UserContext>
-    </Suspense>
+    <SnackbarProvider maxSnack={2} anchorOrigin={{
+      vertical: "top",
+      horizontal: "right"
+    }}>
+      <Suspense fallback={<LoadingPage />}>
+        <UserContext>
+          <AppComponent />
+        </UserContext>
+      </Suspense>
+    </SnackbarProvider>
   </BrowserRouter>
 );
