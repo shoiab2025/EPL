@@ -120,7 +120,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
   const handleNewMessage = async() => {
     try{
       const dateTime = new Date(`${date}T${time}:00Z`).toISOString();
-      const response = await axios.post(`http://localhost:5000/announcements`, {
+      const response = await axios.post(`http://localhost:5000/api/v1/announcements`, {
         message,
         // group,
         // dateTime,
@@ -138,6 +138,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
            time: "",
            date: "",
          });
+        navigate("/dashboard")
       }
     }catch(err){
       console.log(err)

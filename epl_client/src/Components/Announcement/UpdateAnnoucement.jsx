@@ -34,7 +34,7 @@ const UpdateAnnouncement = ({ announcementId }) => {
     setError(null);
 
     try {
-      const updatedAnnouncement = await axios.put(`/api/announcements/${announcementId}`, {
+      const updatedAnnouncement = await axios.put(`/api/v1/announcements/${announcementId}`, {
         message,
         time,
         date

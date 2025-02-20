@@ -3,85 +3,65 @@ import React, { useState } from "react";
 import { useUser } from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const GroupsTableRow = ({ group }) => {
-  console.log(group)
   const { setGroups } = useUser();
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
-  const {enqueueSnackbar} = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
-  const handleGroupEdit = async (id) => {
-    navigate(`/groups/edit/${id}`);
-  };
+  const handleGroupEdit = (id) => navigate(`/groups/edit/${id}`);
+
   const handleGroupDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/group/${id}`
-      );
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/group/${id}`);
       if (response.data.success) {
-        setGroups((prev) => {
-          const currGroups = prev.filter((group) => group._id !== id);
-          return currGroups;
-        });
-        enqueueSnackbar("Group Successfully Deleted!", {variant: "success"})
+        setGroups((prev) => prev.filter((group) => group._id !== id));
+        enqueueSnackbar("Group Successfully Deleted!", { variant: "success" });
       }
-    } catch (err) {
+    } catch {
       enqueueSnackbar("Problem In Deleting Group", { variant: "error" });
     }
   };
 
   return (
-    <tr>
-      <td
-        className="table-row-data cursor-pointer"
+    <tr className="hover:bg-gray-50 transition-all duration-300">
+      <td 
+        className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
         onClick={() => handleGroupEdit(group._id)}
       >
         {group.groupName}
       </td>
-      <td
-        className="table-row-data"
-        // style={{
-        //   backgroundColor: group.groupTheme,
-        //   boxShadow: "0px 0px 2px #000000bd",
-        // }}
-      >
-        <div className="flex gap-2 items-center">
+      <td className="table-row-data">
+        <div className="flex items-center gap-2">
           <div
-            style={{
-              backgroundColor: group.groupTheme,
-              width: "30px",
-              height: "30px",
-              borderRadius: "50%",
-              border: "2px solid white",
-              boxShadow: "0px 0px 2px #000000bd",
-            }}
+            className="w-8 h-8 rounded-full border-2 border-white shadow-md"
+            style={{ backgroundColor: group.groupTheme }}
           ></div>
         </div>
       </td>
       <td className="table-row-data">
         <p
-          className={`transition-all duration-300 cursor-pointer ${
-            isExpanded ? "whitespace-normal" : "line-clamp-2"
-          }`}
+          className={`transition-all duration-300 cursor-pointer ${isExpanded ? "whitespace-normal" : "truncate"}`}
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {group.groupDescription}
         </p>
       </td>
       <td className="table-row-data">{group.groupCountry}</td>
-      <td className="table-row-data flex-edit-delete">
-        <button
-          className="edit-button"
+      <td className="table-row-data flex space-x-2">
+        <button 
+          className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleGroupEdit(group._id)}
         >
-          Edit
+          <FiEdit className="text-[var(--primary-color)]" />
         </button>
-        <button
-          className="delete-button"
+        <button 
+          className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleGroupDelete(group._id)}
         >
-          Delete
+          <FiTrash2 className="text-red-500" />
         </button>
       </td>
     </tr>

@@ -24,29 +24,27 @@ const StudyMaterials = () => {
       return value?.toString().toLowerCase().includes(filterText.toLowerCase());
     })
   );
+
   return (
-    <div>
-      <div className="flex-header-with-filter">
-        <div className="flex-heading-button">
-          <h1 className="heading">Study Material</h1>
-          <button className="button" onClick={handleNavigate}>
-            Add Study Materials
-          </button>
-        </div>
-        <label className="flex-label-filter">
-          Filter:{" "}
+    <div className="p-6 bg-white rounded-2xl shadow-md">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-semibold text-gray-800">Study Material</h1>
+        <button className="button" onClick={handleNavigate}>
+          Add Study Materials
+        </button>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          Filter:
           <input
             type="text"
-            className="input-box"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Search from here.."
             value={filterText}
-            onChange={(e) => {
-              setFilterText(e.target.value);
-            }}
+            onChange={(e) => setFilterText(e.target.value)}
           />
         </label>
       </div>
-
       <StudyMaterialTable studyMaterials={filteredData} />
     </div>
   );
