@@ -12,10 +12,10 @@
     @apply table-auto w-full border-collapse mt-2;
   }
   .table-row-data {
-    @apply text-start text-[var(--table-text-color)] pl-2 border border-[var(--table-border-color)] py-2 h-full;
+    @apply text-start text-[var(--table-text-color)] pl-2 py-2 h-full;
   }
   .table-header {
-    @apply text-start text-[var(--primary-color)] pl-2 border border-[var(--table-border-color)] py-2;
+    @apply text-start text-[var(--primary-color)] pl-2 border py-2;
   }
   .edit-button {
     @apply text-green-800 cursor-pointer;

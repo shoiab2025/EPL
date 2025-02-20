@@ -1,31 +1,30 @@
-import React from "react";
-import { useUser } from "../../context/userContext";
-import StudyMaterialTableRow from "./studyMaterialTableRow";
+import React from 'react';
+import StudyMaterialTableRow from './studyMaterialTableRow';
 
 const StudyMaterialTable = ({ studyMaterials }) => {
   return (
-    <table className="table mt-5">
-      <thead>
-        <tr>
-          <th className="table-header">Material Name</th>
-          <th className="table-header">Material Content</th>
-          <th className="table-header">Institution Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {studyMaterials && studyMaterials.length > 0 ? (
-          studyMaterials.map((material, index) => (
-            <StudyMaterialTableRow material={material} key={index} />
-          ))
-        ) : (
+    <div className="overflow-x-auto shadow-md rounded-lg">
+      <table className="min-w-full bg-white">
+        <thead className="bg-gray-100">
           <tr>
-            <td className="table-row-data border-none">
-              No Study Material Found
-            </td>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Material Name</th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Material Content</th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Institution Actions</th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {studyMaterials.length !== 0 ? (
+            studyMaterials.map((material, index) => (
+              <StudyMaterialTableRow key={index} material={material} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="3" className="py-4 px-6 text-center text-gray-500">No Study Material Found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

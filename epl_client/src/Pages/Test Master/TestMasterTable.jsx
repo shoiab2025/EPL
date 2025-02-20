@@ -24,13 +24,14 @@ const TestMasterTable = ({ testsData }) => {
     }
   };
   return (
-    <table className="table mt-4">
-      <thead>
+    <div className="overflow-x-auto shadow-md rounded-lg">
+    <table className="min-w-full bg-white">
+    <thead className="bg-gray-100">
         <tr>
-          <th className="table-header">Test Name</th>
-          <th className="table-header">No.Questions</th>
-          <th className="table-header">Groups</th>
-          <th className="table-header">Operation</th>
+          <th className="py-3 px-6 text-left text-[var(--primary-color)]">Test Name</th>
+          <th className="py-3 px-6 text-left text-[var(--primary-color)]">No.Questions</th>
+          <th className="py-3 px-6 text-left text-[var(--primary-color)]">Groups</th>
+          <th className="py-3 px-6 text-left text-[var(--primary-color)]">Operation</th>
         </tr>
       </thead>
       <tbody>
@@ -70,7 +71,7 @@ const TestMasterTable = ({ testsData }) => {
           ))
         ) : (
           <tr>
-            <td>No Test Found</td>
+            <td colSpan="5" className="py-4 px-6 text-center text-gray-500">No test Found</td>
           </tr>
         )}
 
@@ -121,6 +122,7 @@ const TestMasterTable = ({ testsData }) => {
         )} */}
       </tbody>
     </table>
+    </div>
   );
 };
 

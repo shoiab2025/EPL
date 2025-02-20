@@ -176,8 +176,6 @@ const UserContext = ({ children }) => {
       console.log(err)
     }
   }
-
-
   useEffect(() => {
     const path = location.pathname.split("/")[1];
     setActiveLink(path.replace(/\s+/g, "").toLowerCase());

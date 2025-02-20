@@ -1,32 +1,33 @@
-import React, { useEffect } from 'react'
-import { useUser } from '../../context/UserContext.jsx';
+import React from 'react';
 import GroupsTableRow from './GroupsTableRow';
 
-const GroupTable = ({groups}) => {
+const GroupTable = ({ groups }) => {
   return (
-    <table className="table mt-4">
-      <thead>
-        <tr>
-          <th className="table-header">Group Name</th>
-          <th className="table-header">Group Themes</th>
-          <th className="table-header">Group Description</th>
-          <th className="table-header">Group Country</th>
-          <th className="table-header">Group Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {groups.length !== 0 ? (
-          groups.map((group, index) => (
-            <GroupsTableRow key={index} group={group} />
-          ))
-        ) : (
+    <div className="overflow-x-auto shadow-md rounded-lg">
+      <table className="min-w-full bg-white">
+        <thead className="bg-gray-100">
           <tr>
-            <td className="table-row-data border-none"> No Groups Found</td>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Group Name</th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Group Themes</th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Group Description</th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Group Country</th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">Group Actions</th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {groups.length !== 0 ? (
+            groups.map((group, index) => (
+              <GroupsTableRow key={index} group={group} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="py-4 px-6 text-center text-gray-500">No Groups Found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
-}
+};
 
-export default GroupTable
+export default GroupTable;
