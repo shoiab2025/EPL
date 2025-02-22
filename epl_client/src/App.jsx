@@ -22,6 +22,7 @@ import EditTest from "./Pages/Test Master/EditTest.jsx";
 import CreateAnnouncement from "./Components/Announcement/CreateAnnouncement.jsx";
 import UpdateAnnouncement from "./Components/Announcement/UpdateAnnoucement.jsx";
 import AddAndEditTestMaster from "./Pages/Test Master/AddAndEditTestMaster.jsx";
+import CreateSchedule from "./Pages/Schedular/AddSchedular.jsx";
 
 function App() {
   const {activeSubLink} = useUser()
@@ -100,6 +101,8 @@ function App() {
                 path="/studyMaterials/edit/:id"
                 element={<AddStudyMaterials editMaterial={true} />}
               />
+
+              <Route path="/scheduler/add" element={<CreateSchedule />} />
 
               <Route path="/testMaster" element={<TestMaster />} />
               <Route path="/create-test" element={<CreateTest />} />

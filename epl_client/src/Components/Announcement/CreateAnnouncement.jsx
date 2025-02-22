@@ -119,14 +119,18 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
 
   const handleNewMessage = async() => {
     try{
+      
       const dateTime = new Date(`${date}T${time}:00Z`).toISOString();
-      const response = await axios.post(`http://localhost:5000/api/v1/announcements`, {
-        message,
-        // group,
-        // dateTime,
-        time: dateTime,
-        date: dateTime,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/announcements`,
+        {
+          message,
+          // group,
+          // dateTime,
+          time: dateTime,
+          date: dateTime,
+        }
+      );
       if(response.data.success){
          enqueueSnackbar("The Message Successfully Added!",{variant: "success"})
          setAnnouncements((prev) => {
@@ -152,7 +156,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
     try {
       const dateTime = new Date(`${date}T${time}:00Z`).toISOString();
       const response = await axios.put(
-        `http://localhost:5000/announcements/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/announcements/${id}`,
         {
           message,
           // group,

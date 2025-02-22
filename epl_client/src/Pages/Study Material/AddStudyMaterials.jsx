@@ -8,6 +8,7 @@ import {useSnackbar} from "notistack"
 const AddStudyMaterials = ({ editMaterial = false }) => {
   const [testId, setTestId] = useState("");
   const [materialType, setMaterialType] = useState("image");
+  const [materialQuestionType, setMaterialQuestionType] = useState("");
   const [materialData, setMaterialData] = useState(null);
   const {tests, setStudyMaterials} = useUser()
   const navigate = useNavigate()
@@ -53,7 +54,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
     }
     formData.append("publish", false)
     formData.append("test", testId);
-
+    // formData.append("")
     try{
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/meterials`,
@@ -136,6 +137,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           required
         >
           <option value="">Choose Test</option>
+          {console.log(tests)}
           {tests.map((test, index) => (
             <option value={test._id} key={index}>
               {" "}
@@ -153,6 +155,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           <option value="audio">audio</option>
           <option value="pdf">pdf</option>
         </select>
+        <input type="text" />
         <UploadFiles
           type={materialType}
           materialData={materialData}

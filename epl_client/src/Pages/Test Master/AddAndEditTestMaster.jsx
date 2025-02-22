@@ -543,7 +543,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
     }
   }, [id, editTest, groups]);
 
-  // useEffect(() => console.log(tests), [tests]);
+  useEffect(() => console.log(testMaster.quizzes), [testMaster.quizzes]);
 
   const loadTestData = async () => {
     try {
@@ -632,7 +632,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
   const handleAddQuiz = () => {
     const question = {};
     if (groupLanguages.length === 0) {
-      enqueueSnackbar("Please select a group", {variant: "error"})
+      enqueueSnackbar("Please select a group", { variant: "error" });
     } else {
       groupLanguages?.forEach((lang) => {
         question[lang] = "";
@@ -658,6 +658,9 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
 
   const handleQuizChange = (index, field, value) => {
     const updatedQuizzes = [...quizzes];
+    // if(field === "correctOptions"){
+    //   updatedQuizzes[index].options[optIndex].correctOption = 
+    // }
     updatedQuizzes[index][field] = value;
     setQuizzes(updatedQuizzes);
     setTestMaster((prev) => ({
@@ -665,6 +668,10 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       quizzes: updatedQuizzes,
     }));
   };
+
+  const handleCorrectOption = () => {
+
+  }
 
   const handleEditTest = async () => {
     try {
@@ -702,6 +709,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
         `${import.meta.env.VITE_BACKEND_URL}/tests`,
         testMaster
       );
+      console.log("test", response.data)
       if (response.data.success) {
         enqueueSnackbar("Test Edited successfully!", { variant: "success" });
         setTestMaster({
@@ -850,6 +858,9 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
               <div className="flex flex-col gap-2 my-3">
                 {quiz.options.map((option, optIndex) => (
                   <div key={optIndex} className="flex gap-3">
+                    {/* <input type="checkbox" checked={option.correctOption} onChange={() => {
+                      handleQuizChange(index, "correctOptions", option.value);
+                    }}/> */}
                     {groupLanguages.map((lang) => (
                       <input
                         key={lang}
@@ -886,6 +897,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                 onClick={() => {
                   const newOptions = {
                     option: quiz.options.length + 1,
+                    correctOption: false,
                     value: groupLanguages.reduce(
                       (acc, lang) => ({ ...acc, [lang]: "" }),
                       {}
