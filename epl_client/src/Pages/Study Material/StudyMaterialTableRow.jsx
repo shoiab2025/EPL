@@ -5,7 +5,7 @@ import { useUser } from "../../context/UserContext";
 import { useSnackbar } from "notistack";
 
 const StudyMaterialTableRow = ({ material }) => {
-  console.log(material);
+  // console.log(material);
   const navigate = useNavigate();
   const {setStudyMaterials} = useUser();
   const {enqueueSnackbar} = useSnackbar()
@@ -31,6 +31,7 @@ const StudyMaterialTableRow = ({ material }) => {
   return (
     <tr>
       <td className="table-row-data">{material.test?.name}</td>
+      <td className="table-row-data">{material.content}</td>
       <td className="table-row-data">{material.content_type}</td>
       <td className="table-row-data flex-edit-delete">
         <button

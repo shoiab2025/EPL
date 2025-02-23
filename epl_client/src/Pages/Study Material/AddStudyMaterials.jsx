@@ -3,59 +3,60 @@ import UploadFiles from "./UploadFiles";
 import axios from "axios";
 import { useUser } from "../../context/UserContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import {useSnackbar} from "notistack"
+import { useSnackbar } from "notistack";
 
 const AddStudyMaterials = ({ editMaterial = false }) => {
   const [testId, setTestId] = useState("");
   const [materialType, setMaterialType] = useState("image");
   const [materialQuestionType, setMaterialQuestionType] = useState("");
-  const [materialData, setMaterialData] = useState(null);
-  const {tests, setStudyMaterials} = useUser()
-  const navigate = useNavigate()
-  const {id} = useParams()
-  const {enqueueSnackbar} = useSnackbar()
+  const [materialData, setMaterialData] = useState("");
+  const { tests, setStudyMaterials, questionCategory, setQuestionCategory } =
+    useUser();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if(editMaterial && id){
-       loadMaterialData()
+    if (editMaterial && id) {
+      loadMaterialData();
     }
-  },[editMaterial, id])
+  }, [editMaterial, id]);
 
-  const loadMaterialData = async() => {
-    try{
-      const resposne = await axios.get(
+  const loadMaterialData = async () => {
+    try {
+      const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/meterials/${id}`,
         {
           withCredentials: true,
         }
       );
-      if(resposne.data.success){
-         const {content, content_type, file_url, test} = resposne.data.data;
-         setTestId(test._id)
-         setMaterialType(content_type)
-         if(content_type === "text"){
-          setMaterialData(content);
-         }else{
-          setMaterialData(file_url);
-         }
+      if (response.data.success) {
+        // console.log(response.data.data);
+        // console.log(response.data.data.file_url)
+        const { content_type, test, file_url } = response.data.data;
+        setTestId(test._id);
+        setMaterialType(content_type);
+        setMaterialData(file_url);
+        setMaterialQuestionType(response.data.data.questionCategory);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  const handleNewSubmit = async() => {
+  const handleNewSubmit = async () => {
     // e.preventDefault();
+    const category = await questionCategory.find(
+      (item) => item._id === materialQuestionType
+    );
     const formData = new FormData();
-    formData.append("content_type", materialType)
-    formData.append("content", materialType === "text" ? materialData : "")
-    if(materialType !== "text"){
-      formData.append("file", materialData);
-    }
-    formData.append("publish", false)
+    formData.append("content_type", materialType);
+    formData.append("content", category.title);
+    formData.append("publish", false);
     formData.append("test", testId);
-    // formData.append("")
-    try{
+    formData.append("questionCategory", materialQuestionType);
+    formData.append("fileUrl", materialData);
+    try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/meterials`,
         formData,
@@ -65,61 +66,66 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           },
         }
       );
-      if(response.data.success){
-         enqueueSnackbar("Successfully Material Uploaded!", {variant: "success"})
-         setTestId("")
-         setMaterialData(null)
-         setStudyMaterials((prev) => [...prev, response.data.data])
-      };
-    }catch(err){
-      console.log(err.response.data)
-      enqueueSnackbar("Error uploading materials", {variant: "error"})
+      if (response.data.success) {
+        enqueueSnackbar("Successfully Material Uploaded!", {
+          variant: "success",
+        });
+        setTestId("");
+        setMaterialData(null);
+        setMaterialQuestionType("");
+        setStudyMaterials((prev) => [...prev, response.data.data]);
+      }
+    } catch (err) {
+      console.log(err.response.data);
+      enqueueSnackbar("Error uploading materials", { variant: "error" });
     }
-  }
+  };
 
-  const handleEditSubmit = async() => {
-     const formData = new FormData();
-     formData.append("content_type", materialType);
-     formData.append("content", materialType === "text" ? materialData : "");
-     if (materialType !== "text") {
-       formData.append("file", materialData);
-     }
-     formData.append("publish", false);
-     formData.append("test", testId);
-
-     try {
-       const response = await axios.put(
-         `${import.meta.env.VITE_BACKEND_URL}/meterials/${id}`,
-         formData,
-         {
-           headers: {
-             "Content-Type": "multipart/form-data",
-           },
-         }
-       );
-       if (response.data.success) {
-           enqueueSnackbar("Successfully Material Edited!", {
-             variant: "success",
-           });
-           setTestId("");
-           setMaterialData(null);
-          setStudyMaterials((prev) => {
-              return prev.map((material) => (
-                material._id === id ? response.data.data : material
-              ))
-          })
-          navigate("/studyMaterials")
-       }
-     } catch (err) {
-       console.log(err.response.data);
-       enqueueSnackbar("Error editing materials", { variant: "error" });
-     }
-  }
+  const handleEditSubmit = async () => {
+    const category = await questionCategory.find(
+      (item) => item._id === materialQuestionType
+    );
+    const formData = new FormData();
+    formData.append("content_type", materialType);
+    formData.append("content", category.title);
+    formData.append("publish", false);
+    formData.append("test", testId);
+    formData.append("questionCategory", materialQuestionType);
+    formData.append("fileUrl", materialData);
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/meterials/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.success) {
+        enqueueSnackbar("Successfully Material Edited!", {
+          variant: "success",
+        });
+        setTestId("");
+        setMaterialData("");
+        setStudyMaterials((prev) => {
+          return prev.map((material) =>
+            material._id === id ? response.data.data : material
+          );
+        });
+        setMaterialQuestionType("");
+        navigate("/studyMaterials");
+      }
+    } catch (err) {
+      console.log(err.response.data);
+      enqueueSnackbar("Error editing materials", { variant: "error" });
+    }
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    editMaterial ? handleEditSubmit() : handleNewSubmit()
-  }
+    e.preventDefault();
+    editMaterial ? handleEditSubmit() : handleNewSubmit();
+  };
 
   return (
     <div className="max-w-[500px]">
@@ -137,7 +143,6 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           required
         >
           <option value="">Choose Test</option>
-          {console.log(tests)}
           {tests.map((test, index) => (
             <option value={test._id} key={index}>
               {" "}
@@ -145,6 +150,19 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
             </option>
           ))}
         </select>
+        {questionCategory.length !== 0 && (
+          <select
+            value={materialQuestionType || ""}
+            onChange={(e) => setMaterialQuestionType(e.target.value)}
+            className="input-box"
+          >
+            {questionCategory.map((item, index) => (
+              <option value={item._id} key={index}>
+                {item.title}
+              </option>
+            ))}
+          </select>
+        )}
         <select
           className="input-box"
           value={materialType}
@@ -155,7 +173,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           <option value="audio">audio</option>
           <option value="pdf">pdf</option>
         </select>
-        <input type="text" />
+        {/* <input type="text" /> */}
         <UploadFiles
           type={materialType}
           materialData={materialData}
@@ -170,4 +188,3 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
 };
 
 export default AddStudyMaterials;
-

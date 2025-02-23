@@ -35,111 +35,156 @@ const UserContext = ({ children }) => {
   };
 
   useEffect(() => {
-     const loadAllData = async() => {
-       try{
-          await fetchAllUsers();
-          await fetchInstitutionsData();
-          await fetchAllGroup();
-          await fetchAllTestsData();
-          await fetchAllAnnouncementsData();
-          await fetchAllQuiz();
-          await fetchAllMaterials()
-       }catch(err){
-        console.log(err)
-       }
-     }
-     loadAllData()
-  },[])
-
-
+    const loadAllData = async () => {
+      try {
+        await fetchAllUsers();
+        await fetchInstitutionsData();
+        await fetchAllGroup();
+        await fetchAllTestsData();
+        await fetchAllAnnouncementsData();
+        await fetchAllQuiz();
+        await fetchAllMaterials();
+        await fetchQuestionCategory();
+        await fetchAllSchedules();
+        await fetchAllAchivements();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    loadAllData();
+  }, []);
 
   //Leaderboard
   const [showLeaderBoardWiseList, setShowLeaderBoardWiseList] = useState(false);
   const [leaderboardView, setLeadboardView] = useState(leaderboard_views);
-  const [leaderboardUsers, setLeaderboardUsers] = useState(
-    leaderboard_table_data
-  );
+  const [leaderboardUsers, setLeaderboardUsers] = useState([
+    {
+      name: "John Doe",
+      registrationId: "REG123456",
+      schoolName: "XYZ High School",
+      timestamp: "2025-02-23T08:32:20.909Z",
+      score: 95,
+      awardCategory: "Gold Medal",
+      rank: 1,
+    },
+    {
+      name: "Jane Smith",
+      registrationId: "REG654321",
+      schoolName: "ABC Academy",
+      timestamp: "2025-02-23T08:35:45.123Z",
+      score: 85,
+      awardCategory: "Silver Medal",
+      rank: 2,
+    },
+  ]);
 
   //Announcement
   const [announcements, setAnnouncements] = useState([]);
-  const fetchAllAnnouncementsData = async() => {
-    try{
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/announcements`, {
-        withCredentials: true,
-      });
-      if(response.data.success){
-        setAnnouncements(response.data.data)
+  const fetchAllAnnouncementsData = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/announcements`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        setAnnouncements(response.data.data);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   //Groups
   const [groups, setGroups] = useState([]);
-  const fetchAllGroup = async() => {
-    try{
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/group`,{
-        withCredentials: true
-      })
-      if(response.data.success){
-        setGroups(response.data.data)
+  const fetchAllGroup = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/group`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        setGroups(response.data.data);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   //Quiz
   const [quizType, setQuizType] = useState([]);
-  const fetchAllQuiz = async() => {
-    try{
+  const fetchAllQuiz = async () => {
+    try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/quiztypes`,
         {
           withCredentials: true,
         }
       );
-      if(response.data.success){
-        setQuizType(response.data.data)
+      if (response.data.success) {
+        setQuizType(response.data.data);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   //Institution
   const [institutions, setInstitutions] = useState([]);
-  const fetchInstitutionsData = async() => {
-    try{
+  const fetchInstitutionsData = async () => {
+    try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/institutions`,{
-          withCredentials: true
+        `${import.meta.env.VITE_BACKEND_URL}/institutions`,
+        {
+          withCredentials: true,
         }
       );
-      if(response.data.succes){
+      if (response.data.succes) {
         setInstitutions(response.data.data);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  //tests 
-  const [tests, setTests] = useState([])
-  const fetchAllTestsData = async() => {
-    try{
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tests`,{
-        withCredentials: true
-      })
-      if(response.data.success){
-        console.log(response.data.data)
+  const [questionCategory, setQuestionCategory] = useState([]);
+  const fetchQuestionCategory = async () => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/questionCategory/question-categories`
+      );
+      if (response.data.status) {
+        setQuestionCategory(response.data.data);
+        // console.log(response.data.data)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //tests
+  const [tests, setTests] = useState([]);
+  const fetchAllTestsData = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/tests`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        // console.log(response.data.data)
         setTests(response.data.data);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   //study Material
   const [studyMaterials, setStudyMaterials] = useState([]);
@@ -152,6 +197,7 @@ const UserContext = ({ children }) => {
         }
       );
       if (response.data.success) {
+        // console.log("material",response.data.data)
         setStudyMaterials(response.data.data);
       }
     } catch (err) {
@@ -159,23 +205,56 @@ const UserContext = ({ children }) => {
     }
   };
 
+  const [schedules, setSchedules] = useState([]);
+  const fetchAllSchedules = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/schedulers/schedules`
+      );
+      if (response.data.success) {
+        setSchedules(response.data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   //Filter Fuctions
 
   //users Data
   const [users, setUsers] = useState([]);
-  const fetchAllUsers = async() => {
-    try{
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users`,{
-        withCredentials: true
-      });
-      if(response.data.succes){
-         setUsers(response.data.data)
+  const fetchAllUsers = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/users`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      if (response.data.success) {
+        setUsers(response.data.data);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
+  const [achivements, setAchivements] = useState([]);
+  const fetchAllAchivements = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/achievement`
+      );
+      if (response.data.success) {
+        // console.log(response.data.data)
+        setAchivements(response.data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const path = location.pathname.split("/")[1];
     setActiveLink(path.replace(/\s+/g, "").toLowerCase());
@@ -185,9 +264,7 @@ const UserContext = ({ children }) => {
   //    console.log(institutions);
   //  }, [institutions]);
 
-
   const contextValues = {
-
     adminData,
     setAdminData,
     dashboard_stats,
@@ -197,6 +274,7 @@ const UserContext = ({ children }) => {
     leaderboardView,
     setLeadboardView,
     leaderboardUsers,
+    setLeaderboardUsers,
     groups,
     setGroups,
     quizType,
@@ -204,7 +282,7 @@ const UserContext = ({ children }) => {
     institutions,
     setInstitutions,
     studyMaterials,
-     setStudyMaterials,
+    setStudyMaterials,
     activeLink,
     setActiveLink,
     activeSubLink,
@@ -216,7 +294,13 @@ const UserContext = ({ children }) => {
     setTests,
     announcements,
     setAnnouncements,
-    languageMap
+    languageMap,
+    questionCategory,
+    setQuestionCategory,
+    schedules,
+    setSchedules,
+    achivements,
+    setAchivements,
   };
   return (
     <UserDataContext.Provider value={contextValues}>

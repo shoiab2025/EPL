@@ -1,35 +1,35 @@
-import React from 'react';
-import StudyMaterialTableRow from './studyMaterialTableRow';
+import React from "react";
+import AchivementsTableRow from "./AchivementsTableRow";
 
-const StudyMaterialTable = ({ studyMaterials }) => {
+const AchivementsTable = ({ achivements }) => {
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
         <thead className="bg-gray-100">
           <tr>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Test Name
+              Name
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Material Name
+              Level
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Material Content
+              Minimum %
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Institution Actions
+              Maximum %
             </th>
           </tr>
         </thead>
         <tbody>
-          {studyMaterials.length !== 0 ? (
-            studyMaterials.map((material, index) => (
-              <StudyMaterialTableRow key={index} material={material} />
+          {achivements.length !== 0 ? (
+            achivements.map((achivement, index) => (
+              <AchivementsTableRow key={index} achivement={achivement} />
             ))
           ) : (
             <tr>
-              <td colSpan="3" className="py-4 px-6 text-center text-gray-500">
-                No Study Material Found
+              <td colSpan="5" className="py-4 px-6 text-center text-gray-500">
+                No Groups Found
               </td>
             </tr>
           )}
@@ -39,4 +39,4 @@ const StudyMaterialTable = ({ studyMaterials }) => {
   );
 };
 
-export default StudyMaterialTable;
+export default AchivementsTable;

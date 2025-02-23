@@ -19,7 +19,7 @@ const AnnouncementTableRow = ({ announcement }) => {
  const handleAnnouncementDelete = async(id) => {
     try{
       const response = await axios.delete(
-        `http://localhost:5000/announcements/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/announcements/${id}`
       );
       if(response.data.success){
          setAnnouncements(prev => {

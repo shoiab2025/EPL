@@ -2,8 +2,7 @@ import React from 'react'
 import { useUser } from '../../context/userContext'
 import LeaderboardTableRow from './LeaderboardTableRow';
 
-const LeaderboardTable = () => {
-    const {leaderboardUsers} = useUser();
+const LeaderboardTable = ({leaderboardUsers}) => {
   return (
     <table className="table">
       <thead>
@@ -12,10 +11,10 @@ const LeaderboardTable = () => {
             User
           </th>
           <th className="table-header">
-            Institution
+            RegistrationId
           </th>
           <th className="table-header">
-            Group
+            Institution
           </th>
           <th className="table-header">
             Rank

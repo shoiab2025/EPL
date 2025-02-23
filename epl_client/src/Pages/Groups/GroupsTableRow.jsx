@@ -37,7 +37,7 @@ const GroupsTableRow = ({ group }) => {
         <div className="flex items-center gap-2">
           <div
             className="w-8 h-8 rounded-full border-2 border-white shadow-md"
-            style={{ backgroundColor: group.groupTheme }}
+            style={{ background: group.groupTheme }}
           ></div>
         </div>
       </td>

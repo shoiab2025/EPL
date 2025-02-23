@@ -28,6 +28,7 @@ const LoginPage = () => {
         data,
         { withCredentials: true }
       );
+      // console.log(response.data);
       if (response.data.success) {
         if (response.data.data.isAdmin) {
           if (rememberme) {
@@ -76,7 +77,7 @@ const LoginPage = () => {
             type="text"
             name="userIdOrEmail"
             className="input-box"
-            placeholder="User Name"
+            placeholder= "Email"
             onChange={handleChange}
             value={data.userIdOrEmail}
             required

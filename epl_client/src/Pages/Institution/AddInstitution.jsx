@@ -173,10 +173,9 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
         />
         <select className="input-box" name="institutionGroup" value={institutionGroup} onChange={handleDataChange}>
            <option value="">Choose Group</option>
-           <option value="All">All Groups</option>
            {
           groups.map((group, index) => (
-            <option value={group.name} key={index}>{group.groupName}</option>
+            <option value={group.groupName} key={index}>{group.groupName}</option>
           ))
         }
         </select>

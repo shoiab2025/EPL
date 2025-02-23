@@ -1,7 +1,7 @@
-import React from 'react';
-import StudyMaterialTableRow from './studyMaterialTableRow';
+import React from 'react'
+import ScheduleTableRow from './ScheduleTableRow'
 
-const StudyMaterialTable = ({ studyMaterials }) => {
+const ScheduleTable = ({schedules}) => {
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
@@ -11,25 +11,28 @@ const StudyMaterialTable = ({ studyMaterials }) => {
               Test Name
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Material Name
+              Start DateTime
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Material Content
+              End DateTime
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
-              Institution Actions
+              Status
+            </th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Schedule Actions
             </th>
           </tr>
         </thead>
         <tbody>
-          {studyMaterials.length !== 0 ? (
-            studyMaterials.map((material, index) => (
-              <StudyMaterialTableRow key={index} material={material} />
+          {schedules.length !== 0 ? (
+            schedules.map((schedule, index) => (
+              <ScheduleTableRow key={index} schedule={schedule} />
             ))
           ) : (
             <tr>
-              <td colSpan="3" className="py-4 px-6 text-center text-gray-500">
-                No Study Material Found
+              <td colSpan="5" className="py-4 px-6 text-center text-gray-500">
+                No Schedule Found
               </td>
             </tr>
           )}
@@ -37,6 +40,6 @@ const StudyMaterialTable = ({ studyMaterials }) => {
       </table>
     </div>
   );
-};
+}
 
-export default StudyMaterialTable;
+export default ScheduleTable

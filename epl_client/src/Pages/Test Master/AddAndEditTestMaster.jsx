@@ -533,7 +533,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
     quizzes: [],
     groups: [],
   });
-  const { groups, setTests, tests, languageMap } = useUser();
+  const { groups, setTests, tests, languageMap, questionCategory, setQuestionCategory } = useUser();
   const [quizzes, setQuizzes] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -543,7 +543,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
     }
   }, [id, editTest, groups]);
 
-  useEffect(() => console.log(testMaster.quizzes), [testMaster.quizzes]);
+  // useEffect(() => console.log(testMaster.quizzes), [testMaster.quizzes]);
 
   const loadTestData = async () => {
     try {
@@ -554,10 +554,29 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
 
       if (response.data.success) {
         const testData = response.data.data;
-        console.log("Fetched Test Data:", testData); // Debugging
+        // console.log("Fetched Test Data:", testData); // Debugging
 
         // Set other required state values
-        setQuizzes(testData.quizzes || []);
+        // setQuizzes(testData.quizzes || []);
+          
+
+         const resolvedQuizzes = await Promise.all(
+           testData.quizzes.map(async (quiz) => {
+             const category = questionCategory.find(
+               (val) => val._id === quiz.questionCategory
+             );
+            //  console.log("category",category)
+             return {
+               ...quiz,
+               questionCategory: {
+                 title: category ? category.title : "",
+               },
+             };
+           })
+         );
+
+        setQuizzes(resolvedQuizzes);
+
         const selectedGroupName =
           testData.groups.length === 0
             ? "All Groups"
@@ -640,6 +659,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
 
       const newQuiz = {
         question: question,
+        url: "",
         questionCategory: { title: "", description: "" },
         questionType: "text",
         optionType: "single",
@@ -712,6 +732,27 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       console.log("test", response.data)
       if (response.data.success) {
         enqueueSnackbar("Test Edited successfully!", { variant: "success" });
+        // setQuestionCategory((prev) => {
+        //   return [...prev, response.data.data.quizzes.questionCategory]
+        // })
+        // response.data.data.quizzes.map((quiz) => {
+        //   setQuestionCategory((prev) => {
+        //     // Check if the title already exists in prev
+        //     const exists = prev.some(
+        //       (category) => category.title === quiz.title
+        //     );
+
+        //     if (exists) {
+        //       return prev; // If exists, return prev without changes
+        //     } else {
+        //       return [
+        //         ...prev,
+        //          response.data.data.quizzes.questionCategory,
+        //       ];
+        //     }
+        //   });
+        // });
+
         setTestMaster({
           name: "",
           season: "",
@@ -766,7 +807,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
             required
           >
             <option value="">Select Group</option>
-            <option value="All Groups">All Groups</option>
+            {/* <option value="All Groups">All Groups</option> */}
             {groups.map((group, index) => (
               <option value={group.groupName} key={index}>
                 {group.groupName}
@@ -794,11 +835,12 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                   type="text"
                   placeholder="Quiz Category"
                   className="input-box px-2 py-1 text-sm  rounded-sm border-gray-300"
-                  // value={quiz.questionCategory.title}
+                  // value={questionCategory.find(item => item._id === quiz.questionCategory)?.title || "" }
+                  value = {quiz.questionCategory.title}
                   onChange={(e) =>
                     handleQuizChange(index, "questionCategory", {
                       ...quiz.questionCategory,
-                      title: e.target.value,
+                      title: e.target.value.toLowerCase(),
                     })
                   }
                   required
@@ -834,7 +876,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                 </select>
               </div>
               <p className="text-lg my-3">Question:</p>
-              <TestFileUploader type={quiz.questionType} quiz={quiz} />
+              <TestFileUploader type={quiz.questionType} handleQuizChange={handleQuizChange} quiz={quiz} index={index}/>
               <div className="grid grid-cols-[1fr_1fr] gap-x-5 gap-y-5">
                 {groupLanguages?.map((lang, langIndex) => (
                   <textarea

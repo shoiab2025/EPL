@@ -23,6 +23,8 @@ const Navigation_Links = [
   { label: "Institutions", href: "/institutions" },
   { label: "Study Materials", href: "/studyMaterials" },
   { label: "Test Master", href: "/testMaster" },
+  { label: "Schedule", href: "/schedule" },
+  { label: "Achievements", href: "/achievements" },
   {
     label: "Reports",
     href: "/reports",
@@ -36,8 +38,8 @@ const Navigation_Links = [
         href: "/reports/leaderboardReport",
       },
       {
-        label: "Achievement Report",
-        href: "/reports/achievementReport",
+        label: "Announcement Report",
+        href: "/reports/announcementReport",
       },
     ],
   },

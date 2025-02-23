@@ -82,7 +82,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const CreateAnnouncement = ({editAnnouncement = false}) => {
   const [messageData, setMessageData] = useState({
     message: "",
-    // group: "all",
+    groupName: "",
     time: "",
     date: "",
   })
@@ -94,9 +94,13 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
       if(id && editAnnouncement){
         loadData()
       }
-  },[id])
+  },[id, editAnnouncement])
 
-  const {message, group, date, time} = messageData;
+  useEffect(() => {
+      console.log(messageData)
+  },[messageData])
+
+  const {message, groupName , date, time} = messageData;
   const {groups, announcements, setAnnouncements} = useUser()
 
   const loadData = async () => {
@@ -106,6 +110,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
        message: data.message,
        time: new Date(data.time).toISOString().split("T")[1].slice(0, 5),
        date: new Date(data.date).toISOString().split("T")[0],
+       groupName: data.groupId
      });
   };
 
@@ -125,20 +130,20 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
         `${import.meta.env.VITE_BACKEND_URL}/announcements`,
         {
           message,
-          // group,
-          // dateTime,
+          groupName,
           time: dateTime,
           date: dateTime,
         }
       );
       if(response.data.success){
+        console.log(response.data.data);
          enqueueSnackbar("The Message Successfully Added!",{variant: "success"})
          setAnnouncements((prev) => {
           return [...prev, response.data.data]
          })
          setMessageData({
            message: "",
-          //  group: "",
+           groupName : "",
            time: "",
            date: "",
          });
@@ -146,7 +151,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
       }
     }catch(err){
       console.log(err)
-      enqueueSnackbar(err.response.data.error, {
+      enqueueSnackbar(err.response.data.message, {
         variant: "error",
       });
     }
@@ -159,7 +164,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
         `${import.meta.env.VITE_BACKEND_URL}/announcements/${id}`,
         {
           message,
-          // group,
+          groupName,
           time: dateTime,
           date: dateTime,
         }
@@ -177,7 +182,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
         });
         setMessageData({
           message: "",
-          // group: "",
+          groupName: "",
           time: "",
           date: "",
         });
@@ -236,21 +241,20 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
               />
             </label>
           </div>
-          {/* <select
+          <select
             className="input-box"
-            name="group"
-            value={group}
+            name="groupName"
+            value={groupName}
             onChange={handleDataChange}
             required
           >
             <option value="">Select Group</option>
-            <option value="All Group">All Groups</option>
             {groups.map((group, index) => (
               <option value={group._id} key={index}>
                 {group.groupName}
               </option>
             ))}
-          </select> */}
+          </select>
         </div>
         <button type="submit" className="submit-button">
           Submit

@@ -4,13 +4,13 @@ const LeaderboardTableRow = ({userData}) => {
   return (
     <tr>
       <td className="table-row-data">
-        {userData.user}
+        {userData.name}
       </td>
       <td className="table-row-data">
-        {userData.institute}
+        {userData.registrationId}
       </td>
       <td className="table-row-data">
-        {userData.group}
+        {userData.schoolName}
       </td>
       <td className="table-row-data">
         {userData.rank}

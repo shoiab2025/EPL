@@ -9,6 +9,8 @@ const Dashboard = () => {
   const {dashboard_stats,setDashboard_stats, users, tests, institutions, groups } = useUser();
 
   useEffect(() => {
+    console.log(tests)
+    console.log(tests.map((test) => test.publish === true).length);
     setDashboard_stats([
       {
         label: "Users",
@@ -17,7 +19,7 @@ const Dashboard = () => {
       },
       {
         label: "Test Released",
-        value: tests.length,
+        value: tests.map((test) => test.publish === true).length,
         icon: app_icons.check,
       },
       {

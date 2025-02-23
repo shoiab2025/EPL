@@ -80,78 +80,113 @@ import { uploadArea } from "../../../public";
 
 // export default TestFileUploader
 
-const TestFileUploader = ({
-  type,
-  quiz,
-}) => {
-  const [testFile, settestFile] = useState("");
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (type === "image" || type === "audio") {
-        settestFile(URL.createObjectURL(file));
-      } else {
-        settestFile(file);
-      }
-    }
-  };
-  
+const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
+  const [quizUrl, setQuizUrl] = useState("");
+
+  // const handleFileChange = (e) => {
+    // quiz.url = e.target.value;
+    // const file = e.target.files[0];
+    // if (file) {
+    //   if (type === "image" || type === "audio") {
+    //     settestFile(URL.createObjectURL(file));
+    //     quiz.url = URL.createObjectURL(file);
+    //   } else {
+    //     settestFile(file);
+    //     quiz.url = URL.createObjectURL(file);
+    //   }
+    // }
+  // };
+
   let UploadUi;
 
-  useEffect(() => {
-    settestFile("")
-  },[type])
+  // useEffect(() => {
+  //   settestFile("")
+  //   quiz.url = ""
+  // },[type])
 
   if (type === "pdf") {
     UploadUi = (
-      <div className="flex items-center gap-4 my-4">
-        <label className="relative bg-[var(--primary-color)] px-4 py-2 rounded-lg cursor-pointer text-white ">
-          <input
-            type="file"
-            accept={type + "/*"}
-            onChange={handleFileChange}
-            hidden
-          />
-          Upload Pdf
-        </label>
-        <span className="text-gray-800 text-md">{testFile?.name}</span>
-      </div>
+      // <div className="flex items-center gap-4 my-4">
+      //   <label className="relative bg-[var(--primary-color)] px-4 py-2 rounded-lg cursor-pointer text-white ">
+      //     <input
+      //       type="file"
+      //       accept={type + "/*"}
+      //       onChange={handleFileChange}
+      //       hidden
+      //     />
+      //     Upload Pdf
+      //   </label>
+      //   <span className="text-gray-800 text-md">{testFile?.name}</span>
+      // </div>
+
+      <input
+        type="text"
+        value={quiz.url}
+        placeholder="Enter Url here..."
+        onChange={(e) => {
+          handleQuizChange(index,"url",e.target.value)
+        }}
+        className="input-box my-4"
+      />
     );
   } else if (type === "image") {
     UploadUi = (
-      <label>
-        <img
-          src={testFile ? testFile : uploadArea}
-          className={`cursor-pointer my-4 ${testFile ? "w-[300px]" : ""}`}
-        />
-        <input type="file" onChange={handleFileChange} hidden />
-      </label>
+      // <label>
+      //   <img
+      //     src={testFile ? testFile : uploadArea}
+      //     className={`cursor-pointer my-4 ${testFile ? "w-[300px]" : ""}`}
+      //   />
+      //   <input type="file" onChange={handleFileChange} hidden />
+      // </label>
+
+      <input
+        type="text"
+        value={quiz.url}
+        placeholder="Enter Url here..."
+        onChange={(e) => {
+          handleQuizChange(index, "url", e.target.value);
+        }}
+        className="input-box my-4"
+      />
     );
   } else if (type === "audio") {
     UploadUi = (
-      <div className="flex items-center gap-2 my-4">
-        <label className="relative px-4 py-2 bg-[var(--primary-color)] text-white rounded-lg cursor-pointer">
-          <input
-            hidden
-            type="file"
-            accept={type + "/*"}
-            onChange={handleFileChange}
-          />
-          Upload Audio
-        </label>
-        {testFile && (
-          <audio controls>
-            <source src={testFile} type="audio/mpeg" />
-          </audio>
-        )}
-      </div>
+      // <div className="flex items-center gap-2 my-4">
+      //   <label className="relative px-4 py-2 bg-[var(--primary-color)] text-white rounded-lg cursor-pointer">
+      //     <input
+      //       hidden
+      //       type="file"
+      //       accept={type + "/*"}
+      //       onChange={handleFileChange}
+      //     />
+      //     Upload Audio
+      //   </label>
+      //   {testFile && (
+      //     <audio controls>
+      //       <source src={testFile} type="audio/mpeg" />
+      //     </audio>
+      //   )}
+      // </div>
+
+      <input
+        type="text"
+        value={quiz.url}
+        placeholder="Enter Url here..."
+        onChange={(e) => {
+          handleQuizChange(index, "url", e.target.value);
+        }}
+        className="input-box my-4"
+      />
     );
   } else if (type === "video") {
     UploadUi = (
       <input
+        value={quiz.url}
         type="text"
-        placeholder="Enter video URL"
-        onChange={(e) => e.target.value}
+        placeholder="Enter Url here..."
+        onChange={(e) => {
+          handleQuizChange(index, "url", e.target.value);
+        }}
         className="input-box my-4"
       />
     );

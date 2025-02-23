@@ -31,11 +31,11 @@ const AddTheme = ({color, setColor}) => {
             className="input-box w-full"
             value={color}
             onChange={(e) => setColor(e.target.value)}
-            placeholder="#00000"
+            placeholder="#000000"
           />
         </div>
         <div className="mt-5 flex items-center gap-4 ">
-          <label className="cursor-pointer" onClick={handleColorFouces}>
+          <label className="cursor-pointer button" onClick={handleColorFouces}>
             Change Color?
           </label>
           {colorShow && (

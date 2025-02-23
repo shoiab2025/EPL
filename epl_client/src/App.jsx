@@ -23,6 +23,10 @@ import CreateAnnouncement from "./Components/Announcement/CreateAnnouncement.jsx
 import UpdateAnnouncement from "./Components/Announcement/UpdateAnnoucement.jsx";
 import AddAndEditTestMaster from "./Pages/Test Master/AddAndEditTestMaster.jsx";
 import CreateSchedule from "./Pages/Schedular/AddSchedular.jsx";
+import { Schedule } from "@mui/icons-material";
+import Scheduler from "./Pages/Schedular/Schedule.jsx";
+import Achivements from "./Pages/Achivements/Achivements.jsx";
+import AddAchivements from "./Pages/Achivements/AddAchivements.jsx";
 
 function App() {
   const {activeSubLink} = useUser()
@@ -101,8 +105,12 @@ function App() {
                 path="/studyMaterials/edit/:id"
                 element={<AddStudyMaterials editMaterial={true} />}
               />
-
-              <Route path="/scheduler/add" element={<CreateSchedule />} />
+              <Route path="/schedule" element={<Scheduler />} />
+              <Route path="/schedule/add" element={<CreateSchedule />} />
+              <Route
+                path={`/schedule/edit/:id`}
+                element={<CreateSchedule editSchedule={true} />}
+              />
 
               <Route path="/testMaster" element={<TestMaster />} />
               <Route path="/create-test" element={<CreateTest />} />
@@ -115,6 +123,8 @@ function App() {
                 path="/testMaster/edit/:id"
                 element={<AddAndEditTestMaster editTest={true} />}
               />
+              <Route path="/achievements" element={<Achivements />} />
+              <Route path="/achievements/add" element={<AddAchivements />} />
               <Route path="/reports">
                 <Route
                   index
@@ -122,7 +132,7 @@ function App() {
                 />
                 <Route path="userreports" element={<UserReport />} />
                 <Route path="leaderboardreport" element={<Leaderboard />} />
-                <Route path="achievementreport" element={<Announcement />} />
+                <Route path="announcementreport" element={<Announcement />} />
                 <Route
                   path="create-announcement"
                   element={<CreateAnnouncement />}
