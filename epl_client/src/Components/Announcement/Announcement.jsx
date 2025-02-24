@@ -32,14 +32,38 @@
 import React, { useState } from "react";
 import AnnouncementTable from "./AnnouncementTable";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 const Announcement = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const announcementsPerPage = 5;
-  const announcements = [
-    // Replace with actual data source
-  ];
+  // const announcements = [
+  //   // Replace with actual data source
+  // ];
+ const { announcements } = useUser(); 
+
+//  const announcements = generateMessageData(30)
+//  console.log(announcements)
+//  function generateMessageData(count) {
+//    const data = [];
+
+//    for (let i = 1; i <= count; i++) {
+//      data.push({
+//        _id: `67bbf9556c7978af5415b78${i.toString().padStart(2, "0")}`,
+//        createdAt: new Date().toISOString(),
+//        date: new Date().toISOString(),
+//        groupId: `67bbf64c6c7978af5415b74${i % 10}`, // Varying groupId
+//        message: `Notification ${i}: Get Ready Students! Hurry up! Test going to start`,
+//        time: new Date().toISOString(),
+//        updatedAt: new Date().toISOString(),
+//        __v: 0,
+//      });
+//    }
+
+//    return data;
+//  }
+
 
   // Calculate total pages
   const totalPages = Math.ceil(announcements.length / announcementsPerPage);

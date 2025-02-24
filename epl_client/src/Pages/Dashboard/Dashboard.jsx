@@ -32,11 +32,11 @@ const Dashboard = () => {
         value: institutions.length,
         icon: app_icons.institution,
       },
-      {
-        label: "Current Season Participants",
-        value: "9k",
-        icon: app_icons.user,
-      },
+      // {
+      //   label: "Current Season Participants",
+      //   value: "9k",
+      //   icon: app_icons.user,
+      // },
     ]);
   }, [users, groups, institutions, tests]);
   return (

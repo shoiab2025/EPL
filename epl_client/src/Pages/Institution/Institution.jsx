@@ -63,6 +63,7 @@ const Institutions = () => {
     navigate("/institutions/add");
   };
   const { institutions } = useUser();
+  // console.log(institutions)
 
   const filteredData = institutions.filter((item) =>
     Object.values(item).some((value) => {

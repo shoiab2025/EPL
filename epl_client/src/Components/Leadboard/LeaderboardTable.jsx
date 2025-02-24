@@ -4,7 +4,7 @@ import LeaderboardTableRow from './LeaderboardTableRow';
 
 const LeaderboardTable = ({leaderboardUsers}) => {
   return (
-    <table className="table">
+    <table className="table border">
       <thead>
         <tr>
           <th className="table-header">

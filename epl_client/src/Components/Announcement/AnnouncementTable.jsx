@@ -2,31 +2,44 @@ import React from 'react'
 import { useUser } from '../../context/UserContext.jsx'
 import AnnouncementTableRow from './AnnouncementTableRow'
 
-const AnnouncementTable = () => {
-    const { announcements } = useUser();
+const AnnouncementTable = ({announcements}) => {
+    // const { announcements } = useUser();
   return (
-    <table className="table mt-3">
-      <thead>
-        <tr>
-          <th className="table-header">Message</th>
-          {/* <th className="table-header">Group</th> */}
-          <th className="table-header">Broadcast DateTime</th>
-          <th className="table-header">Created At</th>
-          <th className="table-header">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {announcements.length !== 0 ? (
-          announcements.map((mess, index) => (
-            <AnnouncementTableRow announcement={mess} key={index} />
-          ))
-        ) : (
+    <div className="overflow-x-auto shadow-md rounded-lg">
+      <table className="min-w-full bg-white">
+        <thead className="bg-gray-100">
           <tr>
-            <td className="table-row-data border-none"> No Messages Found</td>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Message
+            </th>
+            {/* <th className="table-header">Group</th> */}
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Broadcast DateTime
+            </th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Created At
+            </th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Actions
+            </th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {announcements.length !== 0 ? (
+            announcements.map((mess, index) => (
+              <AnnouncementTableRow announcement={mess} key={index} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="py-4 px-6 text-center text-gray-500">
+                {" "}
+                No Messages Found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

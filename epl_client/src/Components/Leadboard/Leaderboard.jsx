@@ -139,11 +139,35 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 const Leaderboard = () => {
-  const { leaderboardUsers, setLeaderboardUsers, tests } = useUser();
+  const { 
+    leaderboardUsers,
+     setLeaderboardUsers, tests } = useUser();
+
+//      function generateAwardData(count) {
+//   const data = [];
+
+//   for (let i = 1; i <= count; i++) {
+//     data.push({
+//       awardCategory: i % 2 === 0 ? "Silver Medal" : "Gold Medal",
+//       name: `Person ${i}`,
+//       rank: i,
+//       registrationId: `REG${(100000 + i).toString()}`,
+//       schoolName: `School ${i}`,
+//       score: Math.floor(Math.random() * (100 - 50 + 1)) + 50, // Random score between 50-100
+//       timestamp: new Date().toISOString(),
+//     });
+//   }
+
+//   return data;
+// }
+
+
+//      const leaderboardUsers = generateAwardData(300)
 
   const [testId, setTestId] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
+  // console.log(leaderboardUsers)
 
   const handleLeaderboardData = async () => {
     try {

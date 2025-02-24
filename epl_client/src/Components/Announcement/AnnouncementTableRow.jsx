@@ -33,8 +33,10 @@ const AnnouncementTableRow = ({ announcement }) => {
  }
 
   return (
-    <tr>
-      <td className="table-row-data">{announcement.message}</td>
+    <tr className="hover:bg-gray-50 transition-all duration-300">
+      <td className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline">
+        {announcement.message}
+      </td>
       {/* <td className="table-row-data">{group?.groupName}</td> */}
       <td className="table-row-data">
         {new Date(announcement.time).toLocaleString("en-GB", {
