@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
-const GroupsTableRow = ({ group }) => {
+const GroupsTableRow = ({ group, fetch, setFetch }) => {
   const { setGroups } = useUser();
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -14,11 +14,13 @@ const GroupsTableRow = ({ group }) => {
   const handleGroupEdit = (id) => navigate(`/groups/edit/${id}`);
 
   const handleGroupDelete = async (id) => {
+    setFetch(true)
     try {
       const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/group/${id}`);
       if (response.data.success) {
         setGroups((prev) => prev.filter((group) => group._id !== id));
         enqueueSnackbar("Group Successfully Deleted!", { variant: "success" });
+        setFetch(false)
       }
     } catch {
       enqueueSnackbar("Problem In Deleting Group", { variant: "error" });
@@ -27,7 +29,7 @@ const GroupsTableRow = ({ group }) => {
 
   return (
     <tr className="hover:bg-gray-50 transition-all duration-300">
-      <td 
+      <td
         className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
         onClick={() => handleGroupEdit(group._id)}
       >
@@ -43,7 +45,9 @@ const GroupsTableRow = ({ group }) => {
       </td>
       <td className="table-row-data">
         <p
-          className={`transition-all duration-300 cursor-pointer ${isExpanded ? "whitespace-normal" : "truncate"}`}
+          className={`transition-all duration-300 cursor-pointer ${
+            isExpanded ? "whitespace-normal" : "truncate"
+          }`}
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {group.groupDescription}
@@ -51,15 +55,16 @@ const GroupsTableRow = ({ group }) => {
       </td>
       <td className="table-row-data">{group.groupCountry}</td>
       <td className="table-row-data flex space-x-2">
-        <button 
+        <button
           className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleGroupEdit(group._id)}
         >
           <FiEdit className="text-[var(--primary-color)]" />
         </button>
-        <button 
+        <button
           className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleGroupDelete(group._id)}
+          disabled={fetch ? true : false}
         >
           <FiTrash2 className="text-red-500" />
         </button>

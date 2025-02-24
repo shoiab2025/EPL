@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import { useSnackbar } from "notistack";
 
-const StudyMaterialTableRow = ({ material }) => {
+const StudyMaterialTableRow = ({ material, fetch, setFetch }) => {
   // console.log(material);
   const navigate = useNavigate();
   const {setStudyMaterials} = useUser();
   const {enqueueSnackbar} = useSnackbar()
   const handleDelete = async (id) => {
+    setFetch(true)
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/meterials/${id}`
@@ -19,12 +20,14 @@ const StudyMaterialTableRow = ({ material }) => {
         setStudyMaterials((prev) => {
            return prev.filter((item) => item._id !== id)
         })
+        setFetch(false)
       }
     } catch (err) {
       console.log(err);
        enqueueSnackbar("Problem in removing Material", {
          variant: "error",
        });
+       setFetch(false)
     }
   };
  
@@ -43,6 +46,7 @@ const StudyMaterialTableRow = ({ material }) => {
         <button
           className="delete-button"
           onClick={() => handleDelete(material._id)}
+          disabled={fetch? true : false}
         >
           Delete
         </button>

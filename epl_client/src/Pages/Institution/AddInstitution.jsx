@@ -8,6 +8,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
   const {setInstitutions, groups} = useUser();
   const navigate = useNavigate()
   const {id} = useParams()
+  const [fetch, setFetch] = useState(false)
   const [data, setData] = useState({
     institutionName: "",
     institutionType: "",
@@ -77,6 +78,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
 
   const handleInstitutionsSubmit = (e) => {
     e.preventDefault();
+    setFetch(true)
     editInstitution ? handleEditInstitution() : handleAddInstitution();
   };
 
@@ -97,10 +99,12 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
         })
          enqueueSnackbar("Institution Edited!", { variant: "success" });
         navigate("/institutions");
+        setFetch(false)
       }
     } catch (err) {
       console.log(err);
        enqueueSnackbar("Problem in Institution Deletion", { variant: "success" });
+       setFetch(false)
     }
   };
 
@@ -130,11 +134,13 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
            contactPersonNumber: "",
          });
          enqueueSnackbar("Institution Created!", {variant: "success"})
+         setFetch(false)
       }
     } catch (err) 
     {
       console.log(err)
       enqueueSnackbar("Problem in Institution Creation", { variant: "error" });
+      setFetch(false)
     }
   };
 
@@ -243,7 +249,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           required
         />
       </div>
-      <button type="submit" className="submit-button">
+      <button type="submit" disabled={fetch ? true : false} className="submit-button">
         Submit
       </button>
     </form>

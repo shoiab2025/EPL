@@ -15,6 +15,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
+  const [fetch, setFetch] = useState()
 
   useEffect(() => {
     if (editMaterial && id) {
@@ -71,13 +72,15 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           variant: "success",
         });
         setTestId("");
-        setMaterialData(null);
+        setMaterialData("");
         setMaterialQuestionType("");
         setStudyMaterials((prev) => [...prev, response.data.data]);
+        setFetch(false)
       }
     } catch (err) {
       console.log(err.response.data);
       enqueueSnackbar("Error uploading materials", { variant: "error" });
+      setFetch(false)
     }
   };
 
@@ -115,15 +118,18 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
         });
         setMaterialQuestionType("");
         navigate("/studyMaterials");
+        setFetch(false)
       }
     } catch (err) {
       console.log(err.response.data);
       enqueueSnackbar("Error editing materials", { variant: "error" });
+      setFetch(false)
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFetch(true)
     editMaterial ? handleEditSubmit() : handleNewSubmit();
   };
 
@@ -179,7 +185,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           materialData={materialData}
           setMaterialData={setMaterialData}
         />
-        <button type="submit" className="submit-button">
+        <button type="submit" disabled={fetch ? true : false} className="submit-button">
           Submit
         </button>
       </form>

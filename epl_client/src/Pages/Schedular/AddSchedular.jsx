@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from "../../context/UserContext";
 import { useSnackbar } from "notistack";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const CreateSchedule = ({editSchedule = false}) => {
   const { tests,schedules, setSchedules } = useUser();
-  const [startTime, setStartTime] = useState("")
-  const [endTime, setEndTime] = useState("")
-  const [startDate, setStartDate] = useState("")
-  const [endDate, setEndDate] = useState("")
+  // const [startTime, setStartTime] = useState("")
+  // const [endTime, setEndTime] = useState("")
+  // const [startDate, setStartDate] = useState("")
+  // const [endDate, setEndDate] = useState("")
   const {id} = useParams()
+  const [fetch, setFetch] = useState(false)
   const [schedule, setSchedule] = useState({
     event_name: "",
     event_type: "",
-    related_entity_ids: "",
+    tests: [],
     scheduled_start_date: "",
     scheduled_end_date: "",
     schedule_frequency: "daily",
@@ -25,6 +27,7 @@ const CreateSchedule = ({editSchedule = false}) => {
     status: "Scheduled",
   });
   const {enqueueSnackbar} = useSnackbar()
+  const navigate = useNavigate()
 
   useEffect(() => {
       if(editSchedule && id) {
@@ -32,42 +35,47 @@ const CreateSchedule = ({editSchedule = false}) => {
       }
   },[id, editSchedule])
 
+
+  // useEffect(() => console.log(schedule) , [schedule])
+
   const loadScheduleData = async() => {
      try{
       const response = await schedules.find(item => item._id === id)
       // console.log(response)
-      const {
-        event_name,
-        event_type,
-        related_entity_ids,
-        scheduled_start_date,
-        scheduled_end_date,
-        schedule_frequency,
-        interval,
-        start_time,
-        end_time,
-        duration_minutes,
-        status,
-      } = response;
-      const startDateTime = new Date(scheduled_start_date);
-      const endDateTime = new Date(scheduled_end_date);
-       setStartDate(startDateTime.toISOString().split("T")[0]);
-       setEndDate(endDateTime.toISOString().split("T")[0]); // If different endDate is needed, modify accordingly
-      //  setStartTime(startDateTime.toISOString().split("T")[1].slice(0, 5));
-      //  setEndTime(endDateTime.toISOString().split("T")[1].slice(0, 5));
-      setSchedule({
-        event_name,
-        event_type,
-        related_entity_ids,
-        scheduled_start_date,
-        scheduled_end_date,
-        schedule_frequency,
-        interval,
-        start_time,
-        end_time,
-        duration_minutes,
-        status,
-      });
+      setSchedule(response)
+      // console.log(response)
+      // const {
+      //   event_name,
+      //   event_type,
+      //   related_entity_ids,
+      //   scheduled_start_date,
+      //   scheduled_end_date,
+      //   schedule_frequency,
+      //   interval,
+      //   start_time,
+      //   end_time,
+      //   duration_minutes,
+      //   status,
+      // } = response;
+      // const startDateTime = new Date(scheduled_start_date);
+      // const endDateTime = new Date(scheduled_end_date);
+      //  setStartDate(startDateTime.toISOString().split("T")[0]);
+      //  setEndDate(endDateTime.toISOString().split("T")[0]); // If different endDate is needed, modify accordingly
+      // //  setStartTime(startDateTime.toISOString().split("T")[1].slice(0, 5));
+      // //  setEndTime(endDateTime.toISOString().split("T")[1].slice(0, 5));
+      // setSchedule({
+      //   event_name,
+      //   event_type,
+      //   related_entity_ids,
+      //   scheduled_start_date,
+      //   scheduled_end_date,
+      //   schedule_frequency,
+      //   interval,
+      //   start_time,
+      //   end_time,
+      //   duration_minutes,
+      //   status,
+      // });
      }catch(err){
       console.log(err)
      }
@@ -75,35 +83,31 @@ const CreateSchedule = ({editSchedule = false}) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // if (name === "scheduled_start_date" || name === "scheduled_end_date"){
-    //     setSchedule((prev) => ({ ...prev, [name]: new Date(value) }));
-    //     return 
-    // }
-      setSchedule((prev) => ({ ...prev, [name]: value }));
+      if(name === "tests"){
+        setSchedule((prev) => (
+          {
+            ...prev,
+            [name] : [value]
+          }
+        ))
+      }else{
+        setSchedule((prev) => ({ ...prev, [name]: value }));
+      }
   };
 
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFetch(true)
     editSchedule ? handleEditSchedule() : handleNewSchedule() 
   };
 
   const handleEditSchedule = async() => {
     try {
-      const startDateTime = new Date(
-        `${startDate}T${schedule.start_time}:00Z`
-      ).toISOString();
-      const endDateTime = new Date(
-        `${endDate}T${schedule.end_time}:00Z`
-      ).toISOString();
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/schedulers/schedules/${id}`,
-        {
-          ...schedule,
-          scheduled_start_date: startDateTime,
-          scheduled_end_date: endDateTime,
-        }
+        schedule
       );
       if (response.data.success) {
         enqueueSnackbar("Scheduler is Edited successfully!", {
@@ -115,7 +119,7 @@ const CreateSchedule = ({editSchedule = false}) => {
         setSchedule({
           event_name: "",
           event_type: "",
-          related_entity_ids: "",
+          tests: [""],
           scheduled_start_date: "",
           scheduled_end_date: "",
           schedule_frequency: "daily",
@@ -125,36 +129,32 @@ const CreateSchedule = ({editSchedule = false}) => {
           duration_minutes: "",
           status: "Scheduled",
         });
-        setStartTime("");
-        setEndTime("");
-        setStartDate("");
-        setEndDate("");
+        navigate("/schedule");
+        setFetch(false)
       }
     } catch (error) {
       console.error("Error in Editting schedule", error);
       enqueueSnackbar("Error in creating scheduler", {
         variant: "error",
       });
+      setFetch(false)
     }
   }
 
   const handleNewSchedule = async (e) => {
     try {
-      const startDateTime = new Date(
-        `${startDate}T${schedule.start_time}:00Z`
-      ).toISOString();
-      const endDateTime = new Date(
-        `${endDate}T${schedule.end_time}:00Z`
-      ).toISOString();
+      // const startDateTime = new Date(
+      //   `${startDate}T${schedule.start_time}:00Z`
+      // ).toISOString();
+      // const endDateTime = new Date(
+      //   `${endDate}T${schedule.end_time}:00Z`
+      // ).toISOString();
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/schedulers/schedules`,
-        {
-          ...schedule,
-          scheduled_start_date: startDateTime,
-          scheduled_end_date: endDateTime,
-        }
+        schedule
       );
       if (response.data.success) {
+        // console.log(response.data.data)
         enqueueSnackbar("Scheduler is created successfully!", {
           variant: "success",
         });
@@ -162,7 +162,7 @@ const CreateSchedule = ({editSchedule = false}) => {
         setSchedule({
           event_name: "",
           event_type: "",
-          related_entity_ids: "",
+          tests: [""],
           scheduled_start_date: "",
           scheduled_end_date: "",
           schedule_frequency: "daily",
@@ -172,16 +172,18 @@ const CreateSchedule = ({editSchedule = false}) => {
           duration_minutes: "",
           status: "Scheduled",
         });
-        setStartTime("");
-        setEndTime("");
-        setStartDate("");
-        setEndDate("");
+        // setStartTime("");
+        // setEndTime("");
+        // setStartDate("");
+        // setEndDate("");
+        setFetch(false)
       }
     } catch (error) {
       console.error("Error creating schedule", error);
       enqueueSnackbar("Error in creating scheduler", {
         variant: "error",
       });
+      setFetch(false)
     }
   }
 
@@ -203,9 +205,9 @@ const CreateSchedule = ({editSchedule = false}) => {
           />
 
           <select
-            value={schedule.related_entity_ids}
+            value={schedule.tests[0]}
             className="input-box w-full"
-            name="related_entity_ids"
+            name="tests"
             onChange={handleChange}
             required
           >
@@ -223,8 +225,8 @@ const CreateSchedule = ({editSchedule = false}) => {
             <input
               type="date"
               name="scheduled_start_date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={schedule.scheduled_start_date}
+              onChange={handleChange}
               className="border flex-1 p-2"
               required
             />
@@ -235,8 +237,8 @@ const CreateSchedule = ({editSchedule = false}) => {
             <input
               type="date"
               name="scheduled_end_date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={schedule.scheduled_end_date}
+              onChange={handleChange}
               className="border flex-1 p-2"
               required
             />
@@ -292,8 +294,9 @@ const CreateSchedule = ({editSchedule = false}) => {
           <button
             type="submit"
             className="submit-button text-white py-2 rounded-md"
+            disabled={fetch ? true : false}
           >
-            Create Schedule
+            Submit
           </button>
         </form>
       </div>

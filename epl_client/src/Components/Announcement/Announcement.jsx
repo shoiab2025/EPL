@@ -38,6 +38,8 @@ const Announcement = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const announcementsPerPage = 5;
+  
+
   // const announcements = [
   //   // Replace with actual data source
   // ];

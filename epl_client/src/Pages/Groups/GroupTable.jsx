@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GroupsTableRow from './GroupsTableRow';
 
 const GroupTable = ({ groups }) => {
+  const [fetch, setFetch] = useState(false)
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
@@ -17,7 +18,7 @@ const GroupTable = ({ groups }) => {
         <tbody>
           {groups.length !== 0 ? (
             groups.map((group, index) => (
-              <GroupsTableRow key={index} group={group} />
+              <GroupsTableRow key={index} group={group} fetch={fetch} setFetch={setFetch}/>
             ))
           ) : (
             <tr>

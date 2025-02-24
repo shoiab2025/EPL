@@ -89,6 +89,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
   const {enqueueSnackbar} = useSnackbar();
   const {id} = useParams();
   const navigate = useNavigate();
+  const [fetch, setFetch] = useState(false)
 
   useEffect(() => {
       if(id && editAnnouncement){
@@ -97,8 +98,8 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
   },[id, editAnnouncement])
 
   useEffect(() => {
-      console.log(messageData)
-  },[messageData])
+      console.log(fetch)
+  },[fetch])
 
   const {message, groupName , date, time} = messageData;
   const {groups, announcements, setAnnouncements} = useUser()
@@ -147,10 +148,12 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
            time: "",
            date: "",
          });
+         setFetch(false)
         navigate("/dashboard")
       }
     }catch(err){
       console.log(err)
+      setFetch(false)
       enqueueSnackbar(err.response.data.message, {
         variant: "error",
       });
@@ -171,6 +174,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
       );
       if (response.data.success) {
         console.log(response.data)
+        setFetch(false)
         enqueueSnackbar("The Message Successfully Edited!", {
           variant: "success",
         });
@@ -190,6 +194,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
       }
     } catch (err) {
       console.log(err);
+      setFetch(false)
       enqueueSnackbar(err.response.data.error, {
         variant: "error",
       });
@@ -198,6 +203,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+    setFetch(true)
      id ? handleEditMessage() : handleNewMessage()
   }
 
@@ -256,7 +262,7 @@ const CreateAnnouncement = ({editAnnouncement = false}) => {
             ))}
           </select>
         </div>
-        <button type="submit" className="submit-button">
+        <button type="submit" disabled={fetch ? true : false} className="submit-button">
           Submit
         </button>
       </form>

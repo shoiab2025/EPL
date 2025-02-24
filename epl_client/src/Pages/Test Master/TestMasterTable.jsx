@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,10 @@ const TestMasterTable = ({ testsData }) => {
   const { setTests, groups } = useUser();
   const navigate = useNavigate()
   const {enqueueSnackbar} = useSnackbar()
+  const [fetch, setFetch] = useState(false)
   // console.log(testsData)
   const handleTestDelete = async (id) => {
+    setFetch(true)
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/tests/${id}`
@@ -17,10 +19,12 @@ const TestMasterTable = ({ testsData }) => {
       if (response.data.success) {
         setTests((prev) => prev.filter((item) => item._id !== id));
         enqueueSnackbar("Test deleted successfully!",{variant: "success"})
+        setFetch(false)
       }
     } catch (err) {
       console.log(err);
       enqueueSnackbar("Problem in deleting tests!",{variant: "error" })
+      setFetch(false)
     }
   };
   return (
@@ -63,6 +67,7 @@ const TestMasterTable = ({ testsData }) => {
                 <button
                   className="delete-button"
                   onClick={() => handleTestDelete(test._id)}
+                  disabled={fetch ? true : false}
                 >
                   Delete
                 </button>

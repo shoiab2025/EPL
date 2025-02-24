@@ -16,6 +16,13 @@ const AddAndEditGroup = ({ editGroup = false }) => {
   const { setGroups, languageMap } = useUser();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [fetch, setFetch] = useState(false)
+
+
+
+   useEffect(() => {
+        console.log(fetch)
+    },[fetch])
 
   useEffect(() => {
     if (editGroup && id) {
@@ -46,6 +53,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFetch(true)
     const data = {
       groupName,
       groupCountry,
@@ -78,9 +86,11 @@ const AddAndEditGroup = ({ editGroup = false }) => {
           { variant: "success" }
         );
         navigate("/groups");
+        setFetch(false);
       }
     } catch (err) {
       enqueueSnackbar("An error occurred!", { variant: "error" });
+      setFetch(false);
     }
   };
 
@@ -145,7 +155,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
         placeholder="Group Description here..."
       />
       <AddTheme color={color} setColor={setColor} />
-      <button type="submit" className="submit-button">
+      <button type="submit" disabled={fetch ? true : false} className="submit-button">
         Submit
       </button>
     </form>

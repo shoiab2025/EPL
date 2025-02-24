@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ScheduleTableRow from './ScheduleTableRow'
 
 const ScheduleTable = ({schedules}) => {
+  const [fetch, setFetch] = useState(false)
+  console.log(schedules)
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
@@ -27,7 +29,7 @@ const ScheduleTable = ({schedules}) => {
         <tbody>
           {schedules.length !== 0 ? (
             schedules.map((schedule, index) => (
-              <ScheduleTableRow key={index} schedule={schedule} />
+              <ScheduleTableRow key={index} schedule={schedule} fetch={fetch} setFetch={setFetch}/>
             ))
           ) : (
             <tr>

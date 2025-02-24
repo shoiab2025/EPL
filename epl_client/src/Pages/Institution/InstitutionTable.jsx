@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InstitutionTableRow from './InstitutionTableRow';
 
 const InstitutionTable = ({ institutions }) => {
+  const [fetch, setFetch] = useState(false)
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
@@ -17,7 +18,7 @@ const InstitutionTable = ({ institutions }) => {
         <tbody>
           {institutions.length !== 0 ? (
             institutions.map((institute, index) => (
-              <InstitutionTableRow key={index} institute={institute} />
+              <InstitutionTableRow key={index} institute={institute} fetch={fetch} setFetch={setFetch} />
             ))
           ) : (
             <tr>

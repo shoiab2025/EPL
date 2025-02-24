@@ -4,7 +4,7 @@ import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
-const InstitutionTableRow = ({ institute }) => {
+const InstitutionTableRow = ({ institute, fetch, setFetch }) => {
   // console.log(institute)
   
   const {setInstitutions} = useUser();
@@ -16,6 +16,7 @@ const InstitutionTableRow = ({ institute }) => {
   }
 
   const handleDelete = async (id) => {
+    setFetch(true)
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/institutions/${id}`,
@@ -28,12 +29,14 @@ const InstitutionTableRow = ({ institute }) => {
           return prev.filter((institute) => institute._id !== id)
          })
          enqueueSnackbar("Institution deleted successfully!", {variant: "success"})
+         setFetch(false)
       }
     } catch (err) {
       console.log(err);
        enqueueSnackbar("Problem in deleting Institution", {
          variant: "error",
        });
+       setFetch(false)
     }
   };
 
@@ -45,7 +48,7 @@ const InstitutionTableRow = ({ institute }) => {
       <td className="table-row-data">{institute.state}</td>
       <td className="table-row-data flex-edit-delete">
         <button className="edit-button" onClick={() => handleEdit(institute._id)}>Edit</button>
-        <button className="delete-button" onClick={() => handleDelete(institute._id)}>Delete</button>
+        <button className="delete-button" disabled={fetch ? true : false} onClick={() => handleDelete(institute._id)}>Delete</button>
       </td>
     </tr>
   );

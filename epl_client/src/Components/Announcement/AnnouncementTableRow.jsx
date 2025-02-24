@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useUser } from '../../context/UserContext';
 import { announcementData } from '../../../public';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const AnnouncementTableRow = ({ announcement }) => {
+const AnnouncementTableRow = ({ announcement, fetch, setFetch }) => {
   // console.log(announcement)
   const {groups, setAnnouncements} = useUser()
   const group =  groups.find((group) => group._id === announcement.group)
   const {enqueueSnackbar} = useSnackbar()
   const navigate = useNavigate()
   
+  
  const handleAnnouncementEdit = (id) => {
      navigate(`/dashboard/announcements/edit/${id}`);
  }
 
  const handleAnnouncementDelete = async(id) => {
+    setFetch(true)
     try{
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/announcements/${id}`
@@ -26,6 +28,7 @@ const AnnouncementTableRow = ({ announcement }) => {
           return prev.filter(item => item._id !== id)
          })
          enqueueSnackbar(response.data.message, {variant: "success"})
+         setFetch(false)
       }
     }catch(err){
       console.log(err);
@@ -66,6 +69,7 @@ const AnnouncementTableRow = ({ announcement }) => {
         <button
           className="delete-button"
           onClick={() => handleAnnouncementDelete(announcement._id)}
+          disabled={fetch ? true : false}
         >
           Delete
         </button>
