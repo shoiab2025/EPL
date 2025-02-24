@@ -551,7 +551,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
         `${import.meta.env.VITE_BACKEND_URL}/tests/${id}`,
         { withCredentials: true }
       );
-
+      console.log(response.data.data);
       if (response.data.success) {
         const testData = response.data.data;
         // console.log("Fetched Test Data:", testData); // Debugging
@@ -627,7 +627,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       // console.log("heill")
       setTestMaster((prev) => ({
         ...prev,
-        groups: [],
+        groups: "",
       }));
       const allLanguages = [
         ...new Set(groups.flatMap((group) => group.languages || [])),
@@ -665,7 +665,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
         optionType: "single",
         options: [],
         correctOptions: [],
-        mark: 0,
+        mark : "",
       };
 
       setQuizzes([...quizzes, newQuiz]);
@@ -688,10 +688,6 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       quizzes: updatedQuizzes,
     }));
   };
-
-  const handleCorrectOption = () => {
-
-  }
 
   const handleEditTest = async () => {
     try {
@@ -807,7 +803,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
             required
           >
             <option value="">Select Group</option>
-            {/* <option value="All Groups">All Groups</option> */}
+            <option value="All Groups">All Groups</option>
             {groups.map((group, index) => (
               <option value={group.groupName} key={index}>
                 {group.groupName}
@@ -859,7 +855,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                   <option value="image">image</option>
                   <option value="video">video</option>
                   <option value="pdf">pdf</option>
-                  <option value="audio">audio</option>
+                  {/* <option value="audio">audio</option> */}
                 </select>
                 <select
                   placeholder="Option type"
@@ -966,7 +962,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                   required
                 />
                 <input
-                  type="Number"
+                  type="number"
                   placeholder="Mark"
                   value={quiz.mark}
                   className="input-box px-2 py-2 text-sm  rounded-sm border-gray-300"
