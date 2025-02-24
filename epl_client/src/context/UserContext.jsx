@@ -231,7 +231,7 @@ const UserContext = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.success) {
         setUsers(response.data.data);
       }
