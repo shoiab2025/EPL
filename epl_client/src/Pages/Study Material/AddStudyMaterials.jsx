@@ -162,6 +162,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
             onChange={(e) => setMaterialQuestionType(e.target.value)}
             className="input-box"
           >
+            <option value="">Choose Question Type</option>
             {questionCategory.map((item, index) => (
               <option value={item._id} key={index}>
                 {item.title}
