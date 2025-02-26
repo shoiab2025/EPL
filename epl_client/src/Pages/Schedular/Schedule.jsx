@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import ScheduleTable from './ScheduleTable';
+import { Plus } from 'lucide-react';
 
 // const Scheduler = () => {
 //   const {schedules} = useUser();
@@ -80,11 +81,11 @@ const Scheduler = () => {
   };
 
   return (
-    <div>
+    <div className="p-6 bg-white rounded-2xl shadow-md max-w-screen">
       <div className="flex justify-between">
         <h1 className="heading">Scheduler</h1>
         <button className="button" onClick={handleAddSchedule}>
-          Add Schedule
+          <Plus />
         </button>
       </div>
       <div className="mb-4">

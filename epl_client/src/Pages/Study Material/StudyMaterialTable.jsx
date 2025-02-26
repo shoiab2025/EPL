@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StudyMaterialTableRow from './studyMaterialTableRow';
 
 const StudyMaterialTable = ({ studyMaterials }) => {
+  const [fetch, setFetch] = useState(false)
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
@@ -24,7 +25,7 @@ const StudyMaterialTable = ({ studyMaterials }) => {
         <tbody>
           {studyMaterials.length !== 0 ? (
             studyMaterials.map((material, index) => (
-              <StudyMaterialTableRow key={index} material={material} />
+              <StudyMaterialTableRow key={index} material={material} fetch={fetch} setFetch={setFetch} />
             ))
           ) : (
             <tr>

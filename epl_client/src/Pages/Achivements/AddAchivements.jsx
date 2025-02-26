@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useUser } from '../../context/UserContext';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddAchivements = ({editAchivement = false}) => {
-    const {groups, setAchivements} = useUser()
+    const {groups, achivements, setAchivements} = useUser()
+    const [fetch, setFetch] = useState(false)
+    const {id} = useParams()
     const [achivementData, setAchivementData] = useState({
         name: "",
         level: "",
@@ -13,6 +16,7 @@ const AddAchivements = ({editAchivement = false}) => {
         group: ""
     })
     const {enqueueSnackbar} = useSnackbar()
+    const navigate = useNavigate()
 
     const handleDataChange = (e) => {
         const {name, value} = e.target
@@ -22,13 +26,26 @@ const AddAchivements = ({editAchivement = false}) => {
         }))
     }
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-    //     editAchivement ? handleNewAchivement() : handleEditAchivement()
-    // }
+    useEffect(() => {
+      if(editAchivement && id){
+        loadAchivementData()
+      }
+    },[editAchivement, id, achivements])
+
+   const loadAchivementData = async() => {
+    try{
+      const response = await achivements.find(item => item._id === id)
+      if(response){
+        setAchivementData(response);
+      }
+    }catch(err){
+      console.log(err)
+    }
+   }
 
     const handleNewAchivement = async(e) => {
         e.preventDefault()
+        setFetch(true)
         try{
             const response = await axios.post(
               `${import.meta.env.VITE_BACKEND_URL}/achievement`,
@@ -37,14 +54,26 @@ const AddAchivements = ({editAchivement = false}) => {
             if(response.data.success){
                enqueueSnackbar("Achivement Added Successfully!", {variant: "success"})
                setAchivements((prev) => {
-                return [...prev, response.data.data]
+                return editAchivement ? prev.map(item => {
+                  return item._id === response.data.data._id ? response.data.data : item
+                })  : [...prev, response.data.data]
                })
+               setAchivementData({
+                 name: "",
+                 level: "",
+                 minPercentage: 0,
+                 maxPercentage: 100,
+                 group: "",
+               });
+               setFetch(false)
+               navigate("/achievements")
             }
         }catch(err){
             console.log(err)
-            enqueueSnackbar("Error in Adding Achivement!", {
+            enqueueSnackbar(err.response.data.message || "Error in Adding Achivement!", {
               variant: "error",
             });
+            setFetch(false)
         }
     }
 
@@ -53,7 +82,10 @@ const AddAchivements = ({editAchivement = false}) => {
     // },[achivementData])
 
   return (
-    <form className="max-w-[500px] bg-white rounded-2xl p-5" onSubmit={handleNewAchivement}>
+    <form
+      className="w-full sm:w-[90%] md:max-w-[500px] min-h-screen"
+      onSubmit={handleNewAchivement}
+    >
       <h1 className="heading">
         {editAchivement ? "Edit Achivement" : "Create Achivement"}
       </h1>
@@ -88,6 +120,7 @@ const AddAchivements = ({editAchivement = false}) => {
             name="minPercentage"
             onChange={handleDataChange}
             className="w-full p-2 border rounded-md bg-white"
+            onWheel={(e) => e.target.blur()}
             required
           />
         </label>
@@ -99,6 +132,7 @@ const AddAchivements = ({editAchivement = false}) => {
             name="maxPercentage"
             onChange={handleDataChange}
             className="w-full p-2 border rounded-md bg-white"
+            onWheel={(e) => e.target.blur()}
             required
           />
         </label>
@@ -118,8 +152,16 @@ const AddAchivements = ({editAchivement = false}) => {
           ))}
         </select>
       </div>
-      <button type="submit" className="submit-button">
-        Submit
+      <button
+        type="submit"
+        disabled={fetch ? true : false}
+        className="submit-button"
+      >
+        {fetch ? (
+          <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto"></div>
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );

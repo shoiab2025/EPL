@@ -28,9 +28,9 @@ const LoginPage = () => {
         data,
         { withCredentials: true }
       );
-      // console.log(response.data);
       if (response.data.success) {
-        if (response.data.data.isAdmin) {
+        // console.log(response.data)
+        if (response.data.data.isAdmin && response.data.data.role === "admin") {
           if (rememberme) {
             localStorage.setItem(
               "rememberEmail",
@@ -64,10 +64,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-[var(--secondary-color)] absolute right-0 left-0 top-0 bottom-0 z-10 flex justify-center items-center">
+    <div className="bg-[var(--secondary-color)] fixed inset-0 flex justify-center items-center h-screen w-screen overflow-hidden z-100">
       <form
         onSubmit={handleLoginSubmit}
-        className="bg-white p-[50px] flex flex-col items-center gap-[20px] min-w-[400px] rounded-2xl"
+        className="bg-white p-[50px] flex flex-col items-center gap-[20px] w-[400px] rounded-2xl shadow-lg"
       >
         <div className="w-[100px] rounded-full border border-gray-300">
           <img src={App_logo} alt="app logo" className="w-full rounded-full" />
@@ -77,7 +77,7 @@ const LoginPage = () => {
             type="text"
             name="userIdOrEmail"
             className="input-box"
-            placeholder= "Email"
+            placeholder="userIDorEail"
             onChange={handleChange}
             value={data.userIdOrEmail}
             required

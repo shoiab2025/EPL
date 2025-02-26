@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useUser } from '../../context/UserContext.jsx'
 import AnnouncementTableRow from './AnnouncementTableRow'
 
 const AnnouncementTable = ({announcements}) => {
+  const [fetch, setFetch] = useState(false);
     // const { announcements } = useUser();
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
@@ -27,7 +28,7 @@ const AnnouncementTable = ({announcements}) => {
         <tbody>
           {announcements.length !== 0 ? (
             announcements.map((mess, index) => (
-              <AnnouncementTableRow announcement={mess} key={index} />
+              <AnnouncementTableRow announcement={mess} key={index} fetch={fetch} setFetch={setFetch}/>
             ))
           ) : (
             <tr>

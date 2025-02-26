@@ -2,8 +2,7 @@ import React from 'react';
 import { useUser } from '../../context/UserContext.jsx';
 import UserReportTableRow from './UserReportTableRow';
 
-const UserReportTable = () => {
-  const { users } = useUser();
+const UserReportTable = ({users}) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">

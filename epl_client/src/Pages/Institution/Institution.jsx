@@ -52,6 +52,7 @@ import React, { useEffect, useState } from "react";
 import InstitutionTable from "./InstitutionTable";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext.jsx";
+import { Plus } from "lucide-react";
 
 const Institutions = () => {
   const navigate = useNavigate();
@@ -86,11 +87,11 @@ const Institutions = () => {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
-    <div className="p-6 bg-white rounded-2xl shadow-md">
+    <div className="p-6 bg-white rounded-2xl shadow-md max-w-screen">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold text-gray-800">Institutions</h1>
         <button className="button" onClick={handleNavigate}>
-          Add Institution
+          <Plus />
         </button>
       </div>
       <div className="mb-4">

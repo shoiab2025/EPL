@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import AchivementsTableRow from "./AchivementsTableRow";
 
 const AchivementsTable = ({ achivements }) => {
+  const [fetch, setFetch] = useState(false)
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
       <table className="min-w-full bg-white">
@@ -19,12 +20,15 @@ const AchivementsTable = ({ achivements }) => {
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
               Maximum %
             </th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {achivements.length !== 0 ? (
             achivements.map((achivement, index) => (
-              <AchivementsTableRow key={index} achivement={achivement} />
+              <AchivementsTableRow key={index} achivement={achivement} fetch={fetch}  setFetch={setFetch}/>
             ))
           ) : (
             <tr>

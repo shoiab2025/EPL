@@ -16,6 +16,9 @@ const AddAndEditGroup = ({ editGroup = false }) => {
   const { setGroups, languageMap } = useUser();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [fetch, setFetch] = useState(false)
+
+
 
   useEffect(() => {
     if (editGroup && id) {
@@ -46,6 +49,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFetch(true)
     const data = {
       groupName,
       groupCountry,
@@ -53,7 +57,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
       groupTheme: color,
       languages,
     };
-    console.log(data);
+    // console.log(data);
     try {
       const url = editGroup ? `/group/${id}` : "/group";
       const method = editGroup ? axios.put : axios.post;
@@ -78,14 +82,19 @@ const AddAndEditGroup = ({ editGroup = false }) => {
           { variant: "success" }
         );
         navigate("/groups");
+        setFetch(false);
       }
     } catch (err) {
       enqueueSnackbar("An error occurred!", { variant: "error" });
+      setFetch(false);
     }
   };
 
   return (
-    <form className="max-w-[350px]" onSubmit={handleSubmit}>
+    <form
+      className="w-full sm:w-[90%] md:max-w-[500px] min-h-screen"
+      onSubmit={handleSubmit}
+    >
       <h1 className="heading">{editGroup ? "Edit Group" : "Add Group"}</h1>
       <input
         type="text"
@@ -145,8 +154,16 @@ const AddAndEditGroup = ({ editGroup = false }) => {
         placeholder="Group Description here..."
       />
       <AddTheme color={color} setColor={setColor} />
-      <button type="submit" className="submit-button">
-        Submit
+      <button
+        type="submit"
+        disabled={fetch ? true : false}
+        className="submit-button"
+      >
+        {fetch ? (
+          <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto"></div>
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );

@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useUser } from '../../context/UserContext';
 import { announcementData } from '../../../public';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
 
-const AnnouncementTableRow = ({ announcement }) => {
+const AnnouncementTableRow = ({ announcement, fetch, setFetch }) => {
   // console.log(announcement)
   const {groups, setAnnouncements} = useUser()
-  const group =  groups.find((group) => group._id === announcement.group)
+  // const group =  groups.find((group) => group._id === announcement.group)
   const {enqueueSnackbar} = useSnackbar()
   const navigate = useNavigate()
   
+  
  const handleAnnouncementEdit = (id) => {
-     navigate(`/dashboard/announcements/edit/${id}`);
+     navigate(`/announcements/edit/${id}`);
  }
 
  const handleAnnouncementDelete = async(id) => {
+    setFetch(true)
     try{
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/announcements/${id}`
@@ -26,6 +29,7 @@ const AnnouncementTableRow = ({ announcement }) => {
           return prev.filter(item => item._id !== id)
          })
          enqueueSnackbar(response.data.message, {variant: "success"})
+         setFetch(false)
       }
     }catch(err){
       console.log(err);
@@ -56,18 +60,19 @@ const AnnouncementTableRow = ({ announcement }) => {
           minute: "2-digit",
         })}
       </td>
-      <td className="table-row-data flex-edit-delete">
+      <td className="table-row-data flex space-x-2">
         <button
-          className="edit-button"
+          className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleAnnouncementEdit(announcement._id)}
         >
-          Edit
+          <FiEdit className="text-[var(--primary-color)]" />
         </button>
         <button
-          className="delete-button"
+          className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleAnnouncementDelete(announcement._id)}
+          disabled={fetch ? true : false}
         >
-          Delete
+          <FiTrash2 className="text-red-500" />
         </button>
       </td>
     </tr>

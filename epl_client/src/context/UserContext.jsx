@@ -57,26 +57,7 @@ const UserContext = ({ children }) => {
   //Leaderboard
   const [showLeaderBoardWiseList, setShowLeaderBoardWiseList] = useState(false);
   const [leaderboardView, setLeadboardView] = useState(leaderboard_views);
-  const [leaderboardUsers, setLeaderboardUsers] = useState([
-    {
-      name: "John Doe",
-      registrationId: "REG123456",
-      schoolName: "XYZ High School",
-      timestamp: "2025-02-23T08:32:20.909Z",
-      score: 95,
-      awardCategory: "Gold Medal",
-      rank: 1,
-    },
-    {
-      name: "Jane Smith",
-      registrationId: "REG654321",
-      schoolName: "ABC Academy",
-      timestamp: "2025-02-23T08:35:45.123Z",
-      score: 85,
-      awardCategory: "Silver Medal",
-      rank: 2,
-    },
-  ]);
+  const [leaderboardUsers, setLeaderboardUsers] = useState([]);
 
   //Announcement
   const [announcements, setAnnouncements] = useState([]);
@@ -234,6 +215,7 @@ const UserContext = ({ children }) => {
       // console.log(response.data);
       if (response.data.success) {
         setUsers(response.data.data);
+        // console.log(response.data.data.filter(item => item.isAdmin === true))
       }
     } catch (err) {
       console.log(err);
@@ -297,6 +279,7 @@ const UserContext = ({ children }) => {
     languageMap,
     questionCategory,
     setQuestionCategory,
+    fetchQuestionCategory,
     schedules,
     setSchedules,
     achivements,

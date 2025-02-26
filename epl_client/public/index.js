@@ -25,6 +25,7 @@ const Navigation_Links = [
   { label: "Test Master", href: "/testMaster" },
   { label: "Schedule", href: "/schedule" },
   { label: "Achievements", href: "/achievements" },
+  { label: "Announcements", href: "/announcements" },
   {
     label: "Reports",
     href: "/reports",
@@ -37,10 +38,10 @@ const Navigation_Links = [
         label: "Leaderboard Report",
         href: "/reports/leaderboardReport",
       },
-      {
-        label: "Announcement Report",
-        href: "/reports/announcementReport",
-      },
+      // {
+      //   label: "Announcement Report",
+      //   href: "/reports/announcementReport",
+      // },
     ],
   },
 ];

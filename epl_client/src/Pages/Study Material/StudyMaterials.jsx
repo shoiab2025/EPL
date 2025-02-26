@@ -57,12 +57,13 @@ import React, { useEffect, useState } from "react";
 import StudyMaterialTable from "./studyMaterialTable";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext.jsx";
+import { Plus } from "lucide-react";
 
 const StudyMaterials = () => {
   const navigate = useNavigate();
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 15;
 
   const handleNavigate = () => {
     navigate("/studyMaterials/add");
@@ -94,7 +95,7 @@ const StudyMaterials = () => {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold text-gray-800">Study Material</h1>
         <button className="button" onClick={handleNavigate}>
-          Add Study Materials
+          <Plus />
         </button>
       </div>
       <div className="mb-4">

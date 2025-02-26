@@ -121,7 +121,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
 
       <input
         type="text"
-        value={quiz.url}
+        value={quiz.url || ""}
         placeholder="Enter Url here..."
         onChange={(e) => {
           handleQuizChange(index,"url",e.target.value)
@@ -141,7 +141,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
 
       <input
         type="text"
-        value={quiz.url}
+        value={quiz.url || ""}
         placeholder="Enter Url here..."
         onChange={(e) => {
           handleQuizChange(index, "url", e.target.value);
@@ -170,7 +170,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
 
       <input
         type="text"
-        value={quiz.url}
+        value={quiz.url || ""}
         placeholder="Enter Url here..."
         onChange={(e) => {
           handleQuizChange(index, "url", e.target.value);
@@ -181,7 +181,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
   } else if (type === "video") {
     UploadUi = (
       <input
-        value={quiz.url}
+        value={quiz.url || ""}
         type="text"
         placeholder="Enter Url here..."
         onChange={(e) => {

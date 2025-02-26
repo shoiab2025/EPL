@@ -33,11 +33,14 @@ import React, { useState } from "react";
 import AnnouncementTable from "./AnnouncementTable";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
+import { Plus } from "lucide-react";
 
 const Announcement = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const announcementsPerPage = 5;
+  const announcementsPerPage = 10;
+  
+
   // const announcements = [
   //   // Replace with actual data source
   // ];
@@ -78,7 +81,7 @@ const Announcement = () => {
   );
 
   const handleAddMessage = () => {
-    navigate("/dashboard/announcements/add");
+    navigate("/announcements/add");
   };
 
   return (
@@ -88,7 +91,7 @@ const Announcement = () => {
           Recent Announcements
         </h1>
         <button className="button" type="button" onClick={handleAddMessage}>
-          Add Announcement
+          <Plus />
         </button>
       </div>
       <AnnouncementTable announcements={currentAnnouncements} />
