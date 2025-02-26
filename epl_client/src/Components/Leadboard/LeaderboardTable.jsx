@@ -4,7 +4,7 @@ import LeaderboardTableRow from './LeaderboardTableRow';
 
 const LeaderboardTable = ({leaderboardUsers}) => {
   return (
-    <table className="table border">
+    <table className="table border mt-6">
       <thead>
         <tr>
           <th className="table-header">
@@ -13,9 +13,9 @@ const LeaderboardTable = ({leaderboardUsers}) => {
           <th className="table-header">
             RegistrationId
           </th>
-          <th className="table-header">
+          {/* <th className="table-header">
             Institution
-          </th>
+          </th> */}
           <th className="table-header">
             Rank
           </th>

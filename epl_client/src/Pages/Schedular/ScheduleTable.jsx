@@ -3,9 +3,9 @@ import ScheduleTableRow from './ScheduleTableRow'
 
 const ScheduleTable = ({schedules}) => {
   const [fetch, setFetch] = useState(false)
-  console.log(schedules)
+  // console.log(schedules)
   return (
-    <div className="overflow-x-auto shadow-md rounded-lg">
+    <div className="overflow-x-auto shadow-md rounded-lg max-w-full overflow-scroll">
       <table className="min-w-full bg-white">
         <thead className="bg-gray-100">
           <tr>
@@ -18,7 +18,7 @@ const ScheduleTable = ({schedules}) => {
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
               End DateTime
             </th>
-            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+            <th className="py-3 px-4 text-left text-[var(--primary-color)] hidden lg:table-cell">
               Status
             </th>
             <th className="py-3 px-6 text-left text-[var(--primary-color)]">
@@ -29,7 +29,12 @@ const ScheduleTable = ({schedules}) => {
         <tbody>
           {schedules.length !== 0 ? (
             schedules.map((schedule, index) => (
-              <ScheduleTableRow key={index} schedule={schedule} fetch={fetch} setFetch={setFetch}/>
+              <ScheduleTableRow
+                key={index}
+                schedule={schedule}
+                fetch={fetch}
+                setFetch={setFetch}
+              />
             ))
           ) : (
             <tr>

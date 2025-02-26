@@ -41,9 +41,7 @@ const ScheduleTableRow = ({schedule, fetch, setFetch}) => {
           : "All Groups"}
       </td>
       <td className="table-row-data">
-        {new Date(
-          `${schedule.scheduled_start_date}T${schedule.start_time}`
-        )
+        {new Date(`${schedule.scheduled_start_date}T${schedule.start_time}`)
           .toLocaleString("en-US", {
             month: "short",
             day: "2-digit",
@@ -65,9 +63,7 @@ const ScheduleTableRow = ({schedule, fetch, setFetch}) => {
         )} */}
       </td>
       <td className="table-row-data">
-        {new Date(
-          `${schedule.scheduled_end_date}T${schedule.end_time}`
-        )
+        {new Date(`${schedule.scheduled_end_date}T${schedule.end_time}`)
           .toLocaleString("en-US", {
             month: "short",
             day: "2-digit",
@@ -78,7 +74,7 @@ const ScheduleTableRow = ({schedule, fetch, setFetch}) => {
           .replace(",", "")}
         {/* {schedule.schedule.scheduled_end_date} */}
       </td>
-      <td className="table-row-data">{schedule.status}</td>
+      <td className="table-row-data hidden lg:table-cell">{schedule.status}</td>
       <td className="table-row-data flex justify-center space-x-2">
         <button
           className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
@@ -89,7 +85,7 @@ const ScheduleTableRow = ({schedule, fetch, setFetch}) => {
         <button
           className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleScheduleDelete(schedule._id)}
-          disabled = {fetch ? true : false}
+          disabled={fetch ? true : false}
         >
           <FiTrash2 className="text-red-500" />
         </button>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import UploadFiles from "./UploadFiles";
 import axios from "axios";
 import { useUser } from "../../context/UserContext.jsx";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
 const AddStudyMaterials = ({ editMaterial = false }) => {
@@ -16,6 +16,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const [fetch, setFetch] = useState()
+  
 
   useEffect(() => {
     if (editMaterial && id) {
@@ -76,9 +77,10 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
         setMaterialQuestionType("");
         setStudyMaterials((prev) => [...prev, response.data.data]);
         setFetch(false)
+        navigate("/studyMaterials")
       }
     } catch (err) {
-      console.log(err.response.data);
+      // console.log(err.response.data);
       enqueueSnackbar("Error uploading materials", { variant: "error" });
       setFetch(false)
     }
@@ -94,7 +96,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
     formData.append("publish", false);
     formData.append("test", testId);
     formData.append("questionCategory", materialQuestionType);
-    formData.append("fileUrl", materialData);
+    formData.append("file_url", materialData);
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/meterials/${id}`,
@@ -121,7 +123,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
         setFetch(false)
       }
     } catch (err) {
-      console.log(err.response.data);
+      // console.log(err.response.data);
       enqueueSnackbar("Error editing materials", { variant: "error" });
       setFetch(false)
     }
@@ -161,6 +163,7 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
             value={materialQuestionType || ""}
             onChange={(e) => setMaterialQuestionType(e.target.value)}
             className="input-box"
+            required
           >
             <option value="">Choose Question Type</option>
             {questionCategory.map((item, index) => (
@@ -186,8 +189,16 @@ const AddStudyMaterials = ({ editMaterial = false }) => {
           materialData={materialData}
           setMaterialData={setMaterialData}
         />
-        <button type="submit" disabled={fetch ? true : false} className="submit-button">
-          Submit
+        <button
+          type="submit"
+          disabled={fetch ? true : false}
+          className="submit-button"
+        >
+          {fetch ? (
+            <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto"></div>
+          ) : (
+            "Submit"
+          )}
         </button>
       </form>
     </div>

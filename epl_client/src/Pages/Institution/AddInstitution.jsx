@@ -5,10 +5,10 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
 const AddAndEditInstitution = ({ editInstitution = false }) => {
-  const {setInstitutions, groups} = useUser();
-  const navigate = useNavigate()
-  const {id} = useParams()
-  const [fetch, setFetch] = useState(false)
+  const { setInstitutions, groups } = useUser();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [fetch, setFetch] = useState(false);
   const [data, setData] = useState({
     institutionName: "",
     institutionType: "",
@@ -21,7 +21,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
     contactPersonName: "",
     contactPersonNumber: "",
   });
-  const {enqueueSnackbar} = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     institutionName,
@@ -44,31 +44,31 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           { withCredentials: true }
         );
         if (response.data.success) {
-           const {
-             institutionName,
-             institutionType,
-             institutionGroup,
-             address,
-             state,
-             pinCode,
-             city,
-             country,
-             contactPersonName,
-             contactPersonNumber,
-           } = response.data.data;
+          const {
+            institutionName,
+            institutionType,
+            institutionGroup,
+            address,
+            state,
+            pinCode,
+            city,
+            country,
+            contactPersonName,
+            contactPersonNumber,
+          } = response.data.data;
 
-           setData({
-             institutionName: institutionName,
-             institutionType: institutionType,
-             institutionGroup: institutionGroup,
-             address: address,
-             state: state,
-             pinCode: pinCode,
-             city: city,
-             country: country,
-             contactPersonName: contactPersonName,
-             contactPersonNumber: contactPersonNumber,
-           });
+          setData({
+            institutionName: institutionName,
+            institutionType: institutionType,
+            institutionGroup: institutionGroup,
+            address: address,
+            state: state,
+            pinCode: pinCode,
+            city: city,
+            country: country,
+            contactPersonName: contactPersonName,
+            contactPersonNumber: contactPersonNumber,
+          });
         }
       }
     };
@@ -78,7 +78,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
 
   const handleInstitutionsSubmit = (e) => {
     e.preventDefault();
-    setFetch(true)
+    setFetch(true);
     editInstitution ? handleEditInstitution() : handleAddInstitution();
   };
 
@@ -91,56 +91,59 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           withCredentials: true,
         }
       );
-      if(response.data.success){
-        setInstitutions(prev => {
-          return prev.map(institute=> {
-            return institute._id === id ? {...response.data.data} : institute
-          })
-        })
-         enqueueSnackbar("Institution Edited!", { variant: "success" });
+      if (response.data.success) {
+        setInstitutions((prev) => {
+          return prev.map((institute) => {
+            return institute._id === id ? { ...response.data.data } : institute;
+          });
+        });
+        enqueueSnackbar("Institution Edited!", { variant: "success" });
         navigate("/institutions");
-        setFetch(false)
+        setFetch(false);
       }
     } catch (err) {
       console.log(err);
-       enqueueSnackbar("Problem in Institution Deletion", { variant: "success" });
-       setFetch(false)
+      enqueueSnackbar("Problem in Institution Deletion", {
+        variant: "success",
+      });
+      setFetch(false);
     }
   };
 
   const handleAddInstitution = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/institutions`,data,
+        `${import.meta.env.VITE_BACKEND_URL}/institutions`,
+        data,
         {
           withCredentials: true,
         }
       );
-      if(response.data.success){
+      if (response.data.success) {
         // console.log(response.data)
-         setInstitutions(prev => {
-          return [...prev, response.data.data]
-         })
-         setData({
-           institutionName: "",
-           institutionType: "",
-           institutionGroup: "",
-           address: "",
-           state: "",
-           pinCode: "",
-           city: "",
-           country: "",
-           contactPersonName: "",
-           contactPersonNumber: "",
-         });
-         enqueueSnackbar("Institution Created!", {variant: "success"})
-         setFetch(false)
+        setInstitutions((prev) => {
+          return [...prev, response.data.data];
+        });
+        setData({
+          institutionName: "",
+          institutionType: "",
+          institutionGroup: "",
+          address: "",
+          state: "",
+          pinCode: "",
+          city: "",
+          country: "",
+          contactPersonName: "",
+          contactPersonNumber: "",
+        });
+        enqueueSnackbar("Institution Created!", { variant: "success" });
+        setFetch(false);
+        navigate("/institutions")
       }
-    } catch (err) 
-    {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
       enqueueSnackbar("Problem in Institution Creation", { variant: "error" });
-      setFetch(false)
+      setFetch(false);
     }
   };
 
@@ -154,7 +157,11 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
   };
 
   return (
-    <form onSubmit={handleInstitutionsSubmit} className="max-w-[350px]">
+    <form
+      onSubmit={handleInstitutionsSubmit}
+      className="w-full sm:w-[90%] md:max-w-[500px] min-h-screen
+"
+    >
       <h1 className="heading mb-5">
         {editInstitution ? "Edit Institution" : "Add Institution"}
       </h1>
@@ -168,7 +175,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           onChange={handleDataChange}
           required
         />
-        <input 
+        <input
           type="test"
           placeholder="Institution Type eg:(school , college...)"
           className="input-box"
@@ -177,13 +184,18 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           onChange={handleDataChange}
           required
         />
-        <select className="input-box" name="institutionGroup" value={institutionGroup} onChange={handleDataChange}>
-           <option value="">Choose Group</option>
-           {
-          groups.map((group, index) => (
-            <option value={group.groupName} key={index}>{group.groupName}</option>
-          ))
-        }
+        <select
+          className="input-box"
+          name="institutionGroup"
+          value={institutionGroup}
+          onChange={handleDataChange}
+        >
+          <option value="">Choose Group</option>
+          {groups.map((group, index) => (
+            <option value={group.groupName} key={index}>
+              {group.groupName}
+            </option>
+          ))}
         </select>
         <input
           type="text"
@@ -221,7 +233,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           onChange={handleDataChange}
           required
         />
-        <input 
+        <input
           type="text"
           className="input-box"
           placeholder="Country"
@@ -249,8 +261,16 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           required
         />
       </div>
-      <button type="submit" disabled={fetch ? true : false} className="submit-button">
-        Submit
+      <button
+        type="submit"
+        disabled={fetch ? true : false}
+        className="submit-button"
+      >
+        {fetch ? (
+          <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto"></div>
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );

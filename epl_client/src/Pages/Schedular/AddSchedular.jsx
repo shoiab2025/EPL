@@ -188,8 +188,8 @@ const CreateSchedule = ({editSchedule = false}) => {
   }
 
   return (
-    <div>
-      <div className="max-w-lg p-6 bg-white shadow-xl rounded-lg mt-5">
+    <div className="w-full sm:w-[90%] md:max-w-[500px] min-h-screen">
+      <div className=" p-6 bg-white shadow-xl rounded-lg mt-5">
         <h2 className=" font-semibold mb-4 heading">
           {editSchedule ? "Edit Schedule" : "Create Schedule"}
         </h2>
@@ -296,7 +296,11 @@ const CreateSchedule = ({editSchedule = false}) => {
             className="submit-button text-white py-2 rounded-md"
             disabled={fetch ? true : false}
           >
-            Submit
+            {fetch ? (
+              <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto"></div>
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

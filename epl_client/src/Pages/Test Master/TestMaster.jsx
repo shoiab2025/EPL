@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TestMasterTable from './TestMasterTable';
 import { useUser } from '../../context/UserContext';
+import { Plus } from 'lucide-react';
 
 // const TestMaster = () => {
 //   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const TestMaster = () => {
   const { tests } = useUser();
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
 
   const handleAddTest = () => {
     navigate("/testMaster/add");
@@ -80,11 +81,11 @@ const TestMaster = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-2xl shadow-md">
+    <div className="p-6 bg-white rounded-2xl shadow-md max-w-screen">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold text-gray-800">Test Master</h2>
         <button className="button" onClick={handleAddTest}>
-          Add Tests
+          <Plus />
         </button>
       </div>
       <div className="mb-4">

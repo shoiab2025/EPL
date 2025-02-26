@@ -3,6 +3,7 @@ import axios from "axios";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const TestMasterTable = ({ testsData }) => {
   const { setTests, groups } = useUser();
@@ -29,58 +30,70 @@ const TestMasterTable = ({ testsData }) => {
   };
   return (
     <div className="overflow-x-auto shadow-md rounded-lg">
-    <table className="min-w-full bg-white">
-    <thead className="bg-gray-100">
-        <tr>
-          <th className="py-3 px-6 text-left text-[var(--primary-color)]">Test Name</th>
-          <th className="py-3 px-6 text-left text-[var(--primary-color)]">No.Questions</th>
-          <th className="py-3 px-6 text-left text-[var(--primary-color)]">Groups</th>
-          <th className="py-3 px-6 text-left text-[var(--primary-color)]">Operation</th>
-        </tr>
-      </thead>
-      <tbody>
-        {testsData.length !== 0 ? (
-          testsData.map((test, index) => (
-            <tr key={index}>
-              <td className="table-row-data">{test.name}</td>
-              <td className="table-row-data">{test.quizzes.length}</td>
-              <td className="table-row-data">
-                {test.groups.length === 0
-                  ? "All Groups"
-                  : typeof test.groups[0] === "object" &&
-                    test.groups[0] !== null &&
-                    "groupName" in test.groups[0]
-                  ? test.groups[0].groupName
-                  : groups.find((group) => group._id === test.groups[0])
-                      ?.groupName || "Unknown Group"}
-              </td>
+      <table className="min-w-full bg-white">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Test Name
+            </th>
+            <th className="py-3 px-4 text-left text-[var(--primary-color)] hidden md:table-cell">
+              No.Questions
+            </th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Groups
+            </th>
+            <th className="py-3 px-6 text-left text-[var(--primary-color)]">
+              Operation
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {testsData.length !== 0 ? (
+            testsData.map((test, index) => (
+              <tr key={index}>
+                <td className="table-row-data">{test.name}</td>
+                <td className="table-row-data hidden md:table-cell">
+                  {test.quizzes.length}
+                </td>
+                <td className="table-row-data">
+                  {test.groups.length === 0
+                    ? "All Groups"
+                    : typeof test.groups[0] === "object" &&
+                      test.groups[0] !== null &&
+                      "groupName" in test.groups[0]
+                    ? test.groups[0].groupName
+                    : groups.find((group) => group._id === test.groups[0])
+                        ?.groupName || "Unknown Group"}
+                </td>
 
-              <td className="table-row-data flex-edit-delete">
-                <button
-                  className="edit-button"
-                  onClick={() => {
-                    navigate(`/testMaster/edit/${test._id}`);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleTestDelete(test._id)}
-                  disabled={fetch ? true : false}
-                >
-                  Delete
-                </button>
+                <td className="table-row-data flex space-x-2">
+                  <button
+                    className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
+                    onClick={() => {
+                      navigate(`/testMaster/edit/${test._id}`);
+                    }}
+                  >
+                    <FiEdit className="text-[var(--primary-color)]" />
+                  </button>
+                  <button
+                    className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
+                    onClick={() => handleTestDelete(test._id)}
+                    disabled={fetch ? true : false}
+                  >
+                    <FiTrash2 className="text-red-500" />
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="py-4 px-6 text-center text-gray-500">
+                No test Found
               </td>
             </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="5" className="py-4 px-6 text-center text-gray-500">No test Found</td>
-          </tr>
-        )}
+          )}
 
-        {/* {testsData.length !== 0 ? (
+          {/* {testsData.length !== 0 ? (
           testsData.map((test, index) =>
             test.quizzes.map((quiz, quizIndex) => (
               <tr key={quiz._id}>
@@ -125,8 +138,8 @@ const TestMasterTable = ({ testsData }) => {
             <td>No Test Found</td>
           </tr>
         )} */}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -20,10 +20,6 @@ const AddAndEditGroup = ({ editGroup = false }) => {
 
 
 
-   useEffect(() => {
-        console.log(fetch)
-    },[fetch])
-
   useEffect(() => {
     if (editGroup && id) {
       axios
@@ -61,7 +57,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
       groupTheme: color,
       languages,
     };
-    console.log(data);
+    // console.log(data);
     try {
       const url = editGroup ? `/group/${id}` : "/group";
       const method = editGroup ? axios.put : axios.post;
@@ -95,7 +91,10 @@ const AddAndEditGroup = ({ editGroup = false }) => {
   };
 
   return (
-    <form className="max-w-[350px]" onSubmit={handleSubmit}>
+    <form
+      className="w-full sm:w-[90%] md:max-w-[500px] min-h-screen"
+      onSubmit={handleSubmit}
+    >
       <h1 className="heading">{editGroup ? "Edit Group" : "Add Group"}</h1>
       <input
         type="text"
@@ -155,8 +154,16 @@ const AddAndEditGroup = ({ editGroup = false }) => {
         placeholder="Group Description here..."
       />
       <AddTheme color={color} setColor={setColor} />
-      <button type="submit" disabled={fetch ? true : false} className="submit-button">
-        Submit
+      <button
+        type="submit"
+        disabled={fetch ? true : false}
+        className="submit-button"
+      >
+        {fetch ? (
+          <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto"></div>
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );

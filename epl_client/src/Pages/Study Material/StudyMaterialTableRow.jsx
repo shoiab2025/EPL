@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import { useSnackbar } from "notistack";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const StudyMaterialTableRow = ({ material, fetch, setFetch }) => {
   // console.log(material);
@@ -36,19 +37,19 @@ const StudyMaterialTableRow = ({ material, fetch, setFetch }) => {
       <td className="table-row-data">{material.test?.name}</td>
       <td className="table-row-data">{material.content}</td>
       <td className="table-row-data">{material.content_type}</td>
-      <td className="table-row-data flex-edit-delete">
+      <td className="table-row-data flex space-x-2">
         <button
-          className="edit-button"
+          className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => navigate(`/studyMaterials/edit/${material._id}`)}
         >
-          Edit
+          <FiEdit className="text-[var(--primary-color)]" />
         </button>
         <button
-          className="delete-button"
+          className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
           onClick={() => handleDelete(material._id)}
-          disabled={fetch? true : false}
+          disabled={fetch ? true : false}
         >
-          Delete
+          <FiTrash2 className="text-red-500" />
         </button>
       </td>
     </tr>

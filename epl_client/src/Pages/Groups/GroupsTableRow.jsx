@@ -28,7 +28,7 @@ const GroupsTableRow = ({ group, fetch, setFetch }) => {
   };
 
   return (
-    <tr className="hover:bg-gray-50 transition-all duration-300">
+    <tr className="hover:bg-gray-50 transition-all duration-300 md:table-row w-full md:w-auto">
       <td
         className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
         onClick={() => handleGroupEdit(group._id)}
@@ -43,7 +43,7 @@ const GroupsTableRow = ({ group, fetch, setFetch }) => {
           ></div>
         </div>
       </td>
-      <td className="table-row-data">
+      <td className="table-row-data hidden lg:table-cell">
         <p
           className={`transition-all duration-300 cursor-pointer ${
             isExpanded ? "whitespace-normal" : "truncate"
@@ -53,7 +53,7 @@ const GroupsTableRow = ({ group, fetch, setFetch }) => {
           {group.groupDescription}
         </p>
       </td>
-      <td className="table-row-data">{group.groupCountry}</td>
+      <td className="table-row-data hidden md:table-cell">{group.groupCountry}</td>
       <td className="table-row-data flex space-x-2">
         <button
           className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"

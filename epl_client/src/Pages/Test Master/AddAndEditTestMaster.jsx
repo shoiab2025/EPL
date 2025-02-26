@@ -3,7 +3,7 @@ import { useUser } from "../../context/UserContext";
 import TestFileUploader from "./TestFileUploader";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddAndEditTestMaster = ({ editTest = false }) => {
   const { id } = useParams();
@@ -27,6 +27,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
   } = useUser();
   const [quizzes, setQuizzes] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (id && editTest && groups.length > 0) {
@@ -40,13 +41,14 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       } 
   , [tests]);
 
+  // useEffect(() => console.log(testMaster),[testMaster]);
+
   const loadTestData = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/tests/${id}`,
         { withCredentials: true }
       );
-      console.log(response.data.data);
       if (response.data.success) {
         const testData = response.data.data;
         // console.log("Fetched Test Data:", testData); // Debugging
@@ -68,6 +70,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
             };
           })
         );
+        // console.log("resolved",resolvedQuizzes)
 
         setQuizzes(resolvedQuizzes);
 
@@ -77,10 +80,11 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
             : groups.find((group) => group._id === testData.groups[0])
                 ?.groupName || "";
         setSelectedGroup(selectedGroupName);
-
+        // console.log("testData",{...testData})
         if (selectedGroupName === "All Groups") {
           setTestMaster({
             ...testData,
+            quizzes: resolvedQuizzes,
             groups: [],
           });
 
@@ -95,6 +99,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
           if (groupDetails) {
             setTestMaster({
               ...testData,
+              quizzes: resolvedQuizzes,
               groups: [groupDetails],
             });
             setGroupLanguages(groupDetails.languages);
@@ -183,7 +188,17 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
     }));
   };
 
+  const handleRemoveQuizzes = (indexQuiz) => {
+    const updatedQuizzes = [...quizzes].filter((quiz, index) => index !== indexQuiz)
+    setQuizzes(updatedQuizzes);
+    setTestMaster((prev) => ({
+      ...prev,
+      quizzes: updatedQuizzes,
+    }));
+  }
+
   const handleEditTest = async () => {
+    // console.log("edited",testMaster)
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/tests/${id}`,
@@ -191,7 +206,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       );
       if (response.data.success) {
         enqueueSnackbar("Test Edited successfully!", { variant: "success" });
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setTestMaster({
           name: "",
           season: "",
@@ -206,6 +221,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
             item._id === id ? { ...response.data.data } : item
           );
         });
+        navigate("/testMaster");
         setFetch(false);
       }
     } catch (err) {
@@ -216,6 +232,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
   };
 
   const handleNewTest = async () => {
+    // console.log(testMaster)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/tests`,
@@ -224,7 +241,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
 
       if (response.data.success) {
         enqueueSnackbar("Test Edited successfully!", { variant: "success" });
-        console.log(response.data.data);
+        // console.log(response.data.data);
         // setQuestionCategory((prev) => {
         //   return [...prev, response.data.data.quizzes.questionCategory]
         // })
@@ -272,7 +289,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
   };
 
   return (
-    <div>
+    <div className="w-full min-h-screen">
       <h1 className="heading">{editTest ? "Edit Tests" : "Add Tests"}</h1>
       <form className="flex flex-col mt-5 gap-3" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3 w-[200px] mb-5">
@@ -370,6 +387,9 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                   <option value="single">Single</option>
                   <option value="multiple">Multiple</option>
                 </select>
+                <button type="button" className="button" onClick={() => handleRemoveQuizzes(index)}>
+                  Remove Quiz
+                </button>
               </div>
               <p className="text-lg my-3">Question:</p>
               <TestFileUploader
@@ -458,10 +478,14 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                 <input
                   type="text"
                   placeholder="Correct Options"
+                  value={quiz.correctOptions[0] || ""}
                   maxLength={quiz.optionType === "single" ? 1 : null}
                   className="input-box px-2 py-2 text-sm  rounded-sm border-gray-300"
                   onChange={(e) => {
-                    const value = e.target.value.split(",").map(Number);
+                    const value =
+                      e.target.value.trim() === ""
+                        ? []
+                        : [Number(e.target.value)];
                     handleQuizChange(index, "correctOptions", value);
                   }}
                   required
@@ -474,6 +498,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                   onChange={(e) => {
                     handleQuizChange(index, "mark", e.target.value);
                   }}
+                  onWheel={(e) => e.target.blur()}
                   required
                 />
                 <button
@@ -495,7 +520,13 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
             testMaster.quizzes.length === 0 ? true : fetch ? true : false
           }
         >
-          Submit
+          {fetch ? 
+          (
+            <div className="w-5 h-5 border-t-2 border-t-white  animate-spin rounded-full mx-auto">
+              
+            </div>
+          )
+           : "Submit"}
         </button>
       </form>
     </div>

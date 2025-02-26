@@ -31,40 +31,11 @@ import AddAchivements from "./Pages/Achivements/AddAchivements.jsx";
 function App() {
   const {activeSubLink} = useUser()
   return (
-    <div className="grid grid-cols-[0.5fr_2fr]">
-      <Navigation />
-      <div className="min-h-screen bg-[var(--secondary-color)]">
+    <div className="grid grid-cols-[0px_1fr] md:grid-cols-[0.5fr_2fr]">
+      <Navigation className="hidden sm:block" />
+      <div className="min-h-screen h-full bg-[var(--secondary-color)]">
         <Header />
-        <div className="p-4">
-          {/* <Routes>
-            <Route path="/" element={<Navigate to={`/login`} replace />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProductedRoute>
-                  <Dashboard />
-                </ProductedRoute>
-              }
-            />
-            <Route path="/groups" element={<Groups />} />
-            <Route path="/groups/add" element={<AddGoups />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/quiz/add" element={<AddQuiz />} />
-            <Route path="/institutions" element={<Institution />} />
-            <Route path="/institutions/add" element={<AddInstitution />} />
-            <Route path="/studyMaterials" element={<StudyMaterials />} />
-            <Route path="/testMaster" element={<TestMaster />} />
-            <Route path="/reports">
-              <Route
-                index
-                element={<Navigate to={`/reports/${activeSubLink}`} />}
-              />
-              <Route path="userreports" element={<UserReport />} />
-              <Route path="leaderboardreport" element={<Leaderboard />} />
-              <Route path="achievementreport" element={<Announcement />} />
-            </Route>
-          </Routes> */}
+        <div className="px-4 max-h-screen overflow-scroll scrollbar-hide w-full mt-20 py-3">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<ProductedRoute />} />
@@ -125,6 +96,19 @@ function App() {
               />
               <Route path="/achievements" element={<Achivements />} />
               <Route path="/achievements/add" element={<AddAchivements />} />
+              <Route
+                path="/achievements/edit/:id"
+                element={<AddAchivements editAchivement={true} />}
+              />
+              <Route path="/announcements" element={<Announcement />} />
+              <Route
+                path="/announcements/add"
+                element={<CreateAnnouncement />}
+              />
+              <Route
+                path="/announcements/edit/:id"
+                element={<CreateAnnouncement editAnnouncement={true} />}
+              />
               <Route path="/reports">
                 <Route
                   index
@@ -132,16 +116,8 @@ function App() {
                 />
                 <Route path="userreports" element={<UserReport />} />
                 <Route path="leaderboardreport" element={<Leaderboard />} />
-                <Route path="announcementreport" element={<Announcement />} />
-                <Route
-                  path="create-announcement"
-                  element={<CreateAnnouncement />}
-                />
-                <Route
-                  path="update-announcement"
-                  element={<UpdateAnnouncement />}
-                />
               </Route>
+              <Route path="*" element={<Navigate to="/dashboard" />} />
             </Route>
           </Routes>
         </div>
