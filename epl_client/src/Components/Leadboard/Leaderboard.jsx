@@ -135,6 +135,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useSnackbar } from "notistack";
+import LeaderboardTable2 from "./LeaderboardTable2";
 
 const Leaderboard = () => {
   const { leaderboardUsers, setLeaderboardUsers, users, tests, groups } =
@@ -150,11 +151,13 @@ const Leaderboard = () => {
   const {enqueueSnackbar} = useSnackbar()
   // console.log(leaderboardUsers)
 
+  // useEffect(() => console.log(leaderboardWise), [leaderboardWise])
+
   const handleLeaderboardData = async (urlPath) => {
     try {          
         const response = await axios.get(urlPath);
         if(response.data){
-           setLeaderboardUsers(response.data.rankings)
+           leaderboardWise === "groupWise" ? setLeaderboardUsers(response.data?.rankings ?? []) : setLeaderboardUsers(response.data?.rankings?.[0]?.users ?? [])
         }
       }
     catch (err) {
@@ -164,6 +167,10 @@ const Leaderboard = () => {
   };
 
   const generateLeaderboardPDF = () => {
+    leaderboardWise === "groupWise" ? groupWisePdf() : weeklyWisePdf()
+  };
+
+  const groupWisePdf = () => {
     const doc = new jsPDF();
 
     doc.setFontSize(18);
@@ -201,8 +208,46 @@ const Leaderboard = () => {
       tableWidth: "auto",
     });
 
-    doc.save("leaderboard.pdf");
-  };
+    doc.save("leaderboardTest.pdf");
+  }
+
+  const weeklyWisePdf = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Leaderboard", 10, 15);
+
+    const tableColumn = [
+      "Rank",
+      "Name",
+      "Registration ID",
+      "Average Score",
+      "Total Score",
+      "Test Count",
+    ];
+
+    const tableRows = leaderboardUsers.map((userData) => [
+      userData.rank,
+      userData.user.name,
+      userData.user.userId,
+      userData.averageScore,
+      userData.totalScore,
+      userData.testCount,
+    ]);
+
+    // Generate Table
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 22,
+      styles: { fontSize: 9, cellPadding: 2 },
+      theme: "grid",
+      margin: { left: 5, right: 5, top: 10 },
+      tableWidth: "auto",
+    });
+
+    doc.save("leaderboardWeekly.pdf");
+  }
 
   const totalPages = Math.ceil(leaderboardUsers.length / itemsPerPage);
   const paginatedUsers = leaderboardUsers.slice(
@@ -317,10 +362,13 @@ const Leaderboard = () => {
               const groupUser = await users.filter(
                 (user) => user.groupId === groupId
               )[0];
-              if(!groupUser){
-                enqueueSnackbar("Leaderboard Data Not Available For This Group And Test", {variant: "info"})
-                setLeaderboardUsers([])
-                return 
+              if (!groupUser && leaderboardWise === "groupWise") {
+                enqueueSnackbar(
+                  "Leaderboard Data Not Available For This Group And Test",
+                  { variant: "info" }
+                );
+                setLeaderboardUsers([]);
+                return;
               }
               const urlPath =
                 leaderboardWise === "groupWise"
@@ -332,8 +380,8 @@ const Leaderboard = () => {
                   : `${
                       import.meta.env.VITE_BACKEND_URL
                     }/leaderboards/weekly-leaderboard?weekStart=${startDate}&weekEnd=${endDate}`;
-                    console.log(urlPath)
               handleLeaderboardData(urlPath);
+              // console.log(startDate, endDate);
             }}
             // disabled={testId ? false : true}
             className="button mt-0"
@@ -344,8 +392,13 @@ const Leaderboard = () => {
       </div>
 
       {/* {leaderboardUsers.length !== 0 && ( */}
+      {leaderboardWise === "groupWise" && (
         <LeaderboardTable leaderboardUsers={paginatedUsers} />
-      {/* )} */}
+      )}
+
+      {leaderboardWise === "weeklyWise" && (
+        <LeaderboardTable2 leaderboardUsers={paginatedUsers} />
+      )}
 
       <div className="flex justify-center mt-4">
         <button

@@ -7,7 +7,7 @@ import { useUser } from "../../context/UserContext";
 const UserReport = () => {
   const { users } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
 
   const generatePDF = () => {
     const doc = new jsPDF();

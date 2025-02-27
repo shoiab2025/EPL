@@ -385,7 +385,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
                   required
                 >
                   <option value="single">Single</option>
-                  <option value="multiple">Multiple</option>
+                  {/* <option value="multiple">Multiple</option> */}
                 </select>
                 <button type="button" className="button" onClick={() => handleRemoveQuizzes(index)}>
                   Remove Quiz

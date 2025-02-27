@@ -28,29 +28,34 @@ const AchivementsTableRow = ({achivement, fetch, setFetch}) => {
     }
   return (
     <tr className="hover:bg-gray-50 transition-all duration-300">
-      <td className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline">
+      <td
+        className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
+        onClick={() => {
+          navigate(`/achievements/edit/${achivement._id}`);
+        }}
+      >
         {achivement.name}
       </td>
       <td className="table-row-data">{achivement.level}</td>
       <td className="table-row-data">{achivement.minPercentage}</td>
       <td className="table-row-data">{achivement.maxPercentage}</td>
       <td className="table-row-data flex space-x-2">
-              <button
-                className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
-                onClick={() => {
-                    navigate(`/achievements/edit/${achivement._id}`);
-                }}
-              >
-                <FiEdit className="text-[var(--primary-color)]" />
-              </button>
-              <button
-                className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
-                onClick={() => handleAchivementDelete(achivement._id)}
-                disabled={fetch ? true : false}
-              >
-                <FiTrash2 className="text-red-500" />
-              </button>
-            </td>
+        <button
+          className="edit-button p-2 rounded-full hover:bg-gray-200 transition-all"
+          onClick={() => {
+            navigate(`/achievements/edit/${achivement._id}`);
+          }}
+        >
+          <FiEdit className="text-[var(--primary-color)]" />
+        </button>
+        <button
+          className="delete-button p-2 rounded-full hover:bg-gray-200 transition-all"
+          onClick={() => handleAchivementDelete(achivement._id)}
+          disabled={fetch ? true : false}
+        >
+          <FiTrash2 className="text-red-500" />
+        </button>
+      </td>
     </tr>
   );
 }
