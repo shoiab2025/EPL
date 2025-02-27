@@ -134,6 +134,7 @@ import LeaderboardTable from "./LeaderboardTable";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { useSnackbar } from "notistack";
 
 const Leaderboard = () => {
   const { leaderboardUsers, setLeaderboardUsers, users, tests, groups } =
@@ -146,19 +147,19 @@ const Leaderboard = () => {
   const itemsPerPage = 10;
   const [leaderboardWise, setLeaderboardWise] = useState("groupWise");
   const [urlPath, setUrlPath] = useState("")
+  const {enqueueSnackbar} = useSnackbar()
   // console.log(leaderboardUsers)
 
   const handleLeaderboardData = async (urlPath) => {
     try {          
         const response = await axios.get(urlPath);
-        console.log(response)
-        console.log(urlPath)
         if(response.data){
            setLeaderboardUsers(response.data.rankings)
         }
       }
     catch (err) {
-      console.log(err);
+      // console.log(err);
+      enqueueSnackbar(err.response.data.message, {variant: "error"})
     }
   };
 
@@ -257,70 +258,82 @@ const Leaderboard = () => {
       </div>
       <div className="mt-5">
         <div className="flex gap-10 justify-between items-center">
-          <div className="flex flex-rows gap-4 flex-col md:flex-row">
-            <select
-              value={testId}
-              className="input-box"
-              onChange={(e) => setTestId(e.target.value)}
-              // required
-            >
-              <option value="">Choose Test</option>
-              {tests.map((test, index) => (
-                <option value={test._id} key={index}>
-                  {test.name}
-                </option>
-              ))}
-            </select>
-            <select
-              className="input-box"
-              name="institutionGroup"
-              value={groupId}
-              onChange={(e) => setGroupId(e.target.value)}
-            >
-              <option value="">Choose Group</option>
-              {groups.map((group, index) => (
-                <option value={group._id} key={index}>
-                  {group.groupName}
-                </option>
-              ))}
-            </select>
-            {leaderboardWise === "weeklyWise" && (
-              <div className="flex items-center gap-4">
-                <label className="flex items-center gap-1">
-                  StartDate:
-                  <input
-                    type="date"
-                    className="input-box"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                </label>
-                <label className="flex items-center gap-1">
-                  EndDate:
-                  <input
-                    type="date"
-                    className="input-box"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                  />
-                </label>
-              </div>
-            )}
-          </div>
+          {/* <div className="flex flex-rows gap-4 flex-col md:flex-row"> */}
+          {leaderboardWise === "weeklyWise" ? (
+            <div className="flex flex-rows gap-4 flex-col md:flex-row">
+              <label className="flex items-center gap-1">
+                StartDate:
+                <input
+                  type="date"
+                  className="input-box"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </label>
+              <label className="flex items-center gap-1">
+                EndDate:
+                <input
+                  type="date"
+                  className="input-box"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </label>
+            </div>
+          ) : (
+            <div className="flex flex-rows gap-4 flex-col md:flex-row">
+              <select
+                value={testId}
+                className="input-box"
+                onChange={(e) => setTestId(e.target.value)}
+                // required
+              >
+                <option value="">Choose Test</option>
+                {tests.map((test, index) => (
+                  <option value={test._id} key={index}>
+                    {test.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="input-box"
+                name="institutionGroup"
+                value={groupId}
+                onChange={(e) => setGroupId(e.target.value)}
+              >
+                <option value="">Choose Group</option>
+                {groups.map((group, index) => (
+                  <option value={group._id} key={index}>
+                    {group.groupName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {/* </div> */}
           <button
             type="button"
-            onClick={async() => {
-                const groupUser = await users.filter(
-        (user) => user.groupId === groupId
-      )[0];
-                const urlPath = leaderboardWise === "groupWise" ?  `${
-                import.meta.env.VITE_BACKEND_URL
-              }/leaderboards/users-ranks?groupId=${groupId}&testId=${testId}&userId=${
-                groupUser._id
-              }` :  `${
-                import.meta.env.VITE_BACKEND_URL
-              }/leaderboards/weekly-leaderboard?weekStart=${startDate}&weekEnd=${endDate}`
-              handleLeaderboardData(urlPath)
+            onClick={async () => {
+              const groupUser = await users.filter(
+                (user) => user.groupId === groupId
+              )[0];
+              if(!groupUser){
+                enqueueSnackbar("Leaderboard Data Not Available For This Group And Test", {variant: "info"})
+                setLeaderboardUsers([])
+                return 
+              }
+              const urlPath =
+                leaderboardWise === "groupWise"
+                  ? `${
+                      import.meta.env.VITE_BACKEND_URL
+                    }/leaderboards/users-ranks?groupId=${groupId}&testId=${testId}&userId=${
+                      groupUser._id
+                    }`
+                  : `${
+                      import.meta.env.VITE_BACKEND_URL
+                    }/leaderboards/weekly-leaderboard?weekStart=${startDate}&weekEnd=${endDate}`;
+                    console.log(urlPath)
+              handleLeaderboardData(urlPath);
             }}
             // disabled={testId ? false : true}
             className="button mt-0"
@@ -330,9 +343,9 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      {leaderboardUsers.length !== 0 && (
+      {/* {leaderboardUsers.length !== 0 && ( */}
         <LeaderboardTable leaderboardUsers={paginatedUsers} />
-      )}
+      {/* )} */}
 
       <div className="flex justify-center mt-4">
         <button

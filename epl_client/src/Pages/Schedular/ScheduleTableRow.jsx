@@ -35,7 +35,10 @@ const ScheduleTableRow = ({schedule, fetch, setFetch}) => {
 //   );
   return (
     <tr className="hover:bg-gray-50 transition-all duration-300">
-      <td className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline">
+      <td
+        className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
+        onClick={() => handleScheduleEdit(schedule._id)}
+      >
         {tests.length !== 0 && schedule.tests.length !== 0
           ? tests.find((item) => item._id === schedule.tests[0])?.name
           : "All Groups"}

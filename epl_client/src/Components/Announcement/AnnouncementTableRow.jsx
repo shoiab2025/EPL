@@ -38,7 +38,10 @@ const AnnouncementTableRow = ({ announcement, fetch, setFetch }) => {
 
   return (
     <tr className="hover:bg-gray-50 transition-all duration-300">
-      <td className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline">
+      <td
+        className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
+        onClick={() => handleAnnouncementEdit(announcement._id)}
+      >
         {announcement.message}
       </td>
       {/* <td className="table-row-data">{group?.groupName}</td> */}

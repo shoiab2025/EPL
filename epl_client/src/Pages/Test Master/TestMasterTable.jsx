@@ -51,7 +51,14 @@ const TestMasterTable = ({ testsData }) => {
           {testsData.length !== 0 ? (
             testsData.map((test, index) => (
               <tr key={index}>
-                <td className="table-row-data">{test.name}</td>
+                <td
+                  className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
+                  onClick={() => {
+                    navigate(`/testMaster/edit/${test._id}`);
+                  }}
+                >
+                  {test.name}
+                </td>
                 <td className="table-row-data hidden md:table-cell">
                   {test.quizzes.length}
                 </td>

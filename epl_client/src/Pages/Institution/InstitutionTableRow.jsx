@@ -44,7 +44,7 @@ const InstitutionTableRow = ({ institute, fetch, setFetch }) => {
   return (
     <tr>
       <td
-        className="table-row-data cursor-pointer"
+        className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
         onClick={(e) => handleEdit(institute._id)}
       >
         {institute.institutionName}

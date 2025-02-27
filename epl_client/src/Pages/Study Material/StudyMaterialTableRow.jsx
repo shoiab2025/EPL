@@ -34,7 +34,12 @@ const StudyMaterialTableRow = ({ material, fetch, setFetch }) => {
  
   return (
     <tr>
-      <td className="table-row-data">{material.test?.name}</td>
+      <td
+        className="table-row-data cursor-pointer text-[var(--primary-color)] font-medium hover:underline"
+        onClick={() => navigate(`/studyMaterials/edit/${material._id}`)}
+      >
+        {material.test?.name}
+      </td>
       <td className="table-row-data">{material.content}</td>
       <td className="table-row-data">{material.content_type}</td>
       <td className="table-row-data flex space-x-2">
