@@ -123,6 +123,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
         type="text"
         value={quiz.url || ""}
         placeholder="Enter Url here..."
+        required
         onChange={(e) => {
           handleQuizChange(index,"url",e.target.value)
         }}
@@ -143,6 +144,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
         type="text"
         value={quiz.url || ""}
         placeholder="Enter Url here..."
+        required
         onChange={(e) => {
           handleQuizChange(index, "url", e.target.value);
         }}
@@ -172,6 +174,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
         type="text"
         value={quiz.url || ""}
         placeholder="Enter Url here..."
+        required
         onChange={(e) => {
           handleQuizChange(index, "url", e.target.value);
         }}
@@ -182,6 +185,7 @@ const TestFileUploader = ({ type, quiz, handleQuizChange, index}) => {
     UploadUi = (
       <input
         value={quiz.url || ""}
+        required
         type="text"
         placeholder="Enter Url here..."
         onChange={(e) => {

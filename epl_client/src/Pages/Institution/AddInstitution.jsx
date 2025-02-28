@@ -171,7 +171,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           placeholder="Institution Name"
           className="input-box"
           name="institutionName"
-          value={institutionName}
+          value={institutionName || ""}
           onChange={handleDataChange}
           required
         />
@@ -180,14 +180,14 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           placeholder="Institution Type eg:(school , college...)"
           className="input-box"
           name="institutionType"
-          value={institutionType}
+          value={institutionType || ""}
           onChange={handleDataChange}
           required
         />
         <select
           className="input-box"
           name="institutionGroup"
-          value={institutionGroup}
+          value={institutionGroup || ""}
           onChange={handleDataChange}
         >
           <option value="">Choose Group</option>
@@ -202,7 +202,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="Address"
           name="address"
-          value={address}
+          value={address || ""}
           onChange={handleDataChange}
           required
         />
@@ -211,7 +211,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="State"
           name="state"
-          value={state}
+          value={state || ""}
           onChange={handleDataChange}
           required
         />
@@ -220,7 +220,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="City"
           name="city"
-          value={city}
+          value={city || ""}
           onChange={handleDataChange}
           required
         />
@@ -229,7 +229,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="PinCode"
           name="pinCode"
-          value={pinCode}
+          value={pinCode || ""}
           onChange={handleDataChange}
           required
         />
@@ -238,7 +238,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="Country"
           name="country"
-          value={country}
+          value={country || ""}
           onChange={handleDataChange}
           required
         />
@@ -247,7 +247,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="Contact Person Name"
           name="contactPersonName"
-          value={contactPersonName}
+          value={contactPersonName || ""} 
           onChange={handleDataChange}
           required
         />
@@ -256,7 +256,7 @@ const AddAndEditInstitution = ({ editInstitution = false }) => {
           className="input-box"
           placeholder="Contact Number"
           name="contactPersonNumber"
-          value={contactPersonNumber}
+          value={contactPersonNumber || ""}
           onChange={handleDataChange}
           required
         />
