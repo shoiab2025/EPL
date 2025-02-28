@@ -139,7 +139,7 @@ const AddAchivements = ({editAchivement = false}) => {
         <select
           className="input-box py-3 border-gray-700  rounded-sm  bg-white"
           name="group"
-          value={achivementData.group}
+          value={achivementData.group || ""}
           onChange={handleDataChange}
           required
         >

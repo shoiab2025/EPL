@@ -1,132 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import LeaderboardViews from "./LeaderboardViews";
-// import { useUser } from "../../context/userContext";
-// import LeaderboardTable from "./LeaderboardTable";
-// import axios from "axios";
-// import jsPDF from "jspdf";
-// import "jspdf-autotable";
-
-// const Leaderboard = () => {
-//   const {
-//     showLeaderBoardWiseList,
-//     setShowLeaderBoardWiseList,
-//     leaderboardView,
-//     tests,
-//     leaderboardUsers,
-//     setLeaderboardUsers
-//   } = useUser();
-//   const [currView, setCurrView] = useState();
-//   const [leaderboardViews, setLeaderboardViews] = useState([]);
-//   const [testId, setTestId] = useState("")
-
-//   const handleLeaderboardData = async() => {
-//     try{
-//       const response = await axios.get(
-//         `${import.meta.env.VITE_BACKEND_URL}/leaderboards/${testId}`
-//       );
-//       if(response.data.success){
-//         setLeaderboardUsers(response.data.data)
-//       }
-//     }catch(err){
-//       console.log(err)
-//     }
-//   }
-
-//   const generateLeaderboardPDF = () => {
-//     const doc = new jsPDF();
-
-//     doc.setFontSize(18);
-//     doc.text("Leaderboard", 10, 15); // Title at the top
-
-//     const tableColumn = [
-//       "Rank",
-//       "Name",
-//       "Registration ID",
-//       "School",
-//       "Score",
-//       "Award",
-//       "TestId",
-//       "Timestamp",
-//     ];
-
-//     const tableRows = leaderboardUsers.map((user) => [
-//       user.rank,
-//       user.name,
-//       user.registrationId,
-//       user.schoolName,
-//       user.score,
-//       user.awardCategory || "N/A",
-//       testId || "N/A",
-//       new Date(user.timestamp).toLocaleString(),
-//     ]);
-
-//     doc.autoTable({
-//       head: [tableColumn],
-//       body: tableRows,
-//       startY: 22, // Move table slightly up
-//       styles: { fontSize: 9, cellPadding: 2 },
-//       theme: "grid",
-//       margin: { left: 5, right: 5, top: 10 },
-//       tableWidth: "auto",
-//     });
-
-//     doc.save("leaderboard.pdf");
-//   };
-
-//   return (
-//     <div className="p-6 bg-white rounded-2xl shadow-md my-5">
-//       <div className="flex justify-between">
-//         <h1 className="text-2xl font-semibold text-gray-800 mb-4">
-//           Leader Board
-//         </h1>
-//         <button className="button" disabled={leaderboardUsers.length === 0 ? true : false} onClick={generateLeaderboardPDF}>Download</button>
-//       </div>
-//       <div>
-//         <div className="flex gap-10 justify-between mt-5">
-//           <select
-//             value={testId}
-//             className="input-box flex-1"
-//             onChange={(e) => {
-//               setTestId(e.target.value);
-//             }}
-//             required
-//           >
-//             <option value="">Choose Test</option>
-//             {tests.map((test, index) => (
-//               <option value={test._id} key={index}>
-//                 {" "}
-//                 {test.name}
-//               </option>
-//             ))}
-//           </select>
-//           <button type="button" className="button" onClick={handleLeaderboardData}>Load Data</button>
-//         </div>
-//         {/* <div className="flex gap-4 mb-4">
-//           {leaderboardView.map((view, index) => (
-//             <button
-//               key={index}
-//               className="button"
-//               onClick={() => {
-//                 setCurrView(view.leaderboard_view);
-//                 setLeaderboardViews(view.views_type);
-//                 setShowLeaderBoardWiseList((prev) => !prev);
-//               }}
-//             >
-//               {view.leaderboard_view}
-//             </button>
-//           ))}
-//         </div> */}
-//         {/* {showLeaderBoardWiseList && (
-//           <LeaderboardViews currView={currView} views={leaderboardViews} />
-//         )} */}
-//       </div>
-//       <LeaderboardTable leaderboardUsers={leaderboardUsers}/>
-//     </div>
-//   );
-// };
-
-// export default Leaderboard;
-
 import React, { useEffect, useState } from "react";
 import LeaderboardViews from "./LeaderboardViews";
 import { useUser } from "../../context/userContext";
@@ -147,21 +18,28 @@ const Leaderboard = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
   const [leaderboardWise, setLeaderboardWise] = useState("groupWise");
-  const [urlPath, setUrlPath] = useState("")
   const {enqueueSnackbar} = useSnackbar()
-  // console.log(leaderboardUsers)
 
-  // useEffect(() => console.log(leaderboardWise), [leaderboardWise])
+  useEffect(() => {
+    setLeaderboardUsers([]) 
+  }, [leaderboardWise])
 
   const handleLeaderboardData = async (urlPath) => {
     try {          
         const response = await axios.get(urlPath);
         if(response.data){
-           leaderboardWise === "groupWise" ? setLeaderboardUsers(response.data?.rankings ?? []) : setLeaderboardUsers(response.data?.rankings?.[0]?.users ?? [])
+           leaderboardWise === "groupWise"
+             ? setLeaderboardUsers(response.data?.rankings ?? [])
+             : setLeaderboardUsers(
+                 response.data?.rankings?.map((ranking) => ({
+                   groupId: ranking.groupId._id,
+                   groupName: ranking.groupId.groupName,
+                   users: ranking.users,
+                 })) ?? []
+               );
         }
       }
     catch (err) {
-      // console.log(err);
       enqueueSnackbar(err.response.data.message, {variant: "error"})
     }
   };
@@ -180,11 +58,8 @@ const Leaderboard = () => {
       "Rank",
       "Name",
       "Registration ID",
-      // "School",
       "Score",
-      // "Award",
       "TestId",
-      // "Timestamp",
     ];
 
     const tableRows = leaderboardUsers.map((user) => [
@@ -221,19 +96,24 @@ const Leaderboard = () => {
       "Rank",
       "Name",
       "Registration ID",
+      "Group Name",
       "Average Score",
       "Total Score",
       "Test Count",
     ];
 
-    const tableRows = leaderboardUsers.map((userData) => [
-      userData.rank,
-      userData.user.name,
-      userData.user.userId,
-      userData.averageScore,
-      userData.totalScore,
-      userData.testCount,
-    ]);
+    // Correcting tableRows by flattening nested arrays
+    const tableRows = leaderboardUsers.flatMap((group) =>
+      group.users.map((userData) => [
+        userData.rank,
+        userData.user.name,
+        userData.user.userId,
+        group.groupName,
+        userData.averageScore,
+        userData.totalScore,
+        userData.testCount,
+      ])
+    );
 
     // Generate Table
     doc.autoTable({
@@ -247,7 +127,8 @@ const Leaderboard = () => {
     });
 
     doc.save("leaderboardWeekly.pdf");
-  }
+  };
+
 
   const totalPages = Math.ceil(leaderboardUsers.length / itemsPerPage);
   const paginatedUsers = leaderboardUsers.slice(
@@ -286,7 +167,10 @@ const Leaderboard = () => {
               ? "button"
               : "button bg-gray-100 shadow-md text-black border border-gray-200"
           }`}
-          onClick={() => setLeaderboardWise("groupWise")}
+          onClick={() => {
+            setLeaderboardUsers([]);
+            setLeaderboardWise("groupWise");
+          }}
         >
           Group Wise
         </button>
@@ -296,7 +180,10 @@ const Leaderboard = () => {
               ? "button"
               : "button bg-gray-100 shadow-md text-black border border-gray-200"
           }`}
-          onClick={() => setLeaderboardWise("weeklyWise")}
+          onClick={() => {
+            setLeaderboardUsers([]);
+            setLeaderboardWise("weeklyWise");
+          }}
         >
           Weekley Wise
         </button>
@@ -311,7 +198,7 @@ const Leaderboard = () => {
                 <input
                   type="date"
                   className="input-box"
-                  value={startDate}
+                  value={startDate || ""}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </label>
@@ -320,7 +207,7 @@ const Leaderboard = () => {
                 <input
                   type="date"
                   className="input-box"
-                  value={endDate}
+                  value={endDate || ""}
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </label>
@@ -328,14 +215,14 @@ const Leaderboard = () => {
           ) : (
             <div className="flex flex-rows gap-4 flex-col md:flex-row">
               <select
-                value={testId}
+                value={testId || ""}
                 className="input-box"
                 onChange={(e) => setTestId(e.target.value)}
                 // required
               >
                 <option value="">Choose Test</option>
                 {tests.map((test, index) => (
-                  <option value={test._id} key={index}>
+                  <option value={test._id || ""} key={index}>
                     {test.name}
                   </option>
                 ))}
@@ -391,32 +278,33 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      {/* {leaderboardUsers.length !== 0 && ( */}
-      {leaderboardWise === "groupWise" && (
+      {/* { {leaderboardUsers.length !== 0 && } */}
+
+      {leaderboardWise === "groupWise" && leaderboardUsers.length !== 0 && (
         <LeaderboardTable leaderboardUsers={paginatedUsers} />
       )}
 
-      {leaderboardWise === "weeklyWise" && (
+      {leaderboardWise === "weeklyWise" && leaderboardUsers.length !== 0 && (
         <LeaderboardTable2 leaderboardUsers={paginatedUsers} />
       )}
 
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center items-center mt-4">
         <button
-          className="px-3 py-1 mx-1 border rounded disabled:opacity-50"
+          className="mr-2 px-4 py-2 border rounded-md"
           onClick={handlePrevPage}
           disabled={currentPage === 0}
         >
-          Prev
+          &lt;
         </button>
-        <span className="px-3 py-1">
+        <span>
           Page {currentPage + 1} of {totalPages}
         </span>
         <button
-          className="px-3 py-1 mx-1 border rounded disabled:opacity-50"
+          className="mx-2 px-4 py-2 border rounded-md"
           onClick={handleNextPage}
           disabled={currentPage >= totalPages - 1}
         >
-          Next
+          &gt;
         </button>
       </div>
     </div>

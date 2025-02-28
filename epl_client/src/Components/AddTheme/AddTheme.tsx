@@ -29,7 +29,7 @@ const AddTheme = ({color, setColor}) => {
             id="color"
             type="text"
             className="input-box w-full"
-            value={color}
+            value={color || ""}
             onChange={(e) => setColor(e.target.value)}
             placeholder="#000000"
           />
@@ -41,7 +41,7 @@ const AddTheme = ({color, setColor}) => {
           {colorShow && (
             <input
               type="color"
-              value={color}
+              value={color || ""}
               onChange={(e) => setColor(e.target.value)}
               className={`w-[50px] h-[50px] cursor-pointer `}
             />

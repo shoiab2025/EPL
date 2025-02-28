@@ -4,16 +4,16 @@ const LeaderboardTableRow = ({userData}) => {
   return (
     <tr>
       <td className="table-row-data">
-        {userData.user.name}
+        {userData?.user?.name ?? ""}
       </td>
       <td className="table-row-data">
-        {userData.user._id}
+        {userData?.user?._id ?? ""}
       </td>
       <td className="table-row-data">
-        {userData.rank}
+        {userData?.rank ?? ""}
       </td>
       <td className="table-row-data">
-        {userData.score}
+        {userData?.score ?? ""}
       </td>
     </tr>
   );

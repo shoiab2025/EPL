@@ -115,7 +115,7 @@ function EditTest() {
             <input
               key={optionIndex}
               type="text"
-              value={option}
+              value={option || ""}
               onChange={(e) => handleQuizOptionChange(index, optionIndex, e.target.value)}
               className="mt-1 p-2 w-full border rounded mb-2"
             />

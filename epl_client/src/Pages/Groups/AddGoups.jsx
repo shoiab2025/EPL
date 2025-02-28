@@ -98,7 +98,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
       <h1 className="heading">{editGroup ? "Edit Group" : "Add Group"}</h1>
       <input
         type="text"
-        value={groupName}
+        value={groupName || ""}
         onChange={(e) => setGroupName(e.target.value)}
         required
         className="input-box w-full text-sm mt-5"
@@ -106,7 +106,7 @@ const AddAndEditGroup = ({ editGroup = false }) => {
       />
       <input
         type="text"
-        value={groupCountry}
+        value={groupCountry || ""}
         onChange={(e) => setGroupCountry(e.target.value)}
         required
         className="input-box w-full text-sm mt-5"

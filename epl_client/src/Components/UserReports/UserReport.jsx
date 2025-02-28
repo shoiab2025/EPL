@@ -7,8 +7,15 @@ import { useUser } from "../../context/UserContext";
 const UserReport = () => {
   const { users } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 20;
+  const [filterText, setFilterText] = useState("");
+  const itemsPerPage = 40;
 
+   const filteredData = users.filter((item) =>
+     Object.values(item).some((value) =>
+       value?.toString().toLowerCase().includes(filterText.toLowerCase())
+     )
+   );
+   
   const generatePDF = () => {
     const doc = new jsPDF();
 
@@ -27,7 +34,7 @@ const UserReport = () => {
       "Role",
     ];
 
-    const tableRows = users.map((user) => [
+    const tableRows = filteredData.map((user) => [
       user.userId,
       user.name,
       user.educationLevel || "N/A",
@@ -52,8 +59,8 @@ const UserReport = () => {
     doc.save("users.pdf");
   };
 
-  const totalPages = Math.ceil(users.length / itemsPerPage);
-  const paginatedUsers = users.slice(
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedUsers = filteredData.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
@@ -78,6 +85,20 @@ const UserReport = () => {
           Download
         </button>
       </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          Filter:
+          <input
+            type="text"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Search from here.."
+            value={filterText || ""}
+            onChange={(e) => {
+              setFilterText(e.target.value);
+            }}
+          />
+        </label>
+      </div>
       <div className="overflow-hidden rounded-xl border border-gray-200">
         <UserReportTable users={paginatedUsers} />
       </div>
@@ -97,7 +118,7 @@ const UserReport = () => {
           onClick={handleNextPage}
           disabled={currentPage >= totalPages - 1}
         >
-           &gt;
+          &gt;
         </button>
       </div>
     </div>

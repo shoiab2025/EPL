@@ -4,47 +4,6 @@ import TestMasterTable from './TestMasterTable';
 import { useUser } from '../../context/UserContext';
 import { Plus } from 'lucide-react';
 
-// const TestMaster = () => {
-//   const navigate = useNavigate();
-//   const { tests } = useUser();
-//   const [filterText, setFilterText] = useState('');
-
-//   const handleAddTest = () => {
-//     navigate('/testMaster/add');
-//   };
-
-//   const filteredData = tests.filter((item) =>
-//     Object.values(item).some((value) =>
-//       value.toString().toLowerCase().includes(filterText.toLowerCase())
-//     )
-//   );
-
-//   return (
-//     <div className="p-6 bg-white rounded-2xl shadow-md">
-//       <div className="flex items-center justify-between mb-4">
-//         <h2 className="text-2xl font-semibold text-gray-800">Test Master</h2>
-//         <button className="button" onClick={handleAddTest}>Add Tests</button>
-//       </div>
-//       <div className="mb-4">
-//         <label className="block text-sm font-medium text-gray-700">
-//           Filter:
-//           <input
-//             type="text"
-//             className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-//             placeholder="Search from here.."
-//             value={filterText}
-//             onChange={(e) => setFilterText(e.target.value)}
-//           />
-//         </label>
-//       </div>
-//       <TestMasterTable testsData={filteredData} />
-//     </div>
-//   );
-// };
-
-// export default TestMaster;
-
-
 const TestMaster = () => {
   const navigate = useNavigate();
   const { tests } = useUser();
@@ -107,17 +66,17 @@ const TestMaster = () => {
           disabled={currentPage === 0}
           className="mr-2 px-4 py-2 border rounded-md"
         >
-          {"<"}
+          &lt;
         </button>
         <span>
-          {currentPage + 1} / {totalPages}
+          Page {currentPage + 1} of {totalPages}
         </span>
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages - 1}
-          className="ml-2 px-4 py-2 border rounded-md"
+          className="mx-2 px-4 py-2 border rounded-md"
         >
-          {">"}
+          &gt;
         </button>
       </div>
     </div>

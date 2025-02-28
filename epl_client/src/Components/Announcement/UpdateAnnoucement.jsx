@@ -60,7 +60,7 @@ const UpdateAnnouncement = ({ announcementId }) => {
           <label htmlFor="message">Message</label>
           <textarea
             id="message"
-            value={message}
+            value={message || ""}
             onChange={(e) => setMessage(e.target.value)}
             required
           />
@@ -70,7 +70,7 @@ const UpdateAnnouncement = ({ announcementId }) => {
           <input
             type="time"
             id="time"
-            value={time}
+            value={time || ""}
             onChange={(e) => setTime(e.target.value)}
             required
           />
@@ -80,7 +80,7 @@ const UpdateAnnouncement = ({ announcementId }) => {
           <input
             type="date"
             id="date"
-            value={date}
+            value={date || ""}
             onChange={(e) => setDate(e.target.value)}
             required
           />

@@ -1,53 +1,3 @@
-// import React, { useState } from 'react';
-// import InstitutionTable from './InstitutionTable';
-// import { useNavigate } from 'react-router-dom';
-// import { useUser } from '../../context/UserContext';
-
-// const Institutions = () => {
-//   const navigate = useNavigate();
-//   const { institutions } = useUser();
-//   const [filterText, setFilterText] = useState('');
-
-//   const handleAddInstitution = () => {
-//     navigate('/institutions/add');
-//   };
-
-//   const filteredData = institutions.filter((item) =>
-//     Object.values(item).some((value) =>
-//       value.toString().toLowerCase().includes(filterText.toLowerCase())
-//     )
-//   );
-
-//   return (
-//     <div className="p-6 bg-white rounded-2xl shadow-md">
-//       <div className="flex items-center justify-between mb-4">
-//         <h2 className="text-2xl font-semibold text-gray-800">Institutions</h2>
-//         <button className="button" onClick={handleAddInstitution}>
-//           Add Institution
-//         </button>
-//       </div>
-//       <div className="mb-4">
-//         <label className="block text-sm font-medium text-gray-700">
-//           Filter:
-//           <input
-//             type="text"
-//             className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-//             placeholder="Search from here.."
-//             value={filterText}
-//             onChange={(e) => {
-//               setFilterText(e.target.value);
-//             }}
-//           />
-//         </label>
-//       </div>
-//       <InstitutionTable institutions={filteredData} />
-//     </div>
-//   );
-// };
-
-// export default Institutions;
-
-
 import React, { useEffect, useState } from "react";
 import InstitutionTable from "./InstitutionTable";
 import { useNavigate } from "react-router-dom";
@@ -58,7 +8,7 @@ const Institutions = () => {
   const navigate = useNavigate();
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 25;
 
   const handleNavigate = () => {
     navigate("/institutions/add");
@@ -107,25 +57,25 @@ const Institutions = () => {
         </label>
       </div>
       <InstitutionTable institutions={currentItems} />
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center items-center mt-4">
         <button
-          className="px-4 py-2 mx-1 border rounded-lg bg-gray-200 hover:bg-gray-300"
+          className="mr-2 px-4 py-2 border rounded-md"
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
-          Previous
+          &lt;
         </button>
-        <span className="px-4 py-2">
+        <span>
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="px-4 py-2 mx-1 border rounded-lg bg-gray-200 hover:bg-gray-300"
+          className="mx-2 px-4 py-2 border rounded-md"
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
           disabled={currentPage === totalPages}
         >
-          Next
+          &gt;
         </button>
       </div>
     </div>

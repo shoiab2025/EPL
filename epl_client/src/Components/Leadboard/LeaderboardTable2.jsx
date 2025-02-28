@@ -8,6 +8,7 @@ const LeaderboardTable2 = ({leaderboardUsers}) => {
         <tr>
           <th className="table-header">User</th>
           <th className="table-header">Registration ID</th>
+          <th className="table-header">Group</th>
           <th className="table-header">Test Count</th>
           <th className="table-header">Average Score</th>
           <th className="table-header">Total Score</th>
@@ -16,9 +17,11 @@ const LeaderboardTable2 = ({leaderboardUsers}) => {
       </thead>
       <tbody>
         {leaderboardUsers.length > 0 ? (
-          leaderboardUsers.map((userData, index) => (
-            <LeaderboardTableRow2 key={index} userData={userData} />
-          ))
+          leaderboardUsers.map((usersData, index) =>
+            usersData.users.map((userData, index) => (
+              <LeaderboardTableRow2 key={index} userData={userData} groupName = {usersData.groupName}/>
+            ))
+          )
         ) : (
           <tr>
             <td colSpan="6" className="py-4 px-6 text-center text-gray-500">
