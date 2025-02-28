@@ -240,29 +240,7 @@ const AddAndEditTestMaster = ({ editTest = false }) => {
       );
 
       if (response.data.success) {
-        enqueueSnackbar("Test Edited successfully!", { variant: "success" });
-        // console.log(response.data.data);
-        // setQuestionCategory((prev) => {
-        //   return [...prev, response.data.data.quizzes.questionCategory]
-        // })
-        // response.data.data.quizzes.map((quiz) => {
-        //   setQuestionCategory((prev) => {
-        //     // Check if the title already exists in prev
-        //     const exists = prev.some(
-        //       (category) => category.title === quiz.title
-        //     );
-
-        //     if (exists) {
-        //       return prev; // If exists, return prev without changes
-        //     } else {
-        //       return [
-        //         ...prev,
-        //          response.data.data.quizzes.questionCategory,
-        //       ];
-        //     }
-        //   });
-        // });
-
+        enqueueSnackbar("Test Uploaded successfully!", { variant: "success" });
         setTestMaster({
           name: "",
           season: "",
